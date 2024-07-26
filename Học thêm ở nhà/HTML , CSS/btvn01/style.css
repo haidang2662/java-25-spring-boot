@@ -1,0 +1,126 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 100px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.left-menu, .right-menu {
+    display: flex;
+}
+
+.left-menu a, .right-menu a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 1em;
+}
+
+.left-menu a:first-child {
+    margin-left: 0;
+}
+
+.right-menu a {
+    margin-left: 20px;
+}
+
+.right-menu a:first-child {
+    margin-left: 0;
+}
+
+nav a:hover {
+    color: #007BFF;
+}
+ 
+/* Bắt đầu sang phần ảnh lớn*/
+.image-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.text1 {
+    position: absolute;
+    top: 200px;
+    left: 230px;
+    transform: translate(-50%, -50%);
+    color: white; /* Text color */
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 20px; /* Optional: Padding around the text */
+}
+.text2 {
+    position: absolute;
+    top: 230px;
+    left: 260px;
+    transform: translate(-50%, -50%);
+    color: white; /* Text color */
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 20px; /* Optional: Padding around the text */
+}
+/* Bắt đầu sang phần ảnh nhỏ */
+
+.text-section {
+    
+    padding: 20px;
+}
+
+.text-section h1 {
+    position: absolute;
+    font-size: 2em;
+    left: 100px;
+    top : 720px;
+    margin: 0;
+}
+
+.text-section p {
+    position: absolute;
+    font-size: 1.2em;
+    left: 100px;
+    top : 750px;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    background-color: whitesmoke;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.row img {
+    width: calc(50% - 5px); /* Adjust width to account for gap */
+}
+
+.full-height {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.full-height img {
+    height: calc(200px + 10px); /* Match the combined height of two rows */
+    width: 100%;
+}
