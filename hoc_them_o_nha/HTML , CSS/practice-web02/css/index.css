@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&family=Young+Serif&display=swap");
+
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&family=Young+Serif&display=swap');
+
+* {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: thin;
+  }
+
+.container-fluid {
+    background-color: #F4511E;
+    height: 60px;
+    padding: 0;
+}
+
+.logo {
+    margin-left: 130px;
+    letter-spacing: 4px;
+}
+
+.heading {
+    letter-spacing: 4px;
+    color:#FFFFFF;
+    margin-right: 130px;
+}
+
+.heading .nav-link {
+    color: #FFFFFF ; /* Sử dụng !important để ghi đè các lớp khác */
+    opacity: 1 !important;
+    font-size: 13px;
+    letter-spacing: 4px;
+    padding: 20px 20px !important; /* Đặt padding cố định để tránh thay đổi kích thước khi hover */
+    display: inline-block;
+}
+
+.nav-link:hover {
+    
+    background-color: #FFFFFF;
+    color: #F4511E;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt mà */
+}
+

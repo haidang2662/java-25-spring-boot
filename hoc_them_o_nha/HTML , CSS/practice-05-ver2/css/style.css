@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&display=swap');
+
+body {
+    background-color: #ECF2F8;
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.h-100vh {
+    height: 100vh;
+}
+
+.container {
+    max-width: 53%;
+    height: 300px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    overflow: hidden; /* Đảm bảo các phần tử con nằm trong container */
+    background-color: #FFFFFF; /* Thêm màu nền để border-radius có hiệu ứng */
+}
+
+.big-image {
+    height: 300px;
+    width: 300px;
+}
+
+.person-image {
+    height: 48px;
+}
+
+
+.content-1 {
+    color: #76879D;
+    font-weight: 500;
+}
+
+h3 {
+    color: #48556A; 
+}
+
+.text-container {
+    height: 48px; /* Chiều cao của .person-image */
+}
+
+.name {
+    color: #48556A;
+}
+
+.time {
+    color: #76879D;
+}
+
+
+.btn-share {
+    background-color: #e5eaef;
+    width: 40px;
+    height: 40px;;
+}
+
+.btn-share:hover {
+    background-color: #9eafc2;
+    transition: 0.4s ease-in-out;
+}

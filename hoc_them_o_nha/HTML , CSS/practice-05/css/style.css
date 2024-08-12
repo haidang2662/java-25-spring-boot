@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&display=swap');
+
+body {
+    background-color: #ECF2F8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.container {
+    display: flex;
+    text-align: left;
+    max-width: 53%;
+    height: 300px;
+    margin-top: 300px;
+    margin-bottom: 300px;
+    border-radius: 10px; /* Sử dụng giá trị nhỏ hơn cho border-radius */
+    overflow: hidden; /* Đảm bảo các phần tử con nằm trong container */
+    background-color: #FFFFFF; /* Thêm màu nền để border-radius có hiệu ứng */
+}
+
+.big-image {
+    height: 300px;
+    width: 300px;
+}
+
+.person-image {
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 10px; /* Điều chỉnh khoảng cách giữa ảnh và văn bản */
+}
+
+.col-2 {
+    background-color: #FFFFFF;
+    padding: 10px 30px 10px 30px;
+}
+
+.content-1 {
+    color: #76879D;
+    font-weight: 500;
+}
+
+h3 {
+    color: #48556A; 
+    font-size: 23px;
+    font-weight: 620;
+}
+
+.last-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.col-left {
+    display: flex;
+    align-items: center;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Đảm bảo khoảng cách giữa các dòng chữ để phù hợp với chiều cao của ảnh */
+    height: 48px; /* Chiều cao của .person-image */
+}
+
+.name {
+    font-weight: 620;
+    font-size: 16px;
+    color: #48556A;
+}
+
+.time {
+    font-size: 16px;
+    font-weight: 500;
+    color: #76879D;
+}
+
+.col-right {
+    display: flex;
+    align-items: center;
+}
+
+.btn-share {
+    background-color: #e5eaef;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-share:hover {
+    background-color: #9eafc2;
+    transition: 0.4s ease-in-out;
+}
+

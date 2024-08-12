@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&family=Young+Serif&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #F2EBE3;
+    font-weight: 400;
+    line-height: 1.5;
+    font-family:'Montserrat' , sans-serif;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    text-align: left;
+    max-width: 44%;
+    height: 550px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    border-radius: 10px; /* Sử dụng giá trị nhỏ hơn cho border-radius */
+    overflow: hidden; /* Đảm bảo các phần tử con nằm trong container */
+    background-color: #FFFFFF; /* Thêm màu nền để border-radius có hiệu ứng */
+}
+
+.image {
+    width: 300px;
+    height: 100%;
+}
+
+
+
+h2 {
+    color: #6C7289;
+    padding-left: 40px;
+    padding-top: 20px;
+    font-weight: 480;
+    font-size: 18px;
+    letter-spacing: 3px;
+}
+
+h3 {
+    
+    font-family: Fraunces, sans-serif;
+    padding-left: 40px;
+    font-size: 38px;
+    font-weight: 680;
+    line-height: 1;
+    margin-top: 0;
+    
+}
+
+p {
+    padding-left: 40px;
+    margin-top: -20px;
+    font-size: 18px;
+}
+
+.span-left {
+    padding-left: 40px;
+    font-family: Fraunces, sans-serif;
+    color: #3C8067;
+    font-size: 40px;
+    font-weight: 800;
+    margin-top: 0;
+}
+
+.span-right {
+    display: block;
+    padding-left:220px;
+    margin-top: -50px;
+    text-decoration: line-through;
+    color: rgba(0, 0, 0, 0.6); /* Màu nhạt cho dấu gạch ngang */
+}
+
+
+.cart {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 70px;
+    padding-left: 40px;
+
+}
+
+.cart a {
+    display: inline-block;
+    display: flex; /* Sử dụng flexbox */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    background-color: #3C8067;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    height: 75px;
+    width: 280px;
+}
+
+.cart a img {
+    vertical-align: middle;
+    margin-right: 10px;
+    height: 20px;
+}
+
+.cart a:hover {
+    background-color:#2B5E4C;
+}

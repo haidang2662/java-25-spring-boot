@@ -1,0 +1,16 @@
+body {
+    background-color: #FCEEF4;
+}
+
+.h-100vh {
+    height: 100vh !important;
+}
+
+.bg-white {
+    background-color: #FFFFFF;
+}
+
+.container {
+    max-width: 45% !important;
+    max-height: 80% !important;
+  }

@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&family=Young+Serif&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: thin;
+}
+
+.navbar {
+  font-weight: 450;
+}
+
+#collapsibleNavbar {
+  font-size: 14px;
+}
+
+.heading {
+  background-color: #1abc9c;
+}
+
+.bird {
+  width: 350px;
+}
+
+.nav-link {
+  letter-spacing: 3px;
+}
+
+.info {
+  background-color: #474e5d;
+}
+
+.info .content,
+.content-img .content {
+  line-height: 1.8;
+  font-size: 18px;
+}
+
+.footer {
+  background-color: #2f2f2f;
+}
+
+@media screen and (max-width: 576px) {
+  .bird {
+    max-width: 60%;
+  }
+}

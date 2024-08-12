@@ -1,0 +1,108 @@
+body {
+    background-color: #FCEEF4;
+    font-family:"Outfit" , sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+.container {
+    max-width: 39%;
+    margin-top: 80px !important; 
+    margin-bottom: 80px !important;
+}
+
+.h-100vh {
+    height: 100vh;
+}
+
+h1 {
+    margin-top: 0px;
+    font-size: 35px;
+}
+
+.young-serif-regular {
+    font-family: "Young Serif", serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.time {
+    background-color: #FCEEF4;
+    border-radius: 20px;
+    height: 120px; 
+}
+
+.content-time::marker {
+    color:  #7B284F;
+}
+
+
+.title-time {
+    font-size: 20px;
+    font-weight: 700;
+    color: #7B284F;
+}
+
+.content-time {
+    margin-left: 42px;
+}
+
+.ingredients-title {
+    color: #854632;
+    margin-left: -20px;
+    margin-top: 40px;
+}
+
+.content-ingredients{
+    margin-left: 15px;
+}
+
+.content-ingredients::marker {
+    color: #854632;;
+}
+
+.instruction-title {
+    color: #854632;
+    font-size: 22px;
+    font-weight: 600;
+    margin-left: -20px;
+    display: block;
+    margin-top: 30px;
+}
+
+
+.content-instruction {
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.content-instruction::marker {
+    color: #854632;;
+}
+
+.nutrition {
+    color: #854632;
+}
+
+.content-2 {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: block;
+    margin-top: -20px;
+}
+
+table {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 70%;
+    margin-bottom: 20px;
+}
+
+td {
+    padding: 3px;
+    border-bottom: 1px solid #ddd; /* Thêm đường kẻ dưới mỗi hàng */
+}

@@ -1,0 +1,155 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    background-color: #ECF2F8;
+    line-height: 1.5;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #ECF2F8;
+}
+
+.left-col {
+    width: 70%;
+    margin-top: 100px;
+    margin-left: 210px;
+}
+
+.right-col {
+    width: 22%;
+    background-color: #FFFFFF;
+    margin-right: 210px;
+    margin-top: 100px;
+    margin-bottom: 110px;
+    border-radius: 10px;
+}
+
+.profile-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 30px;
+}
+
+.profile-image {
+    height: 30px; 
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.profile-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 10px;
+}
+
+.name-daniel, .name-jonathan, .name-jeanette, .name-patrick, .name-kira {
+    font-weight: bold;
+}
+
+.name-daniel-2, .name-jonathan-2, .name-jeanette-2, .name-patrick-2, .name-kira-2 {
+    font-style: italic;
+}
+
+.profile-text {
+    margin-bottom: 20px;
+}
+
+.row-1 {
+    display: flex;
+    justify-content :space-between;
+}
+
+.row-2 {
+    display: flex;
+    justify-content :space-between;
+}
+
+.row-1-left {
+    border-radius: 10px; /* Áp dụng border-radius */
+    background-color: #7541C8;
+    color: #FFFFFF;
+    margin-bottom: 30px;
+    width: 241%;
+}
+
+.row-1-right {
+    border-radius: 10px;
+    background-color: #48556A;
+    color: #FFFFFF;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}
+
+.row-2-left {
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    color: #485D73;
+    width: 110%;
+}
+
+.row-2-right {
+    border-radius: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    background-color: #19212E;
+    color: #FFFFFF;
+    
+    
+}
+
+.content {
+    font-size: 11px;
+    padding: 0px 30px; 
+    line-height: 1.85;
+}
+
+.name {
+    font-size: 11px;
+}
+
+.name-2 {
+    font-size: 11px;
+    color: #B2B8C1;
+    font-weight: 500;
+}
+
+.title {
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: -30px;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+#daniel {
+    color: #C8BCE9;
+}
+
+#jonathan {
+    color: #A7B0BC;
+}
+
+#kira {
+    color: #808998;
+}
+
+#jeanette {
+    color: #8E96A3;
+}
+
+#patrick {
+    color: #ADB4BC;
+}
+
