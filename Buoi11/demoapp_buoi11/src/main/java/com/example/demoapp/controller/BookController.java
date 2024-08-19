@@ -77,6 +77,8 @@ public class BookController {
 // http://localhost:8001/books/searchByYear/{fromYear}/toYear/{toYear}
 
     // Câu 1 :
+
+
     @GetMapping("/books/sortByYear")
 
     public ResponseEntity<List<Book>> sortBooksByYearDesc() {
@@ -86,6 +88,10 @@ public class BookController {
     }
 
     // Câu 2 :
+
+
+
+    // Cách 2 : (Tham khảo ChatGPT)
     @GetMapping("/books/searchByTitle/{keyword}")
     public ResponseEntity<List<Book>> searchBooksByTitle(@PathVariable String keyword) {
         List<Book> result = new ArrayList<>();
@@ -109,6 +115,21 @@ public class BookController {
             }
         }
         return ResponseEntity.ok(result);
+    }
+
+    // Câu 4 : tìm kiếm sách theo năm xuất bản
+
+    @GetMapping("/books/sortByYear/{year}")
+    public ResponseEntity<List<Book>> sortBookByYear(@PathVariable int year) {
+        List<Book> result = new ArrayList<>();
+        for (Book book : books) {
+            if(book.getYear() == year){
+                result.add(book);
+                return new ResponseEntity<>(result , HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
 

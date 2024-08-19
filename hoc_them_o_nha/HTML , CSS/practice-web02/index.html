@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+
+    <script
+      src="https://kit.fontawesome.com/42f6aae9a8.js"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Latest compiled and minified CSS -->
     <link
@@ -14,96 +19,462 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script
-      src="https://kit.fontawesome.com/42f6aae9a8.js"
-      crossorigin="anonymous"
-    ></script>
-
     <link rel="stylesheet" href="./css/index.css" />
-</head>
-<body>
-    <div class="container-flood">
-        <nav class="navbar navbar-expand-sm navbar-dark pt-0">
-            <div class="container-fluid">
-              <a class="navbar-brand logo fs-5" href="javascript:void(0)">Logo</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="mynavbar">
-                <ul class="navbar-nav ms-auto heading">
-                  <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">ABOUT</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">SERVICES</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">PORTFOLIO</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">PRICING</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">CONTACT</a>
-                  </li>
-                </ul>
+  </head>
+  <body>
+    <div class="container-fluid" data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
+      <nav class="navbar navbar-expand-sm navbar-dark py-0 fixed-top bg-orange">
+        <div class="container-fluid">
+          <a class="navbar-brand logo fs-5" href="javascript:void(0)">Logo</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mynavbar"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav ms-auto heading">
+              <li class="nav-item">
+                <a class="nav-link" href="#about">ABOUT</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#service">SERVICES</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#portfolio">PORTFOLIO</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#pricing">PRICING</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contact">CONTACT</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="row justify-content-center banner pb-5 pt-5">
+        <div class="col-md-5 text-center mt-5 mb-5 pb-2 pt-4">
+          <div class="display-4 title">Company</div>
+          <div class="h5 mt-3 fw-normal">We specialize in blablabla</div>
+          <div class="input-group">
+            <input
+              class="form-control me-0"
+              type="text"
+              placeholder="Email address"
+            />
+            <button class="btn btn-danger ms-0" type="submit">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      <div class="row ps-4 row-2 mb-5" id="about">
+        <div class="col-8 ps-5">
+          <div class="h3">ABOUT COMPANY PAGE</div>
+          <div class="mt-5 h5 fw-normal content-01-row-2">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </div>
+          <div class="mt-5 content-02-row-2">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat
+            non proident, sunt in culpa qui officia deserunt mollit anim id est
+            laborum consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat.
+          </div>
+          <button
+            class="mt-5 rounded p-2 px-3 btn btn-outline-light text-dark border-secondary"
+          >
+            Get In Touch
+          </button>
+        </div>
+        <div class="col-4">
+          <img src="./img/images.png" alt="Sample image" class="img-01" />
+        </div>
+      </div>
+      <div class="row row-3">
+        <div class="col-4">
+          <img
+            src="./img/630f1f4f113f4a65c36d6cf1_earth-americas-solid.svg"
+            alt="Sample image"
+            class="img-02"
+          />
+        </div>
+        <div class="col-8">
+          <div class="h2 pt-5 fs-3 fw-bold">OUR VALUES</div>
+          <div class="pt-5 fs-5 pe-4">
+            <strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet,
+            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat.
+          </div>
+          <div class="pt-5 content-vision fs-6">
+            <strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+            nisi ut aliquip ex ea commodo consequat.
+          </div>
+        </div>
+      </div>
+      <div class="row row-4" id="service">
+        <div class="col text-center">
+          <div class="row my-5">
+            <div class="col">
+              <div class="h3 my-5">SERVICES</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="h5 offer">What we offer</div>
+            </div>
+          </div>
+          <div class="row my-5">
+            <div class="col-sm-12 col-md-4">
+              <div class="mb-3">
+                <i class="fa-solid fa-power-off my-icon"></i>
+              </div>
+              <div class="h5">POWER</div>
+              <div class="pt-3 lorem">Lorem ipsum dolor sit amet..</div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="mb-3">
+                <i class="fa-solid fa-heart my-icon"></i>
+              </div>
+              <div class="h5">LOVE</div>
+              <div class="pt-3 lorem">Lorem ipsum dolor sit amet..</div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="mb-3">
+                <i class="fa-solid fa-lock my-icon"></i>
+              </div>
+              <div class="h5">JOB DONE</div>
+              <div class="pt-3 lorem">Lorem ipsum dolor sit amet..</div>
+            </div>
+          </div>
+          <div class="row my-5">
+            <div class="col-sm-12 col-md-4">
+              <div class="mb-3">
+                <i class="fa-solid fa-leaf my-icon"></i>
+              </div>
+              <div class="h5">GREEN</div>
+              <div class="pt-3 lorem">Lorem ipsum dolor sit amet..</div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="mb-3">
+                <i class="fa-solid fa-sun my-icon"></i>
+              </div>
+              <div class="h5">CERTIFIED</div>
+              <div class="pt-3 lorem">Lorem ipsum dolor sit amet..</div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="mb-3">
+                <i class="fa-solid fa-wrench my-icon"></i>
+              </div>
+              <div class="h5">HARD WORK</div>
+              <div class="pt-3 lorem">Lorem ipsum dolor sit amet..</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row row-5" id="portfolio">
+        <div class="col text-center">
+          <div class="row mt-4">
+            <div class="col">
+              <div class="h3 mt-5">PORTFOLIO</div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col">
+              <div class="mt-5 fs-5">What we have created</div>
+            </div>
+          </div>
+          <div class="row my-5 mx-5">
+            <div class="col-sm-12 col-md-4">
+              <div>
+                <img src="./img/paris.jpg" alt="Sample image" class="w-100" />
+              </div>
+              <div class="white pt-3 fw-bold">Paris</div>
+              <div class="white pt-2 pb-4">Yes, we build Paris</div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div>
+                <img src="./img/newyork.jpg" alt="Sample image" class="w-100" />
+              </div>
+              <div class="white pt-3 fw-bold">New York</div>
+              <div class="white pt-2 pb-4">we build New York</div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div>
+                <img src="./img/sanfran.jpg" alt="Sample image" class="w-100" />
+              </div>
+              <div class="white pt-3 fw-bold">San Francisco</div>
+              <div class="white pt-2 pb-4">Yes, San Fran is ours</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row row-6">
+        <div class="col">
+          <div class="carousel-heading text-center pt-5 fs-4 fw-bold">
+            WHAT OUR CUSTOMERS SAY
+          </div>
+          <div
+            id="testimonialCarousel"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <!-- Indicators/dots -->
+            <div class="carousel-indicators my-5">
+              <button
+                type="button"
+                data-bs-target="#testimonialCarousel"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#testimonialCarousel"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#testimonialCarousel"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+            </div>
+
+            <!-- The slideshow/carousel -->
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div
+                  class="d-flex justify-content-center align-items-center"
+                  style="height: 200px"
+                >
+                  <div class="text-center carousel-content">
+                    <h5>
+                      "This company is the best. I am so happy with the result!"
+                    </h5>
+                    <p>Michael Roe, Vice President, Comment Box</p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div
+                  class="d-flex justify-content-center align-items-center"
+                  style="height: 200px"
+                >
+                  <div class="text-center carousel-content">
+                    <h5>"One word... WOW!!"</h5>
+                    <p>John Doe, Salesman, Rep Inc!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div
+                  class="d-flex justify-content-center align-items-center"
+                  style="height: 200px"
+                >
+                  <div class="text-center carousel-content">
+                    <h5>"Could I... BE any more happy with this company?"</h5>
+                    <p>Chandler Bing, Actor, FriendsAlot</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </nav>
-        <div class="row">
-            <div class="col">
-                <div class="display-3">Company</div>
-                <div class="h4">We specialize in blablabla</div>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="text" placeholder="Email address">
-                    <button class="btn btn-primary" type="button">Subscribe</button>
-                  </form>
-            </div>
+
+            <!-- Left and right controls/icons -->
+            <button
+              class="carousel-control-prev mx-5"
+              type="button"
+              data-bs-target="#testimonialCarousel"
+              data-bs-slide="prev"
+            >
+              <i class="fa-solid fa-chevron-left my-icon my-icon-carousel"></i>
+            </button>
+            <button
+              class="carousel-control-next mx-5"
+              type="button"
+              data-bs-target="#testimonialCarousel"
+              data-bs-slide="next"
+            >
+              <i class="fa-solid fa-chevron-right my-icon my-icon-carousel"></i>
+            </button>
+          </div>
         </div>
-        <div class="row">
+      </div>
+      <div class="row row-7" id="pricing">
+        <div class="col text-center">
+          <div class="row mt-4">
             <div class="col">
-                <div class="h3">
-                    ABOUT COMPANY PAGE
+              <div class="h3 mt-5 text-dark">PRICING</div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col">
+              <div class="fs-5">Choose a payment plan that works for you</div>
+            </div>
+          </div>
+          <div class="row my-5 mx-5 mt-5">
+            <div class="col-sm-12 col-md-4 text-center mt-5 pb-4">
+              <div class="row mx-0 border-orange col-option">
+                <div class="bg-orange p-5 text-white option">Basic</div>
+                <div class="mt-3">20 Lorem</div>
+                <div class="mt-3">15 Ipsum</div>
+                <div class="mt-3">5 Dolor</div>
+                <div class="mt-3">2 Sit</div>
+                <div class="mt-3"><strong>Endless</strong> Amet</div>
+                <hr />
+                <div class="mt-3 h3">$19</div>
+                <div class="mt-2">per month</div>
+                <div class="mb-4">
+                  <button
+                    class="btn rounded p-2 ps-4 pe-4 mt-5 bg-orange text-white btn-sign-up"
+                  >
+                    Sign up
+                  </button>
                 </div>
+              </div>
             </div>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                 laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                 laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non 
-                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur 
-                 adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-                 commodo consequat.
-            </p>
-            <button>Get In Touch</button>
+            <div class="col-sm-12 col-md-4 text-center mt-5">
+              <div class="row mx-0 border-orange col-option">
+                <div class="bg-orange p-5 text-white option">Pro</div>
+                <div class="mt-3">50 Lorem</div>
+                <div class="mt-3">25 Ipsum</div>
+                <div class="mt-3">10 Dolor</div>
+                <div class="mt-3">5 Sit</div>
+                <div class="mt-3"><strong>Endless</strong> Amet</div>
+                <hr />
+                <div class="mt-3 h3">$29</div>
+                <div class="mt-2">per month</div>
+                <div class="mb-4">
+                  <button
+                    class="btn rounded p-2 ps-4 pe-4 mt-5 bg-orange text-white btn-sign-up"
+                  >
+                    Sign up
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4 text-center mt-5">
+              <div class="row mx-0 border-orange col-option">
+                <div class="bg-orange p-5 text-white option">Premium</div>
+                <div class="mt-3">100 Lorem</div>
+                <div class="mt-3">50 Ipsum</div>
+                <div class="mt-3">25 Dolor</div>
+                <div class="mt-3">10 Sit</div>
+                <div class="mt-3"><strong>Endless</strong> Amet</div>
+                <hr />
+                <div class="mt-3 h3">$49</div>
+                <div class="mt-2">per month</div>
+                <div class="mb-4">
+                  <button
+                    class="btn rounded p-2 ps-4 pe-4 mt-5 bg-orange text-white btn-sign-up"
+                  >
+                    Sign up
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row">
+      </div>
+      <div class="row row-8" id="contact">
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <div class="fw-bold text-center h3 text-dark">CONTACT</div>
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="col-5">
+              <div>Contact us and we'll get back to you within 24 hours .</div>
+              <div class="mt-2">
+                <i class="fa-solid fa-location-dot"></i> Chicago, US
+              </div>
+              <div class="mt-2">
+                <i class="fa-solid fa-mobile-screen"></i> +00 1515151515
+              </div>
+              <div class="mt-2">
+                <i class="fa-solid fa-envelope"></i> myemail@something.com
+              </div>
+            </div>
+            <div class="col-7">
+              <form>
+                <div class="row">
+                  <div class="col">
+                    <input
+                      type="text"
+                      class="form-control rounded"
+                      placeholder="Name"
+                    />
+                  </div>
+                  <div class="col">
+                    <input
+                      type="text"
+                      class="form-control rounded"
+                      placeholder="Email"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col">
+                    <textarea
+                      class="form-control"
+                      rows="5"
+                      id="comment"
+                      name="text"
+                      placeholder="Comment"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col d-flex justify-content-end">
+                    <button class="btn btn-outline-light border bg-white">
+                      Send
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        <div class="row">
-
+      </div>
+      <div class="row">
+        <div class="col">
+          <img src="./img/map.jpg" class="img mw-100" />
         </div>
-        <div class="row">
-
+      </div>
+      <div class="row">
+        <div class="col text-center py-5">
+          <div class="row">
+            <div class="col">
+              <i class="fa-solid fa-chevron-up my-icon footer-icon"></i>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              Bootstrap Theme Made By <a href="www.w3schools.com" class="text-decoration-none">www.w3schools.com</a>
+            </div>
+          </div>
         </div>
-        <div class="row">
-
-        </div>
-        <div class="row">
-
-        </div>
-        <div class="row">
-
-        </div>
-        <div class="row">
-
-        </div>
+      </div>
     </div>
-    
-</body>
+  </body>
 </html>

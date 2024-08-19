@@ -7,6 +7,7 @@ container .
 @Controller , @RestController , @Service ....
 - C2 : Sứ dụng annotation @Bean trên method (method level ) trong 
 class @Confirgation
+- C3 : Sd setter
 3 . Su dụng Bean ntn ?
 - Bean thường đc sử dụng trong 1 bean khác (dependency) (A -> B)
   (B nằm trong A , phụ thuộc vào A )
@@ -20,3 +21,12 @@ Classroom là A , những cái ở trong là B . A bắt buộc phải là Bean
 - Field-based Ịnection
 - Constructor-based Ịnection
 - Setter-based Injection
+
+Kiến thức cơ bản :
+- Controller : Nơi tiếp nhận request từ client , xử lý và trả về response
+- @Controller : Các Controller trả về template (giao diện) . Ngoài ra có thể trả về dữ liệu dạng json , xml v.v....
+- @RestController = @Controller + @ResponseBody
+- @ResponseBody : Chi trả về dữ liệu và không trả về template . Dữ liệu trả về có thể  là json , xml v.v...
+- @Service: Thường dùng cho các lớp dịch vụ (service layer).
+- @Repository: Thường dùng cho các lớp tương tác với cơ sở dữ liệu (DAO layer).
+- @Controller: Thường dùng cho các lớp xử lý yêu cầu trong các ứng dụng web (web 

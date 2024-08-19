@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"</head>
+<body>
+    <h1>home page</h1>
+    <p>Xin chao cac ban</p>
+
+
+    <p th:text="${book.title}"></p>
+    <p th:text="${book.author}"></p>
+    <p th:text="${book.year}"></p>
+    <p th:text="${book.id}"></p>
+
+
+
+    <h3>Danh sách book</h3>
+
+    <form action="">
+        <input type="text" name="title" placeholder="Tim kiem theo ten">
+        <button type="submit">Tim kiem</button>
+    </form>
+
+    <table border="1">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Year</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}" th:styleappend="${book.id % 2 == 1 ? 'background-color: lightyellow' : ''}">
+        <td th:text="${book.id}">1</td>
+        <td  th:text="${book.title}">CHao Buoi sang</td>
+        <td  th:text="${book.author}">Nguyen Van A</td>
+        <td  th:text="${book.year}">2002</td>
+        <td>
+            <a th:href="@{/books/{id} (id = ${book.id})}">Xem chi tiết</a>
+        </td>
+    </tr>
+    </tbody>
+    </table>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${book == null ? 'Not Found' : book.title}">Title</title>
+</head>
+<body>
+<h2 th:if="${book == null}">Book Not Found</h2>
+
+
+<th:block th:if="${book != null}">
+    <h2>Thông tin sách</h2>
+    <p th:text="${book.title}"></p>
+    <p th:text="${book.author}"></p>
+    <p th:text="${book.year}"></p>
+    <p th:text="${book.id}"></p>
+</th:block>
+</body>
+</html>

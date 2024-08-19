@@ -1,43 +1,252 @@
 @import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&family=Young+Serif&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&family=Young+Serif&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&family=Young+Serif&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lexend+Deca:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,400;1,400;1,700&family=Young+Serif&display=swap");
 * {
-    font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
-    font-style: thin;
-  }
+  /* font-family: "Montserrat", sans-serif; */
+  font-optical-sizing: auto;
+  font-style: thin;
+  font-family: "Lato", sans-serif;
+}
 
-.container-fluid {
-    background-color: #F4511E;
-    height: 60px;
-    padding: 0;
+body {
+    position: relative; 
 }
 
 .logo {
-    margin-left: 130px;
-    letter-spacing: 4px;
+  margin-left: 130px;
+  letter-spacing: 4px;
 }
 
 .heading {
-    letter-spacing: 4px;
-    color:#FFFFFF;
-    margin-right: 130px;
+  letter-spacing: 4px;
+  color: #ffffff;
+  margin-right: 130px;
 }
 
 .heading .nav-link {
-    color: #FFFFFF ; /* Sử dụng !important để ghi đè các lớp khác */
-    opacity: 1 !important;
-    font-size: 13px;
-    letter-spacing: 4px;
-    padding: 20px 20px !important; /* Đặt padding cố định để tránh thay đổi kích thước khi hover */
-    display: inline-block;
+  color: #ffffff; /* Sử dụng !important để ghi đè các lớp khác */
+  opacity: 1 !important;
+  font-size: 13px;
+  letter-spacing: 4px;
+  padding: 20px 20px !important; /* Đặt padding cố định để tránh thay đổi kích thước khi hover */
+  display: inline-block;
+}
+
+nav * {
+  font-family: "Montserrat", sans-serif !important;
 }
 
 .nav-link:hover {
-    
-    background-color: #FFFFFF;
-    color: #F4511E;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt mà */
+  background-color: #ffffff;
+  color: #f4511e;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt mà */
 }
 
+.banner {
+  background-color: #f4511e;
+  color: #ffffff;
+  margin-bottom: 200px;
+}
+
+.banner * {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.no-border-radius {
+  border-radius: 0 !important;
+  border: none; /* Loại bỏ viền */
+}
+
+.form-control {
+  flex: 0.7; /* Giúp input chiếm nhiều không gian hơn */
+}
+
+.h3 {
+  margin-top: -80px;
+  font-weight: 550;
+}
+
+.content-01-row-2 {
+  font-weight: 450 !important;
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+.content-02-row-2 {
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.img-01 {
+  margin-top: -90px;
+}
+
+.row-2,
+.row-2 * {
+  font-family: "Lato", sans-serif !important;
+}
+
+.row-3,
+.row-3 * {
+  background-color: #f6f6f6;
+  font-family: "Lato", sans-serif !important;
+}
+
+.img-02 {
+  height: 60%;
+  padding: 50px;
+}
+
+.content-vision {
+  font-weight: 400;
+  color: #818188;
+}
+
+.row-4,
+.row-4 * {
+  /* font-family: "Lato", sans-serif; */
+  background-color: #ffffff;
+}
+
+.offer {
+  margin-top: -60px;
+}
+
+.lorem {
+  color: #818181;
+}
+
+.row-5,
+.row-5 * {
+  font-family: "Lato", sans-serif !important;
+  background-color: #f6f6f6;
+}
+
+.white {
+  background-color: #ffffff;
+  color: #818181;
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #818181;
+  border: 2px solid #f4511e;
+}
+
+.carousel-indicators .active {
+  background-color: #f4511e;
+  border-color: #f4511e;
+}
+
+.row-6,
+.row-6 * {
+  /* font-family: "Lato", sans-serif !important; */
+  background-color: #f6f6f6;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #f4511e;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.row-7,
+.row-7 * {
+  font-family: "Lato", sans-serif !important;
+  color: #818188;
+}
+
+.bg-orange {
+  background-color: #f4511e;
+}
+
+.btn-sign-up:hover {
+  background-color: #ffffff;
+  color: #f4511e !important;
+  border-color: #f4511e;
+}
+
+.row-8,
+.row-8 * {
+  color: #818188;
+  background-color: #f6f6f6;
+}
+
+.row-8 {
+  margin-top: 40px;
+  padding-top: 120px;
+  padding-bottom: 120px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.input-group-last .form-control {
+  height: 120px; /* Điều chỉnh chiều cao của input Comment */
+}
+
+.form-control {
+  background-color: #ffffff;
+}
+
+.input-group-last input::placeholder {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 12px;
+  transform-origin: left top;
+  transform: translate(0, 0);
+  transition: transform 0.2s ease, font-size 0.2s ease;
+}
+
+.send {
+  margin-left: 795px;
+}
+
+.title {
+  font-weight: 400;
+}
+
+.my-icon {
+  font-size: 45px;
+  color: #f4511e;
+}
+
+.my-icon-carousel {
+  font-size: 35px;
+}
+
+.carousel-item {
+  transition: transform 0.6s ease-in-out;
+}
+
+.border-orange {
+  border: 1px solid #f4511e;
+}
+
+.option {
+  font-size: 2.5rem;
+}
+
+.col-option {
+  transition: box-shadow 0.5s;
+}
+
+.col-option:hover {
+  box-shadow: 5px 0px 40px rgba(0, 0, 0, 0.2);
+}
+
+.footer-icon {
+  font-size: 20px !important;
+}
