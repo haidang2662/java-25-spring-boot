@@ -60,10 +60,10 @@ public class BookController {
     @GetMapping("/books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable int id) {
         Book book = bookservice.findBookById(id);
-        if(book == null){
+        if (book == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(book,HttpStatus.OK);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     // 1. VIết API sắp xếp book theo năm xuất bản giảm dần

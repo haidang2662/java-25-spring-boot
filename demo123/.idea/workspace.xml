@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1bdba57d-569a-4df7-8b42-b106798e407b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/database/ProductDaoIplm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo_thymeleaf_syntax/demo-thymeleaf-syntax/readMe.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/constant/DateTimeConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/controller/ProductController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/entity/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/repository/ProductRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/service/ProductService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/util/DataReadable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/util/DataUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/util/DataWritable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/util/FileUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/java/com/example/springmvctest/util/StringUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/resources/db/products.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-mvc-test/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/DemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/DemoApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/dao/iplm/ProductDaoIplm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/dao/iplm/ProductDaoIplm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/database/InitDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/database/InitDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/service/iplm/ProductServiceIplm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai_Kiem_Tra_02/demo/src/main/java/com/example/demo/service/iplm/ProductServiceIplm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Buoi13/demo/src/main/java/com/example/demo/controller/BookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Buoi13/demo/src/main/java/com/example/demo/controller/BookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Example_test/image/avatar-jessica.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Example_test/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Example_test/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/DemoappApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/DemoappApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/controller/BookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/controller/BookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/dao/impl/BookDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/dao/impl/BookDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/database/BookDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/database/BookDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/java/com/example/demoapp/model/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/test/java/com/example/demoapp/DemoappApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Homework/homework_11/demoapp_hw11/src/test/java/com/example/demoapp/DemoappApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2lHHDng7d4GPFSKm1bsc5cvdj3N" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Homework/homework_bootstrap_p1" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Demo123Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="demo123" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo123.Demo123Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1bdba57d-569a-4df7-8b42-b106798e407b" name="Default Changelist" comment="" />
+      <created>1724829965089</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1724829965089</updated>
+      <workItem from="1724829966971" duration="178000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

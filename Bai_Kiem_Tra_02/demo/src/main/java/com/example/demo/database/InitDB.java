@@ -17,5 +17,4 @@ public class InitDB implements CommandLineRunner {
         ProductDb.products = iFileReader.readFile("products.json");
         System.out.println("Tổng số product = " + ProductDb.products.size());
     }
-
 }

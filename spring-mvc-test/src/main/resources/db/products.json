@@ -1,0 +1,434 @@
+[
+  {
+    "id": 1,
+    "name": "Yata",
+    "description": "West-ward Pharmaceutical Corp.",
+    "thumbnail": "Greenlam",
+    "price": 61616875,
+    "rating": 5,
+    "discount": 7092858
+  },
+  {
+    "id": 2,
+    "name": "Thoughtmix",
+    "description": "AUSTRALIAN SKIN PRODUCTS PTY LTD",
+    "thumbnail": "Lotlux",
+    "price": 12528302,
+    "rating": 3.5,
+    "discount": 2771165
+  },
+  {
+    "id": 3,
+    "name": "Browsetype",
+    "description": "EQUALINE (SuperValu)",
+    "thumbnail": "Zoolab",
+    "price": 87297908,
+    "rating": 3.5,
+    "discount": 4618741
+  },
+  {
+    "id": 4,
+    "name": "Topdrive",
+    "description": "AAA Pharmaceutical, Inc.",
+    "thumbnail": "Tres-Zap",
+    "price": 4257683,
+    "rating": 1.1,
+    "discount": 1279444
+  },
+  {
+    "id": 5,
+    "name": "Meeveo",
+    "description": "Kroger Co",
+    "thumbnail": "Tres-Zap",
+    "price": 36059454,
+    "rating": 3.2,
+    "discount": 2786921
+  },
+  {
+    "id": 6,
+    "name": "Brainbox",
+    "description": "Fresenius Kabi USA, LLC",
+    "thumbnail": "Lotstring",
+    "price": 87277017,
+    "rating": 2.4,
+    "discount": 6182882
+  },
+  {
+    "id": 7,
+    "name": "Cogilith",
+    "description": "EQ Maxon Corp.",
+    "thumbnail": "Ventosanzap",
+    "price": 38704642,
+    "rating": 3.0,
+    "discount": 6629282
+  },
+  {
+    "id": 8,
+    "name": "Twinte",
+    "description": "Jubilant HollisterStier LLC",
+    "thumbnail": "Flexidy",
+    "price": 88704840,
+    "rating": 3.7,
+    "discount": 5106399
+  },
+  {
+    "id": 9,
+    "name": "Plajo",
+    "description": "HOMEOLAB USA INC.",
+    "thumbnail": "Fixflex",
+    "price": 52812181,
+    "rating": 2.2,
+    "discount": 4738089
+  },
+  {
+    "id": 10,
+    "name": "Latz",
+    "description": "REMEDYREPACK INC.",
+    "thumbnail": "Holdlamis",
+    "price": 93867341,
+    "rating": 4.0,
+    "discount": 7795343
+  },
+  {
+    "id": 11,
+    "name": "Kimia",
+    "description": "STAT RX USA LLC",
+    "thumbnail": "Veribet",
+    "price": 86818503,
+    "rating": 3.1,
+    "discount": 8143888
+  },
+  {
+    "id": 12,
+    "name": "Ntags",
+    "description": "Equaline",
+    "thumbnail": "Stronghold",
+    "price": 28899601,
+    "rating": 2.2,
+    "discount": 1600375
+  },
+  {
+    "id": 13,
+    "name": "Babbleset",
+    "description": "Ventura International LTD",
+    "thumbnail": "Rank",
+    "price": 50614620,
+    "rating": 4.5,
+    "discount": 5687437
+  },
+  {
+    "id": 14,
+    "name": "Skyba",
+    "description": "Zhejiang Jingwei Pharmaceutical Co., Ltd.",
+    "thumbnail": "Holdlamis",
+    "price": 17218387,
+    "rating": 1.1,
+    "discount": 2257056
+  },
+  {
+    "id": 15,
+    "name": "Trupe",
+    "description": "Perrigo New York Inc",
+    "thumbnail": "Matsoft",
+    "price": 80204035,
+    "rating": 4.6,
+    "discount": 6992099
+  },
+  {
+    "id": 16,
+    "name": "Edgepulse",
+    "description": "Bayer HealthCare Pharmaceuticals Inc.",
+    "thumbnail": "Viva",
+    "price": 35900342,
+    "rating": 3.7,
+    "discount": 7869444
+  },
+  {
+    "id": 17,
+    "name": "Eabox",
+    "description": "Nelco Laboratories, Inc.",
+    "thumbnail": "Bamity",
+    "price": 32024121,
+    "rating": 5.0,
+    "discount": 1908566
+  },
+  {
+    "id": 18,
+    "name": "Topiclounge",
+    "description": "Susanne Lang Fragrance Inc.",
+    "thumbnail": "Latlux",
+    "price": 87637402,
+    "rating": 3.4,
+    "discount": 7092563
+  },
+  {
+    "id": 19,
+    "name": "Thoughtsphere",
+    "description": "AAA Pharmaceutical, Inc.",
+    "thumbnail": "Fix San",
+    "price": 7310759,
+    "rating": 3.4,
+    "discount": 2050838
+  },
+  {
+    "id": 20,
+    "name": "Quire",
+    "description": "McKesson",
+    "thumbnail": "Otcom",
+    "price": 68973996,
+    "rating": 3.6,
+    "discount": 2910379
+  },
+  {
+    "id": 21,
+    "name": "Twitterbeat",
+    "description": "Bayer HealthCare Pharmaceuticals Inc.",
+    "thumbnail": "Daltfresh",
+    "price": 55734432,
+    "rating": 2.7,
+    "discount": 5014668
+  },
+  {
+    "id": 22,
+    "name": "Wordtune",
+    "description": "SJ Creations, Inc.",
+    "thumbnail": "Span",
+    "price": 77972053,
+    "rating": 4.6,
+    "discount": 9057821
+  },
+  {
+    "id": 23,
+    "name": "Meevee",
+    "description": "Paddock Laboratoratories, LLC",
+    "thumbnail": "Duobam",
+    "price": 27582991,
+    "rating": 2.6,
+    "discount": 4978271
+  },
+  {
+    "id": 24,
+    "name": "Kazio",
+    "description": "Allergy Laboratories, Inc.",
+    "thumbnail": "Latlux",
+    "price": 58789822,
+    "rating": 2.2,
+    "discount": 3013342
+  },
+  {
+    "id": 25,
+    "name": "Meezzy",
+    "description": "Pacific Pharma, Inc.",
+    "thumbnail": "Quo Lux",
+    "price": 87375421,
+    "rating": 1.2,
+    "discount": 3597512
+  },
+  {
+    "id": 26,
+    "name": "Kimia",
+    "description": "Topco Associates LLC",
+    "thumbnail": "Solarbreeze",
+    "price": 76947589,
+    "rating": 4.5,
+    "discount": 3283854
+  },
+  {
+    "id": 27,
+    "name": "Avaveo",
+    "description": "CVS Pharmacy",
+    "thumbnail": "Viva",
+    "price": 32268826,
+    "rating": 2.0,
+    "discount": 2093884
+  },
+  {
+    "id": 28,
+    "name": "Meevee",
+    "description": "BioActive Nutritional, Inc.",
+    "thumbnail": "Fix San",
+    "price": 13027043,
+    "rating": 3.0,
+    "discount": 1550476
+  },
+  {
+    "id": 29,
+    "name": "Topicshots",
+    "description": "AvKARE, Inc.",
+    "thumbnail": "Latlux",
+    "price": 21485469,
+    "rating": 3.6,
+    "discount": 6447966
+  },
+  {
+    "id": 30,
+    "name": "Skilith",
+    "description": "Delta Brands Inc",
+    "thumbnail": "Domainer",
+    "price": 22373988,
+    "rating": 1.3,
+    "discount": 4049709
+  },
+  {
+    "id": 31,
+    "name": "Divavu",
+    "description": "SHISEIDO CO., LTD.",
+    "thumbnail": "Span",
+    "price": 68617593,
+    "rating": 2.1,
+    "discount": 2080929
+  },
+  {
+    "id": 32,
+    "name": "Tekfly",
+    "description": "American Health Packaging",
+    "thumbnail": "Konklux",
+    "price": 92378570,
+    "rating": 1.3,
+    "discount": 9209390
+  },
+  {
+    "id": 33,
+    "name": "Oyoyo",
+    "description": "Mylan Institutional Inc.",
+    "thumbnail": "Overhold",
+    "price": 14775691,
+    "rating": 4.1,
+    "discount": 6454198
+  },
+  {
+    "id": 34,
+    "name": "Wikizz",
+    "description": "Physicians Total Care, Inc.",
+    "thumbnail": "Fixflex",
+    "price": 96352471,
+    "rating": 3.9,
+    "discount": 4779348
+  },
+  {
+    "id": 35,
+    "name": "Youbridge",
+    "description": "McKesson",
+    "thumbnail": "Cookley",
+    "price": 82597782,
+    "rating": 4.6,
+    "discount": 7643006
+  },
+  {
+    "id": 36,
+    "name": "Twitterlist",
+    "description": "Antigen Laboratories, Inc.",
+    "thumbnail": "Veribet",
+    "price": 74845831,
+    "rating": 2.3,
+    "discount": 1323605
+  },
+  {
+    "id": 37,
+    "name": "Myworks",
+    "description": "Target Corporation",
+    "thumbnail": "Keylex",
+    "price": 10467222,
+    "rating": 4.4,
+    "discount": 2345532
+  },
+  {
+    "id": 38,
+    "name": "Yata",
+    "description": "Elizabeth Arden, Inc",
+    "thumbnail": "Solarbreeze",
+    "price": 23441721,
+    "rating": 3.0,
+    "discount": 8208038
+  },
+  {
+    "id": 39,
+    "name": "Zoozzy",
+    "description": "Bryant Ranch Prepack",
+    "thumbnail": "Ventosanzap",
+    "price": 51763723,
+    "rating": 3.8,
+    "discount": 9358370
+  },
+  {
+    "id": 40,
+    "name": "Katz",
+    "description": "Cardinal Health",
+    "thumbnail": "Zontrax",
+    "price": 79388384,
+    "rating": 3.4,
+    "discount": 8603359
+  },
+  {
+    "id": 41,
+    "name": "Innotype",
+    "description": "Best Sanitizer, Inc.",
+    "thumbnail": "Tin",
+    "price": 44521561,
+    "rating": 3.9,
+    "discount": 3483986
+  },
+  {
+    "id": 42,
+    "name": "Divanoodle",
+    "description": "SUPERVALU INC.",
+    "thumbnail": "Y-find",
+    "price": 35892002,
+    "rating": 2.2,
+    "discount": 7988242
+  },
+  {
+    "id": 43,
+    "name": "Oyoba",
+    "description": "Aurobindo Pharma Limited",
+    "thumbnail": "Solarbreeze",
+    "price": 58800076,
+    "rating": 1.5,
+    "discount": 1952561
+  },
+  {
+    "id": 44,
+    "name": "Skilith",
+    "description": "Alva-Amco Pharmacal Companies, Inc.",
+    "thumbnail": "Tres-Zap",
+    "price": 2992854,
+    "rating": 2.3,
+    "discount": 3049768
+  },
+  {
+    "id": 45,
+    "name": "Izio",
+    "description": "Novartis Consumer Health, Inc.",
+    "thumbnail": "Daltfresh",
+    "price": 42543790,
+    "rating": 3.6,
+    "discount": 5587052
+  },
+  {
+    "id": 46,
+    "name": "Zoomzone",
+    "description": "Triax Pharmaceuticals, LLC",
+    "thumbnail": "Keylex",
+    "price": 75643391,
+    "rating": 3.1,
+    "discount": 5841617
+  },
+  {
+    "id": 47,
+    "name": "Jaxworks",
+    "description": "EDWARDS PHARMACEUTICALS, INC.",
+    "thumbnail": "Duobam",
+    "price": 98402817,
+    "rating": 4.1,
+    "discount": 6617179
+  },
+  {
+    "id": 48,
+    "name": "Tagfeed",
+    "description": "Rebel Distributors Corp",
+    "thumbnail": "Overhold",
+    "price": 8479632,
+    "rating": 4.8,
+    "discount": 3731001
+  }
+]

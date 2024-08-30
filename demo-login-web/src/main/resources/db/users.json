@@ -1,0 +1,82 @@
+[
+  {
+    "email": "kemmer0@spotify.com",
+    "password": "12345678",
+    "name": "Kerwin Emmer"
+  },
+  {
+    "email": "lraselles1@google.nl",
+    "password": "12345678",
+    "name": "Loydie Raselles"
+  },
+  {
+    "email": "ibowcock2@tinyurl.com",
+    "password": "12345678",
+    "name": "Ignatius Bowcock"
+  },
+  {
+    "email": "mshilladay3@i2i.jp",
+    "password": "12345678",
+    "name": "Margette Shilladay"
+  },
+  {
+    "email": "kpriestner4@hud.gov",
+    "password": "12345678",
+    "name": "Ketty Priestner"
+  },
+  {
+    "email": "yfarnill5@artisteer.com",
+    "password": "12345678",
+    "name": "Yorker Farnill"
+  },
+  {
+    "email": "earmstrong6@fc2.com",
+    "password": "12345678",
+    "name": "Emily Armstrong"
+  },
+  {
+    "email": "aanton7@soundcloud.com",
+    "password": "12345678",
+    "name": "Amelie Anton"
+  },
+  {
+    "email": "ssander8@ustream.tv",
+    "password": "12345678",
+    "name": "Sabina Sander"
+  },
+  {
+    "email": "omolder9@reddit.com",
+    "password": "12345678",
+    "name": "Olvan Molder"
+  },
+  {
+    "email": "jmougenela@reverbnation.com",
+    "password": "12345678",
+    "name": "Johnathon Mougenel"
+  },
+  {
+    "email": "phowsonb@upenn.edu",
+    "password": "12345678",
+    "name": "Pier Howson"
+  },
+  {
+    "email": "mbuxseyc@state.tx.us",
+    "password": "12345678",
+    "name": "Marten Buxsey"
+  },
+  {
+    "email": "lpowleyd@wikimedia.org",
+    "password": "12345678",
+    "name": "Lynea Powley"
+  },
+  {
+    "email": "gkillbye@is.gd",
+    "password": "12345678",
+    "name": "Garvey Killby"
+  },
+  {
+    "email": "vburrilf@google.fr",
+    "password": "12345678",
+    "name": "Viv Burril"
+  }
+]

@@ -1,0 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 180px !important;
+}
+
+img {
+    max-width: 100%;
+}a
+
+.movie-poster img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.tr-custom-bg{
+    background-color: #F8F9FA !important;
+}
+
+.button-custom-bg{
+    background-color: #DC4B64;
+}
+
+.icon {
+    height: 80px;
+}

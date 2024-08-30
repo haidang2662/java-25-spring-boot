@@ -12,13 +12,13 @@ import java.util.List;
 @SpringBootApplication
 public class DemoappApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoappApplication.class , args);
+    public static void main(String[] args) {
+        SpringApplication.run(DemoappApplication.class, args);
 
 //		CsvFileReader reader = new CsvFileReader();
 //		List<Book> books = reader.readFile("C:\\Users\\DELL\\OneDrive\\Desktop\\techmaster-spring-boot\\java-25-spring-boot\\Homework\\homework_11\\demoapp_hw11\\books.csv");
 //
 //		books.forEach(System.out::println);
-	}
+    }
 
 }

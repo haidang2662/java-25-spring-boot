@@ -3,7 +3,8 @@ package com.example.demo.service.iplm;
 import com.example.demo.dao.ProductDao;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.PreDestroy;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,8 +13,21 @@ import java.util.List;
 @Service
 public class ProductServiceIplm implements ProductService {
 
-    @Autowired
-    private ProductDao productDao;
+//    @Qualifier("ProductDaoIplm1")
+//    @Autowired
+
+    @Resource(name = "ProductDaoIplm1")
+    ProductDao productDao;
+
+    // autowire bằng constructor
+//    public ProductServiceIplm(ProductDao productDao) {
+//        this.productDao = productDao;
+//    }
+
+    @PreDestroy
+    public void readDataFromDb() {
+        System.out.println("1111111111");
+    }
 
     @Override
     public List<Product> getAllProduct() {

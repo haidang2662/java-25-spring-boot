@@ -1,8 +1,11 @@
 package com.example.demo.dao.iplm;
 
+import com.example.demo.controller.ProductController;
 import com.example.demo.dao.ProductDao;
 import com.example.demo.database.ProductDb;
 import com.example.demo.model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,7 +13,7 @@ import java.util.List;
 
 import static com.example.demo.database.ProductDb.products;
 
-@Repository
+@Component("ProductDaoIplm1")
 public class ProductDaoIplm implements ProductDao {
 
     @Override

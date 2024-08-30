@@ -12,8 +12,8 @@ import static com.example.demoapp.database.BookDB.books;
 public class BookDaoImpl implements BookDao {
     @Override
     public Book findById(int id) {
-        for (Book book : BookDB.books){
-            if(book.getId() == id) {
+        for (Book book : BookDB.books) {
+            if (book.getId() == id) {
                 return book;
             }
         }

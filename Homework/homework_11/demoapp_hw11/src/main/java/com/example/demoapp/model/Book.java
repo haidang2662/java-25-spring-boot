@@ -12,9 +12,9 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Book {
-     int id ;
-     String title;
-     String author;
-     int year;
+    int id;
+    String title;
+    String author;
+    int year;
 }
 

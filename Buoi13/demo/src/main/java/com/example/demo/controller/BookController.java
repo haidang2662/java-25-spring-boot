@@ -22,7 +22,7 @@ import java.util.List;
  * Controller: Nơi tiếp nhận request từ client, xử lý và trả về response
  * - @Controller: Các controller trả về Template (giao diện). Ngoài ra có thể trả về dữ liệu dạng JSON, XML, ...
  * - @RestController: Các controller trả về dữ liệu dạng JSON, XML, ...
- * - @Rescontroller = @Controller + @ResponseBody
+ * - @RestController = @Controller + @ResponseBody
  * - @ResponseBody: Chỉ trả về dữ liệu, không trả về Template. Dữ liệu trả về có thể là JSON, XML, ...
  * - ResponseEntity<?>: Class dại diện cho 1 dối tượng response , có thể set status code, header, ...
  * */
@@ -75,7 +75,7 @@ public class BookController {
     // totalPage : Tong so trang
     // content : Dư lieu tren trang hien tai
 
-    @GetMapping("/books")
+    @GetMapping("/books") // endpoint
 
     public String getBooksPage(Model model ,
                                @RequestParam(required = false , defaultValue = "1") int page ,
@@ -87,7 +87,7 @@ public class BookController {
                 .data(books)
                 .build();
         
-        model.addAttribute("books" , books);
+        model.addAttribute("pageResponse" , pageResponse);
         return "books";
     }
 
