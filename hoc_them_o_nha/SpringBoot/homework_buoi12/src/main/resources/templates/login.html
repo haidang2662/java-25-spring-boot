@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập</title>
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Đăng nhập</h2>
+    <form th:action="@{/accounts/login}" th:object="${loginRequest}" method="post">
+        <div>
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" th:field="*{email}" id="email" required>
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email không hợp lệ</div>
+        </div>
+        <br>
+        <div>
+            <label for="password" class="form-label">Mật khẩu:</label>
+            <input type="password" class="form-control" th:field="*{password}" id="password" required>
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Mật khẩu không hợp lệ</div>
+        </div>
+        <br>
+        <div>
+            <button type="submit" class="btn btn-primary">Đăng nhập</button>
+        </div>
+    </form>
+
+    <!-- Hiển thị thông báo lỗi nếu có -->
+    <p th:text="${error}" style="color:red;"></p>
+</div>
+</body>
+</html>

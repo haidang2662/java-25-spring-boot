@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${movie.name}">Trang chủ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/web-assets/css/style.css}">
+</head>
+<body>
+<header class="bg-dark">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="https://motchilltv.io/logo_motchill.png" alt="" class="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link text-white" href="/">Trang chủ</a>
+                    <a class="nav-link text-white" href="/phim-bo">Phim bộ</a>
+                    <a class="nav-link text-white" href="/phim-le">Phim lẻ</a>
+                    <a class="nav-link text-white" href="/phim-chieu-rap">Phim chiếu rạp</a>
+                    <a class="nav-link text-white" href="#">Quốc gia</a>
+                    <a class="nav-link text-white" href="#">Thể loại</a>
+                </div>
+
+                <div>
+                    <a class="text-white" href="#">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="py-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-primary" href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a class="text-primary" href="/phim-bo">Phim bộ</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${movie.name}">Nhím Sonic 2</li>
+            </ol>
+        </nav>
+        <div class="row mt-4">
+            <div class="col-3">
+                <div class="movie-poster overflow-hidden position-relative rounded">
+                    <img
+                            id="movie-poster"
+                            class="w-100"
+                            th:src="${movie.poster}"
+                            th:alt="${movie.name}"
+                    >
+                    <span class="play-icon" data-bs-toggle="modal" data-bs-target="#modal-trailer">
+                        <i class="fa-regular fa-circle-play"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0" th:text="${movie.name}">Nhím Sonic 2</h4>
+                    <div class="d-flex align-items-center bg-body-tertiary p-1 rounded ms-2">
+                        <span class="fw-bold me-1" th:text="${movie.rating}">10</span>
+                        <span class="rating-icon text-yellow-300"><i class="fa-solid fa-star"></i></span>
+                    </div>
+                </div>
+                <div class="p-3 bg-body-tertiary">
+                    <div class="row">
+                        <div class="col-2"><p>Thể loại</p></div>
+                        <div class="col-10">
+                            <p>
+                                <span th:each="genre : ${movie.genres}" th:text="${genre.name} + ' , '">Hài, </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"><p>Năm sản xuất</p></div>
+                        <div class="col-10"><p th:text="${movie.releaseYear}">2022</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"><p>Quốc gia</p></div>
+                        <div class="col-10"><p th:text="${movie.country.name}">Nhật Bản</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"><p>Đạo diễn</p></div>
+                        <div class="col-10">
+                            <p>
+                                <span th:each="director : ${movie.directors}" th:text="${director.name} + ' , '">James Marsden</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"><p>Diễn viên</p></div>
+                        <div class="col-10">
+                            <p>
+                                <span th:each="actor : ${movie.actors}" th:text="${actor.name} + ' , '">Ben Schwartz</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"><p>Nội dung phim</p></div>
+                        <div class="col-10"><p th:text="${movie.description}">Khi Robotnik tìm cách quay trở về Trái Đất
+                            thành công, ông ta có một đồng
+                            minh mới là Knuckles hùng mạnh, liệu Sonic và người bạn ới Tails có thể ngăn&nbsp;<span
+                                    class="text-primary">Xem thêm</span></p></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex align-items-center"><a
+                            class="d-inline-block btn btn-danger px-5 py-2 mt-3 rounded me-2"
+                            href="/xem-phim/116/nhim-sonic-2?tap=full"><span class="me-1"><i
+                            class="fa-solid fa-play"></i></span>Xem phim</a>
+                        <div id="btn-wishlist-container">
+                            <button class="d-inline-block btn bg-dark px-5 py-2 mt-3 rounded text-white"><span
+                                    class="me-1"><i class="fa-solid fa-heart"></i></span>Thêm vào yêu thích
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4"><h4 class="mb-3">Tập phim</h4><a class="btn btn-dark me-2" href="/xem-phim/117/bo-cu?tap=1">Tập
+            1</a><a class="btn btn-dark me-2" href="/xem-phim/117/bo-cu?tap=2">Tập 2</a><a class="btn btn-dark me-2"
+                                                                                           href="/xem-phim/117/bo-cu?tap=3">Tập
+            3</a><a class="btn btn-dark me-2" href="/xem-phim/117/bo-cu?tap=4">Tập 4</a><a class="btn btn-dark me-2"
+                                                                                           href="/xem-phim/117/bo-cu?tap=5">Tập
+            5</a><a class="btn btn-dark me-2" href="/xem-phim/117/bo-cu?tap=6">Tập 6</a><a class="btn btn-dark me-2"
+                                                                                           href="/xem-phim/117/bo-cu?tap=7">Tập
+            7</a></div>
+    </div>
+</section>
+
+<section class="py-4 bg-body-tertiary">
+    <div class="container"><h4 class="mb-3">Phim đề xuất</h4>
+        <div class="row">
+            <div class="col-2">
+                <div class="movie-item"><a class="movie-media" href="/phim/103/au-gau-ung-au-at">
+                    <div class="movie-poster rounded overflow-hidden"><img class="w-100 h-100"
+                                                                           src="https://cinema.momocdn.net/img/6704916054765301-unT5IUqiZgqcGyjcOMxomdxQOMj.jpg"
+                                                                           alt="Đầu Gấu Đụng Đầu Đất"></div>
+                    <p class="mt-2 truncate-1">Đầu Gấu Đụng Đầu Đất</p></a></div>
+            </div>
+            <div class="col-2">
+                <div class="movie-item"><a class="movie-media" href="/phim/112/chang-trai-xinh-ep-cua-toi">
+                    <div class="movie-poster rounded overflow-hidden"><img class="w-100 h-100"
+                                                                           src="https://homepage.momocdn.net/cinema/momo-upload-api-230525155042-638206266426364914.jpg"
+                                                                           alt="Chàng Trai Xinh Đẹp Của Tôi"></div>
+                    <p class="mt-2 truncate-1">Chàng Trai Xinh Đẹp Của Tôi</p></a></div>
+            </div>
+            <div class="col-2">
+                <div class="movie-item"><a class="movie-media" href="/phim/110/belle-rong-va-cong-chua-tan-nhang">
+                    <div class="movie-poster rounded overflow-hidden"><img class="w-100 h-100"
+                                                                           src="https://homepage.momocdn.net/cinema/momo-cdn-api-220615142913-637909001532744942.jpg"
+                                                                           alt="Belle: Rồng và Công Chúa Tàn Nhang">
+                    </div>
+                    <p class="mt-2 truncate-1">Belle: Rồng và Công Chúa Tàn Nhang</p></a></div>
+            </div>
+            <div class="col-2">
+                <div class="movie-item"><a class="movie-media" href="/phim/108/xe-cap-cuu">
+                    <div class="movie-poster rounded overflow-hidden"><img class="w-100 h-100"
+                                                                           src="https://homepage.momocdn.net/cinema/momo-cdn-api-220615142928-637909001686261188.jpg"
+                                                                           alt="Xe Cấp Cứu"></div>
+                    <p class="mt-2 truncate-1">Xe Cấp Cứu</p></a></div>
+            </div>
+            <div class="col-2">
+                <div class="movie-item"><a class="movie-media" href="/phim/100/mon-phai-vo-meo-huyen-thoai-mot-chu-cho">
+                    <div class="movie-poster rounded overflow-hidden"><img class="w-100 h-100"
+                                                                           src="https://cinema.momocdn.net/img/79669879927822392-irDiMv0ddrr2evxntiEje9B1t1U.jpg"
+                                                                           alt="Môn Phái Võ Mèo: Huyền Thoại Một Chú Chó">
+                    </div>
+                    <p class="mt-2 truncate-1">Môn Phái Võ Mèo: Huyền Thoại Một Chú Chó</p></a></div>
+            </div>
+            <div class="col-2">
+                <div class="movie-item"><a class="movie-media" href="/phim/98/ma-lai-rut-ruot">
+                    <div class="movie-poster rounded overflow-hidden"><img class="w-100 h-100"
+                                                                           src="https://cinema.momocdn.net/img/7391179876377590-y5FnpKxnKXiMt7zoyc0fzBnTa3W.jpg"
+                                                                           alt="Ma Lai Rút Ruột"></div>
+                    <p class="mt-2 truncate-1">Ma Lai Rút Ruột</p></a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-4">
+    <div class="container">
+        <div>
+            <div class="d-flex justify-content-between align-items-center"><h4 class="mb-3">Bình luận</h4>
+                <button class="btn btn-primary btn-create-review" type="button" data-bs-toggle="modal"
+                        data-bs-target="#modalReview">Viết bình luận</button>
+            </div>
+            <div class="review-list">
+                <div class="rating-item d-flex align-items-center mb-3 pb-3">
+                    <div class="rating-avatar"><img src="https://placehold.co/200x200?text=T" alt="Hà Hà Thành"></div>
+                    <div class="rating-info ms-3">
+                        <div class="d-flex align-items-center"><p class="rating-name mb-0"><strong>Hà Hà Thành</strong>
+                        </p>
+                            <p class="rating-time mb-0 ms-2">17/05/2022</p></div>
+                        <div class="rating-star"><p class="mb-0 fw-medium"><span class="rating-icon me-1"><i
+                                class="fa fa-star"></i></span><span>10/10 Xuất sắc</span></p></div>
+                        <p class="rating-content mt-1 mb-0 text-muted">ok</p></div>
+                </div>
+                <div class="rating-item d-flex align-items-center mb-3 pb-3">
+                    <div class="rating-avatar"><img src="https://placehold.co/200x200?text=Q" alt="Tạ Thanh Quang">
+                    </div>
+                    <div class="rating-info ms-3">
+                        <div class="d-flex align-items-center"><p class="rating-name mb-0"><strong>Tạ Thanh
+                            Quang</strong></p>
+                            <p class="rating-time mb-0 ms-2">11/05/2022</p></div>
+                        <div class="rating-star"><p class="mb-0 fw-medium"><span class="rating-icon me-1"><i
+                                class="fa fa-star"></i></span><span>10/10 Xuất sắc</span></p></div>
+                        <p class="rating-content mt-1 mb-0 text-muted">phim dễ thương xỉu</p></div>
+                </div>
+                <div class="rating-item d-flex align-items-center mb-3 pb-3">
+                    <div class="rating-avatar"><img src="https://placehold.co/200x200?text=D" alt="Lê Hải Dũng"></div>
+                    <div class="rating-info ms-3">
+                        <div class="d-flex align-items-center"><p class="rating-name mb-0"><strong>Lê Hải Dũng</strong>
+                        </p>
+                            <p class="rating-time mb-0 ms-2">07/05/2022</p></div>
+                        <div class="rating-star"><p class="mb-0 fw-medium"><span class="rating-icon me-1"><i
+                                class="fa fa-star"></i></span><span>10/10 Xuất sắc</span></p></div>
+                        <p class="rating-content mt-1 mb-0 text-muted">Phim hay, đáng xem, có pha chút hài hước 👍👍👍
+                            Thích hợp cho các bé nhỏ vì phim đề cao tình bạn, tính đoàn kết 🤝🤝🤝
+                            Có 3 nhân vật siêu đáng yêu, mỗi nhân vật có 1 tính cách riêng, bạn chó cũng dễ thương
+                            ☺️☺️☺️</p></div>
+                </div>
+                <div class="rating-item d-flex align-items-center mb-3 pb-3">
+                    <div class="rating-avatar"><img src="https://placehold.co/200x200?text=N" alt="Tạ Hạ Nam"></div>
+                    <div class="rating-info ms-3">
+                        <div class="d-flex align-items-center"><p class="rating-name mb-0"><strong>Tạ Hạ Nam</strong>
+                        </p>
+                            <p class="rating-time mb-0 ms-2">03/05/2022</p></div>
+                        <div class="rating-star"><p class="mb-0 fw-medium"><span class="rating-icon me-1"><i
+                                class="fa fa-star"></i></span><span>10/10 Xuất sắc</span></p></div>
+                        <p class="rating-content mt-1 mb-0 text-muted">phim hay, vui</p></div>
+                </div>
+                <div class="rating-item d-flex align-items-center mb-3 pb-3">
+                    <div class="rating-avatar"><img src="https://placehold.co/200x200?text=H" alt="Võ Văn Hưng"></div>
+                    <div class="rating-info ms-3">
+                        <div class="d-flex align-items-center"><p class="rating-name mb-0"><strong>Võ Văn Hưng</strong>
+                        </p>
+                            <p class="rating-time mb-0 ms-2">02/05/2022</p></div>
+                        <div class="rating-star"><p class="mb-0 fw-medium"><span class="rating-icon me-1"><i
+                                class="fa fa-star"></i></span><span>10/10 Xuất sắc</span></p></div>
+                        <p class="rating-content mt-1 mb-0 text-muted">Phim kỷ xảo đẹp, nhưng nội dung không có gì
+                            mới.</p></div>
+                </div>
+            </div>
+            <div id="review-pagination" class="d-flex justify-content-center align-items-center">
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="modalReview" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Tạo bình luận</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column justify-content-center align-items-center mb-3">
+                    <div class="rating">
+                        <span class="star" data-rating="1">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="2">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="3">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="4">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="5">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="6">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="7">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="8">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="9">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span class="star" data-rating="10">
+                           <i class="fa-solid fa-star"></i>
+                        </span>
+                    </div>
+                    <div id="rating-value">Vui lòng chọn đánh giá</div>
+                </div>
+                <form id="form-review">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="review-content" rows="5"></textarea>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Tạo bình luận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="py-4 bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <img src="https://motchilltv.io/logo_motchill.png" alt="" class="logo">
+                <p class="text-white mt-3">Motchill - Xem phim Online Vietsub chất lượng cao miễn phí, nhiều thể loại
+                    phim phong phú, đặc sắc, giao diện trực quan, thuận tiện, tốc độ tải nhanh, thường xuyên cập nhật
+                    các bộ phim mới.</p>
+            </div>
+            <div class="col">
+                <div class="text-white">
+                    <h5 class="text-uppercase mb-3 fw-normal">Danh mục</h5>
+                    <p>Tin tức</p>
+                    <p>Phim chiếu rạp</p>
+                    <p>Phim lẻ</p>
+                    <p>Phim bộ</p>
+                    <p>TV Show</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-white">
+                    <h5 class="text-uppercase mb-3 fw-normal">Danh mục</h5>
+                    <p>Tin tức</p>
+                    <p>Phim chiếu rạp</p>
+                    <p>Phim lẻ</p>
+                    <p>Phim bộ</p>
+                    <p>TV Show</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-white">
+                    <h5 class="text-uppercase mb-3 fw-normal">Danh mục</h5>
+                    <p>Tin tức</p>
+                    <p>Phim chiếu rạp</p>
+                    <p>Phim lẻ</p>
+                    <p>Phim bộ</p>
+                    <p>TV Show</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-white">
+                    <h5 class="text-uppercase mb-3 fw-normal">Danh mục</h5>
+                    <p>Tin tức</p>
+                    <p>Phim chiếu rạp</p>
+                    <p>Phim lẻ</p>
+                    <p>Phim bộ</p>
+                    <p>TV Show</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="modal fade" id="modal-trailer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Trailer</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe style="aspect-ratio: 16 / 9" width="100%" src="https://www.youtube.com/embed/MjxPoqCvvVs?si=O86GBpvOpevCw1sa"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+<script th:inline="javascript">
+    let movie = [[${movie}]];
+    let reviews = [[{reviews}]];
+    console.log(movie);
+    console.log(reviews);
+</script>
+
+<script th:src="@{/web-assets/js/movie-review.js}"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Danh sách phim chiếu rạp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/web-assets/css/style.css}">
+</head>
+<body>
+<header class="bg-dark">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://motchilltv.io/logo_motchill.png" alt="" class="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active text-white" aria-current="page" href="#">Trang chủ</a>
+                    <a class="nav-link text-white" href="/phim-bo">Phim bộ</a>
+                    <a class="nav-link text-white" href="/phim-le">Phim lẻ</a>
+                    <a class="nav-link text-white" href="/phim-chieu-rap">Phim chiếu rạp</a>
+                    <a class="nav-link text-white" href="">Quốc gia</a>
+                    <a class="nav-link text-white" href="">Thể loại</a>
+                </div>
+                <div>
+                    <a href="" class="text-white text-decoration-none">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="py-4">
+    <div class="container">
+        <h3>Phim chiếu rạp mới cập nhật</h3>
+
+        <div class="row">
+            <div class="col-2" th:each="movie : ${pageData.getContent()}">
+                <a th:href="|/phim/${movie.id}/${movie.slug}|" class="movie-item text-black text-decoration-none">
+                    <div class="movie-poster rounded overflow-hidden">
+                        <img th:src="${movie.poster}" th:alt="${movie.name}">
+                    </div>
+                    <div class="movie-info">
+                        <p class="mt-2" th:text="${movie.name}">Lọ lem 2 giờ sáng</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <ul class="pagination pagination-sm justify-content-center" th:if="${pageData.getTotalPages() > 1}">
+        <li class="page-item" th:classappend="${currentPage == 1 ? 'disable' : ''}">
+            <a class="page-link" th:href="|/phim-bo?page=${currentPage - 1}|">Trang trước</a>
+        </li>
+        <li class="page-item"
+            th:classappend="${currentPage == number ? 'active' : ''}"
+            th:each="number : ${#numbers.sequence(1,pageData.getTotalPages())}">
+            <a class="page-link" th:href="|/phim-bo?page=${number}|" th:text="${number}">1</a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == pageData.getTotalPages() ? 'disable' : ''}">
+            <a class="page-link" th:href="|/phim-bo?page=${currentPage + 1}|">Trang sau</i></a>
+        </li>
+    </ul>
+</section>
+
+
+
+<footer class="py-4 bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <img src="https://motchilltv.io/logo_motchill.png" alt="" class="logo">
+                <p class="text-white">Motchill - xem phim online chất lượng cao ......................................
+                    ....................</p>
+            </div>
+            <div class="col">
+                <div class="text-white">
+                    <h5 class="mb-3 fw-normal">DANH MỤC</h5>
+                    <p>Tin tức</p>
+                    <p>Phim chiếu rạp</p>
+                    <p>Phim lẻ</p>
+                    <p>Phim bộ</p>
+                    <p>TV show</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-white">
+                    <h5 class="mb-3 fw-normal">Thể loại</h5>
+                    <p>Phim cổ trang</p>
+                    <p>Phim đam mỹ</p>
+                    <p>Phim bách hợp</p>
+                    <p>Phim viễn tưởng </p>
+                    <p>Phim hoạt hình</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-white">
+                    <h5 class="mb-3 fw-normal">Điều khoản</h5>
+                    <p>DMCA</p>
+                    <p>Liên hệ</p>
+                    <p>Privacy</p>
+                    <p>Terms of service</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="text-white">
+                    <h5 class="mb-3 fw-normal">Social</h5>
+                    <p>Tin tức</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://kit.fontawesome.com/42f6aae9a8.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

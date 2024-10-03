@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký sách</title>
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Cập nhật sách</h2>
+    <form th:action="@{/books/update}" th:object="${bookToiMuonCapNhat}" method="post">
+        <input type="hidden" class="form-control" th:field="*{id}" id="id">
+        <br>
+        <div>
+            <label for="name" class="form-label">Tên sách<span class="text-danger">*</span>:</label>
+            <input type="text" class="form-control" th:field="*{name}" id="name">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="publishedAt" class="form-label">Ngày xuất bản<span class="text-danger">*</span>:</label>
+            <input type="date" class="form-control" th:field="*{publishedAt}" id="publishedAt">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('publishedAt')}" th:errors="*{publishedAt}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="price" class="form-label">Giá sách<span class="text-danger">*</span>:</label>
+            <input type="number" class="form-control" th:field="*{price}" id="price" step="0.01" min="0">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="rating" class="form-label">Đánh giá<span class="text-danger">*</span>:</label>
+            <input type="number" class="form-control" th:field="*{rating}" id="rating" step="0.1" min="1" max="5">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="author" class="form-label">Tên tác giả<span class="text-danger">*</span>:</label>
+            <input type="text" class="form-control" th:field="*{author}" id="author">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="publisher" class="form-label">Tên NXB<span class="text-danger">*</span>:</label>
+            <input type="text" class="form-control" th:field="*{publisher}" id="publisher">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}"></div>
+        </div>
+        <br>
+        <div>
+            <label for="totalPages" class="form-label">Tổng số trang<span class="text-danger">*</span>:</label>
+            <input type="number" class="form-control" th:field="*{totalPages}" id="totalPages" step="1" min="0">
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('totalPages')}" th:errors="*{totalPages}"></div>
+        </div>
+        <br>
+        <div>
+            <button type="submit" class="btn btn-primary">Cập nhật sách</button>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

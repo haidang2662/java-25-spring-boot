@@ -8,6 +8,9 @@ import com.github.slugify.Slugify;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -68,7 +71,17 @@ class Buoi18ApplicationTests {
 
     @Test
     public void testMethodQuery(){
-        long countPhimBo = movieRepository.countByType(MovieType.PHIM_BO);
-        System.out.println("So luong Phim bo : " + countPhimBo);
+//        long countPhimBo = movieRepository.countByType(MovieType.PHIM_BO);
+//        System.out.println("So luong Phim bo : " + countPhimBo);
+
+//        List<Movie> movies = movieRepository.findByStatusOrderByReleaseYearDesc()
+
+        Pageable pageable = PageRequest.of(0,10);
+        Page<Movie> pageData = movieRepository.findByStatus(true , pageable);
+        System.out.println("Total Pages: " + pageData.getTotalPages());
+        System.out.println("Total elements : " + pageData.getTotalElements());
+        System.out.println("Is first : " + pageData.isFirst());
+        pageData.getContent().forEach(System.out::println);
+
     }
 }
