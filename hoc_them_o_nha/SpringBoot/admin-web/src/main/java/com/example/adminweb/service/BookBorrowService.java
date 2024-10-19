@@ -76,7 +76,10 @@ public class BookBorrowService {
         }
 
         BookBorrow bookBorrow = bookBorrowOptional.get();
-        return objectMapper.convertValue(bookBorrow , UpdateBookBorrowRequest.class);
+        UpdateBookBorrowRequest request = objectMapper.convertValue(bookBorrow, UpdateBookBorrowRequest.class);
+        request.setBookId(bookBorrow.getBook().getId());
+        request.setReaderId(bookBorrow.getBorrower().getId());
+        return request;
     }
 
     public void updateBookBorrow(UpdateBookBorrowRequest updateBookBorrow) {
@@ -86,10 +89,13 @@ public class BookBorrowService {
             throw new ObjectNotFoundException("Không tìm thấy lượt mượn sách mang Id: " + updateBookBorrow.getId());
         }
 
+        Optional<User> userOptional = userRepository.findById(updateBookBorrow.getReaderId());
+        Optional<Book> bookOptional = bookRepository.findById(updateBookBorrow.getBookId());
+
         BookBorrow bookBorrow = bookBorrowOptional.get();
-        bookBorrow.setBorrower(updateBookBorrow.getBorrower());
-        bookBorrow.setBook(updateBookBorrow.getBook());
-        bookBorrow.setCreatedDate(updateBookBorrow.getCreatedDate());
+        bookBorrow.setBorrower(objectMapper.convertValue(userOptional , User.class));
+        bookBorrow.setBook(objectMapper.convertValue(bookOptional , Book.class));
+//        bookBorrow.setCreatedDate(updateBookBorrow.);
         bookBorrow.setQuantity(updateBookBorrow.getQuantity());
         bookBorrow.setExpectedReturnDate(updateBookBorrow.getExpectedReturnDate());
 

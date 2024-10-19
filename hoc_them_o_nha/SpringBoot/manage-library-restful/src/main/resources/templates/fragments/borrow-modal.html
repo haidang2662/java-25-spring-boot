@@ -1,0 +1,54 @@
+<!-- The Modal -->
+<div th:fragment="borrow-modal" class="modal fade" id="borrow-modal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Tạo mới lượt mượn</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form id="borrow-form" th:action="@{/borrows}" th:object="${borrowRequest}" method="post">
+          <div>
+            <label for="bookId">Đầu sách<span class="text-danger">*</span>:</label>
+            <select th:field="*{bookId}" id="bookId" name="bookId" required class="form-select">
+              <option th:each="dauSach : ${books}"
+                      th:value="${dauSach.id}" th:text="${dauSach.name}"></option>
+            </select>
+            <!-- Hiển thị tên sách đã chọn -->
+            <p id="bookName" class="mt-2 text-muted"></p> <!-- Đặt bookName ở đây -->
+
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}"></div>
+          </div>
+          <div>
+            <label for="readerId">Bạn đọc<span class="text-danger">*</span>:</label>
+            <select th:field="*{readerId}" id="readerId" name="readerId" required class="form-select">
+              <option th:each="banDoc : ${readers}"
+                      th:value="${banDoc.id}" th:text="${banDoc.name}"></option>
+            </select>
+            <!-- Hiển thị tên bạn đọc đã chọn -->
+            <p id="readerName" class="mt-2 text-muted"></p> <!-- Đặt readerName ở đây -->
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('readerId')}" th:errors="*{readerId}"></div>
+          </div>
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Số lượng đầu sách : </label>
+            <input type="number" name="quantity" id="quantity"  class="form-control" placeholder="Mời bạn nhập số lượng đầu sách : ">
+          </div>
+          <div class="mb-3">
+            <label for="expectedReturnDate" class="form-label">Ngày trả dự kiến</label>
+            <input type="date" name="expectedReturnDate" id="expectedReturnDate"  class="form-control" placeholder="Mời bạn nhập ngày trả dự kiến : ">
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="save-borrow-btn">Lưu</button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div th:fragment="register-model" class="modal fade" id="modal-dang-ky">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tạo mới User</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/accounts/register}" th:object="${registerRequest}" method="post"
+                  class="was-validated mx-4">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="mb-3 mt-3">
+                        <label for="email" class="form-label">Email :<span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" th:field="*{email}" id="email"
+                               placeholder="Enter email" name="email">
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}"></div>
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password :<span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" th:field="*{password}" id="password"
+                               placeholder="Enter password">
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('password')}"
+                             th:errors="*{password}"></div>
+
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name : <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Enter Name">
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date of birth: <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" th:field="*{dob}" id="dob"
+                               placeholder="Enter Date of birth">
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></div>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="gender">Gender : <span class="text-danger">*</span>:</label>
+                        <select th:field="*{gender}" id="gender" required class="form-select">
+                            <option th:each="gioiTinh : ${T(com.example.managelibrary.constant.Gender).values()}"
+                                    th:value="${gioiTinh}" th:text="${gioiTinh.value}"></option>
+                        </select>
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('gender')}"
+                             th:errors="*{gender}"></div>
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label for="hometown" class="form-label">Hometown : </label>
+                        <input type="text" class="form-control" th:field="*{hometown}" id="hometown"
+                               placeholder="Enter Hometown">
+                    </div>
+                    <br>
+                    <div>
+                        <label for="status">Status : <span class="text-danger">*</span></label>
+                        <select th:field="*{status}" id="status" required class="form-select">
+                            <option th:each="tinhTrang : ${T(com.example.managelibrary.constant.UserStatus).values()}"
+                                    th:value="${tinhTrang}" th:text="${tinhTrang.value}"></option>
+                        </select>
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('status')}"
+                             th:errors="*{status}"></div>
+                    </div>
+                    <br>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

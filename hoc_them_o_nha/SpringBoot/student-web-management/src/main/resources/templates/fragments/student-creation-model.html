@@ -1,0 +1,50 @@
+<div th:fragment="student-creation-model" class="modal fade" id="student-creation-modal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form action="/students" method="post" th:object="${sinhVienTaoMoi}" class="px-4">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Tạo mới sinh viên</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+
+          <div class="mb-4">
+            <label class="form-label">Tên sinh viên</label>
+            <input type="text" th:field="*{name}" class="form-control"/>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="dob">Ngày sinh</label>
+            <input type="date" th:field="*{dob}" class="form-control" id="dob"/>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="gender">Giới tính</label>
+            <select th:field="*{gender}" id="gender" class="form-select">
+              <option
+                      th:each="gioiTinh: ${T(com.example.studentwebmanagement.constant.Gender).values()}"
+                      th:text="${gioiTinh.vnValue}"
+                      th:value="${gioiTinh.name}"
+              >
+              </option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="address">Địa chỉ</label>
+            <input type="text" th:field="*{address}" class="form-control" id="address"/>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="gpa">Gpa</label>
+            <input type="number" th:field="*{gpa}" class="form-control" min="0" max="10"
+                   id="gpa"/>
+          </div>
+
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

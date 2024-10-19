@@ -1,11 +1,7 @@
 package com.example.adminweb.controller;
 
-import com.example.adminweb.entity.Book;
-import com.example.adminweb.entity.User;
-import com.example.adminweb.exceptionHandling.ObjectNotFoundException;
 import com.example.adminweb.model.request.BookBorrowCreationRequest;
 import com.example.adminweb.model.request.UpdateBookBorrowRequest;
-import com.example.adminweb.model.request.UpdateUserRequest;
 import com.example.adminweb.model.response.BookBorrowResponse;
 import com.example.adminweb.model.response.BookResponse;
 import com.example.adminweb.model.response.UserResponse;
@@ -60,7 +56,7 @@ public class BookBorrowController {
         }
         // Nếu không có lỗi, tiến hành đăng ký và chuyển hướng
         bookBorrowService.create(bookBorrowRequest);
-        return "borrow/borrows";
+        return "redirect:/borrows";
     }
 
     @GetMapping
@@ -69,7 +65,7 @@ public class BookBorrowController {
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "6") int pageSize
     ) {
-        Page<BookBorrowResponse> bookBorrowResponses = bookBorrowService.findAllBookBorrows(page , pageSize);
+        Page<BookBorrowResponse> bookBorrowResponses = bookBorrowService.findAllBookBorrows(page, pageSize);
         model.addAttribute("danhSachBookBorrow", bookBorrowResponses);
         model.addAttribute("currentPage", page);
         return "borrow/borrows";
@@ -81,7 +77,7 @@ public class BookBorrowController {
         return "redirect:/borrows";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/{id}/update-form")
     public String forwardToUpdateForm(@PathVariable("id") Long id, Model model) {
         UpdateBookBorrowRequest updateBookBorrow = bookBorrowService.findBookBorrowById(id);
         model.addAttribute("bookBorrowToiMuonCapNhat", updateBookBorrow);

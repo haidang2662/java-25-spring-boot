@@ -60,7 +60,7 @@
                     <td th:text="${bookBorrow.expectedReturnDate}"/>
                     <td class="d-flex justify-content-center">
                         <a role="button" class="mr-3 text-primary"
-                           th:href="@{'/borrows/'+${bookBorrow.id}+'/edit'}">
+                           th:href="@{'/borrows/'+${bookBorrow.id}+'/update-form'}">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
                         <a role="button" class="text-danger"

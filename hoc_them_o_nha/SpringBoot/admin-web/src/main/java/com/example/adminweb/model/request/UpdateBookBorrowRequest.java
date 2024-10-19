@@ -1,8 +1,7 @@
 package com.example.adminweb.model.request;
 
-import com.example.adminweb.entity.Book;
-import com.example.adminweb.entity.User;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,22 +12,22 @@ public class UpdateBookBorrowRequest {
 
     private Long id;
 
-    @NotNull(message = "Người mượn không được bỏ trống")
-    private User borrower;
+    @NotNull(message = "ID của người mượn không được bỏ trống")
+    @Min(value = 1, message = "ID của người mượn phải là số dương")
+    private Long readerId;
 
-    @NotNull(message = "Sách không được bỏ trống")
-    private Book book;
+    @NotNull(message = "ID của sách không được bỏ trống")
+    @Min(value = 1, message = "ID của sách phải là số dương")
+    private Long bookId;
 
     @NotNull(message = "Số lượng sách mượn không được bỏ trống")
     @Min(value = 1, message = "Số lượng sách mượn phải lớn hơn 0 và không quá 3")
     private Integer quantity;
 
+    private LocalDate createdDate;
+
     @NotNull(message = "Ngày trả dự kiến không được bỏ trống")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expectedReturnDate;
-
-    @NotNull(message = "Ngày thuê không được bỏ trống")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createdDate;
 
 }

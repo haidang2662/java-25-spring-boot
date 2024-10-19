@@ -1,0 +1,44 @@
+<div th:fragment="reader-modal" class="modal fade" id="reader-modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content ">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tạo mới bạn đọc</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="reader-form">
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="name">Tên</label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Nhập tên"/>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="phone">SDT</label>
+                        <input type="text" name="phone" id="phone" class="form-control" placeholder="Nhập SDT"/>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="address">Địa chỉ</label>
+                        <input type="text" name="address" id="address" class="form-control" placeholder="Nhập địa chỉ"/>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="text" name="email" id="email" class="form-control" placeholder="Nhập email"/>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="dob">Ngày sinh</label>
+                        <input type="date" name="dob" id="dob" class="form-control" placeholder="Nhập ngày sinh"/>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="save-reader-btn">Lưu</button>
+            </div>
+
+        </div>
+    </div>
+</div>
