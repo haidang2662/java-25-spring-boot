@@ -24,7 +24,7 @@ public class BorrowResource {
     }
 
     @PostMapping
-    public BorrowResponse creatBorrow(@RequestBody @Valid BorrowRequest request)
+    public BorrowResponse createBorrow(@RequestBody @Valid BorrowRequest request)
             throws ObjectNotFoundException, InvalidBookBorrowQuantityException {
         return borrowService.creatBorrow(request);
     }
@@ -39,7 +39,7 @@ public class BorrowResource {
         borrowService.deleteBorrow(idBorrow);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public BorrowResponse updateBorrow(@RequestBody BorrowRequest request , @PathVariable("id") Long idBorrow) throws ObjectNotFoundException {
         return borrowService.updateBorrow(request,idBorrow);
     }

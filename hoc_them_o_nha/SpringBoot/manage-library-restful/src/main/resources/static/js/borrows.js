@@ -1,21 +1,132 @@
-
-
 $(document).ready(function () {
 
-    //  Xử lý luu lươt muon lay du lieu tu tren web
-    $("#save-borrow-btn").click(function () {
-        // 1 : Lay thong tin nguoi dung o form
+    // Thêm custom rule để kiểm tra ngày phải là tương lai
+    $.validator.addMethod("futureYear", function (value, element) {
+
+        // Lấy ngày hiện tại
+        const currentDate = new Date();
+
+        // Lấy ngày nhập vào từ form (giả định rằng giá trị có định dạng yyyy-MM-dd)
+        const inputDate = new Date(value);
+
+        // So sánh năm
+        if (inputDate.getFullYear() < currentDate.getFullYear()) {
+            return false;
+        }
+
+        // So sánh tháng nếu năm nhập vào bằng năm hiện tại
+        if (inputDate.getFullYear() === currentDate.getFullYear()) {
+            if (inputDate.getMonth() < currentDate.getMonth()) {
+                return false;
+            }
+
+            // So sánh ngày nếu tháng nhập vào bằng tháng hiện tại
+            if (inputDate.getMonth() === currentDate.getMonth()) {
+                if (inputDate.getDate() <= currentDate.getDate()) {
+                    return false;
+                }
+            }
+        }
+
+        // Nếu ngày nhập vào lớn hơn ngày hiện tại, trả về true
+        return true;
+    }, "Ngày phải là ngày trong tương lai.");
+
+    // Xử lý validate :
+    const borrowValidator = $("#borrow-form").validate({
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false,
+        rules: {
+            "bookId": {
+                required: true,
+                min: 1
+            },
+            "readerId": {
+                required: true,
+                min: 1
+            },
+            "quantity": {
+                required: true,
+                min: 1,
+                max: 5
+            },
+            "expectedReturnDate": {
+                required: true,
+                futureYear: true
+            }
+        },
+        messages: {
+            "bookId": {
+                required: "Id của đầu sách là bắt buộc",
+                min: "Id của đầu sách không được âm"
+            },
+            "readerId": {
+                required: "Id của bạn đọc là bắt buộc",
+                min: "Id của bạn đọc không được âm"
+            },
+            "quantity": {
+                required: "Số lượng mượn là bắt buộc",
+                min: "Số lượng mượn phải tối thiểu bằng 1",
+                max: "Số lượng mượn không được vượt quá 5"
+            },
+            "expectedReturnDate": {
+                required: "ngày trả dự kiến là bắt buộc.",
+                futureYear: "ngày trả dự kiến phải là ngày trong tương lai"
+            }
+        }
+    });
+
+    // Xử lý luu lươt muon lay du lieu tu tren web
+    $("#save-borrow-btn").click(function (event) {
+        //kiem tra xem tao moi hay update
+        const borrowId = $(event.currentTarget).attr("borrow-id");
+        if (borrowId) {
+            updateBorrow(borrowId);
+        } else {
+            createBorrow();
+        }
+    });
+
+    function updateBorrow(borrowId) {
+        const isValidForm = $("#borrow-form").valid();
+        if (!isValidForm) {
+            return;
+        }
         const formData = $("#borrow-form").serializeArray();
-        console.log(formData);
         const borrow = {};
         for (let i = 0; i < formData.length; i++) {
             borrow[formData[i].name] = formData[i].value;
-            // reader["name"] = 'dang hai';
-            // reader["phone"] = '0975186411';
         }
-        console.log(borrow);
 
-        // 2 : Gọi lên phía java (BookResource) để lưu
+        $.ajax({
+            url: '/api/v1/borrows/' + borrowId,
+            type: 'PUT',
+            data: JSON.stringify(borrow),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                alert("Cập nhật lượt mượn thành công");
+                setTimeout(() => {
+                    location.reload();// refresh lại trang web
+                }, 1000);
+            },
+            error: function (err) {
+                alert(err.responseJSON.error);
+            }
+        });
+    }
+
+    function createBorrow() {
+        const isValidForm = $("#borrow-form").valid();
+        if (!isValidForm) {
+            return;
+        }
+        const formData = $("#borrow-form").serializeArray();
+        const borrow = {};
+        for (let i = 0; i < formData.length; i++) {
+            borrow[formData[i].name] = formData[i].value;
+        }
+
         $.ajax({
             url: '/api/v1/borrows',
             type: 'POST',
@@ -28,10 +139,10 @@ $(document).ready(function () {
                 }, 1000);
             },
             error: function (err) {
-                alert(err.responseJSON.message);
+                alert(err.responseJSON.error);
             }
         });
-    });
+    }
 
     // xử lý xóa luot muon
     $(".delete-btn").click(function (event) {
@@ -54,38 +165,38 @@ $(document).ready(function () {
                 }, 1000);
             },
             error: function (err) {
-                alert(err.responseJSON.message);
+                alert(err.responseJSON.error);
             }
         });
     });
 
     //Xử lý update borrow
-    $(".update-btn").click(async function (event){
+    $(".update-btn").click(async function (event) {
         //1 . Lấy ra id của borrow
         const borrowId = $(event.currentTarget).attr("borrow-id");
-        console.log(borrowId);
         //2 . Lay ra tong tin chi tiet
         const borrow = await getBorrowDetails(borrowId);
-        if(borrow == null){
+        if (borrow == null) {
             return;
         }
 
         // Gọi thêm API lấy chi tiết sách và bạn đọc
-        const book = await getBookDetails(borrow.bookId);
-        console.log(book);
-        const reader = await getReaderDetails(borrow.readerId);
-        console.log(reader);
+        // const book = await getBookDetails(borrow.bookId);
+        // console.log(book);
+        // const reader = await getReaderDetails(borrow.readerId);
+        // console.log(reader);
+
         // 3 . Dien thong tin cua sach vao modal :
-        $("#borrow-form #bookId").val(borrow.bookId);
-        $("#bookName").text(book.name); // Hiển thị tên sách dưới select
-        $("#borrow-form #readerId").val(borrow.readerId);
-        $("#readerName").text(reader.name); // Hiển thị tên bạn đọc
+        $("#borrow-form #bookId").val(borrow.book.id);
+        // $("#bookName").text(book.name); // Hiển thị tên sách dưới select
+        $("#borrow-form #readerId").val(borrow.reader.id);
+        // $("#readerName").text(reader.name); // Hiển thị tên bạn đọc
         $("#borrow-form #quantity").val(borrow.quantity);
         $("#borrow-form #expectedReturnDate").val(borrow.expectedReturnDate);
 
         // Them danh dau id giup phan biet save va update
 
-        $("#save-borrow-btn").attr("borrow-id" , borrowId);
+        $("#save-borrow-btn").attr("borrow-id", borrowId);
 
         $("#borrow-modal .modal-title").text("Cập nhật lượt mượn");
 
@@ -103,13 +214,13 @@ $(document).ready(function () {
                 book = data;
             },
             error: function (err) {
-                alert(err.responseJSON.message);
+                alert(err.responseJSON.error);
             }
         });
         return book;
     }
 
-// Lấy thông tin chi tiết của bạn đọc dựa trên readerId
+    // Lấy thông tin chi tiết của bạn đọc dựa trên readerId
     async function getReaderDetails(readerId) {
         let reader = null;
         await $.ajax({
@@ -120,7 +231,7 @@ $(document).ready(function () {
                 reader = data;
             },
             error: function (err) {
-                alert(err.responseJSON.message);
+                alert(err.responseJSON.error);
             }
         });
         return reader;
@@ -136,11 +247,23 @@ $(document).ready(function () {
                 borrow = data;
             },
             error: function (err) {
-                alert(err.responseJSON.message);
+                alert(err.responseJSON.error);
             }
         });
-        console.log(borrow);
         return borrow;
     }
+
+    // bắt sự kiện modal ẩn đi
+    $('#borrow-modal').on('hidden.bs.modal', function () {
+        // reset dữ liệu trong form
+        $("#borrow-form").trigger("reset");
+        $("#save-borrow-btn").removeAttr("borrow-id");
+        $("#borrow-modal .modal-title").text("Tạo mới lượt mượn : ");
+
+        // reset validate
+        borrowValidator.resetForm();
+        $("label.error").hide();
+        $(".error").removeClass("error");
+    });
 
 });

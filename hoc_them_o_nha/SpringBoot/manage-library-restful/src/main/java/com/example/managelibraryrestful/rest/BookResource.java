@@ -4,6 +4,7 @@ import com.example.managelibraryrestful.exceptionhandling.exception.ObjectNotFou
 import com.example.managelibraryrestful.model.request.BookRequest;
 import com.example.managelibraryrestful.model.response.BookResponse;
 import com.example.managelibraryrestful.service.BookService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,16 +28,16 @@ public class BookResource {
     }
 
     @PostMapping
-    public BookResponse creatBook(@RequestBody BookRequest request) {
+    public BookResponse creatBook(@RequestBody @Valid BookRequest request) {
         return bookService.creatBook(request);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public BookResponse updateBook(@PathVariable("id") Long idBook, @RequestBody BookRequest request) throws ObjectNotFoundException {
         return bookService.updateBook(idBook, request);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable("id") Long idBook) {
         bookService.deleteBook(idBook);
     }

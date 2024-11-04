@@ -1,0 +1,28 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: danglehuu.utc
+    password: "gcee bauu sayv ychy"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/registration_db?createDatabaseIfNotExist=true
+    username: root
+    password: 123456
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+
+application:
+  accounts:
+    activationUrl: "http://localhost:8080/accounts/{id}/activation"

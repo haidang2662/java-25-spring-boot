@@ -11,12 +11,8 @@ import java.time.LocalDate;
 public class BookResponse {
 
     Long id;
-
     String name;
-
     Long price;
-
     String publisher;
-
     LocalDate publishedYear;
 }

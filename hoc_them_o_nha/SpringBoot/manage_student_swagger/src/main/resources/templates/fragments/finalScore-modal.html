@@ -1,0 +1,49 @@
+<!-- The Modal -->
+<div th:fragment="finalScore-modal" class="modal fade" id="finalScore-modal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Tạo mới điểm tổng kết</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form id="finalScore-form">
+          <div class="form-group mb-4">
+            <label for="studentId">Sinh viên<span class="text-danger">*</span>:</label>
+            <select id="studentId" name="studentId" required class="form-select">
+            </select>
+          </div>
+          <div class="form-group mb-4">
+            <label for="subjectId">Môn học<span class="text-danger">*</span>:</label>
+            <select id="subjectId" name="subjectId" required class="form-select">
+            </select>
+          </div>
+          <div class="form-group mb-4">
+            <label for="scoreSubject" class="form-label">Điểm tổng kết : </label>
+            <input type="number" name="scoreSubject" id="scoreSubject" class="form-control"
+                   placeholder="Mời bạn nhập điểm tổng kết : ">
+          </div>
+          <div class="form-group mb-4">
+            <label for="examDay" class="form-label">Ngày thi</label>
+            <input type="date" name="examDay" id="examDay" class="form-control"
+                   placeholder="Mời bạn nhập ngày thi : ">
+          </div>
+          <div class="form-group mb-4">
+            <label for="examTimes" class="form-label">Lần thi thứ : </label>
+            <input type="number" name="examTimes" id="examTimes" class="form-control"
+                   placeholder="Mời bạn nhập lần thi thứ : ">
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="save-finalScore-btn">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>

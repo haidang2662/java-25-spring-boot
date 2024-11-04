@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{common/head :: html_head(pageTitle='Danh sách bạn đọc')}">
+<body>
+
+<div class="container mt-5">
+
+    <div class="row text-center mb-4">
+        <div class="col">
+            <h1>DANH SÁCH BẠN ĐỌC</h1>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col">
+            <form id="search-reader-form">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone:</label>
+                            <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address:</label>
+                            <input type="text" class="form-control" id="address" placeholder="Enter address" name="address">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-primary me-4" id="search-reader">Search</button>
+                <button type="button" class="btn btn-secondary" id="reset-search-reader">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table
+                    id="reader-table"
+                    class="table table-hover table-stripped table-bordered"
+            >
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tên bạn đọc</th>
+                    <th>SDT</th>
+                    <th>Địa chỉ</th>
+                    <th>DOB</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4" id="reader-paging">
+        <div class="col total-record">
+        </div>
+        <div class="col">
+            <ul class="pagination justify-content-end" style="margin:20px 0">
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>
+
+<script src="/js/readers/readers.js"></script>

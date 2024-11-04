@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/common/head :: my-head(pageTitle='Danh sách lượt mượn sách')}"/>
+<body>
+<div class="container">
+    <h1 class="mb-4">Danh sách lượt mượn</h1>
+
+    <div class="row mb-4">
+        <div class="col">
+            <button type="button" class="btn btn-primary" id="open-borrow-modal">
+                Tạo mới
+            </button>
+            <div th:insert="~{fragments/borrow-modal :: borrow-modal}"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Book</th>
+                    <th>Reader</th>
+                    <th>Quantity</th>
+                    <th>BorrowDate</th>
+                    <th>ExpectedReturnDate</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="luotMuon: ${borrows}">
+                    <td th:text="${luotMuon.id}"></td>
+                    <td th:text="${luotMuon.book.name}"></td>
+                    <td th:text="${luotMuon.reader.name}"></td>
+                    <td th:text="${luotMuon.quantity}"></td>
+                    <td th:text="${luotMuon.borrowDate}"></td>
+                    <td th:text="${luotMuon.expectedReturnDate}"></td>
+                    <td>
+                        <span role="button" class="text-primary update-btn me-2" th:attr="borrow-id=${luotMuon.id}">
+                            <i class="fa-solid fa-pencil"></i>
+                        </span>
+                        <span role="button" class="text-danger delete-btn" th:attr="borrow-id=${luotMuon.id}">
+                            <i class="fa-solid fa-trash"></i>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/borrows.js"></script>

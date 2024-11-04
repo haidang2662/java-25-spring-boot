@@ -1,0 +1,33 @@
+<!-- The Modal -->
+<div th:fragment="subject-modal" class="modal fade" id="subject-modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tạo mới môn học</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="subject-form">
+                    <div class="mb-3 mt-3">
+                        <label for="name" class="form-label">Tên môn học </label>
+                        <input type="text" name="name" id="name"  class="form-control" placeholder="Mời bạn nhập tên môn học">
+                    </div>
+                    <div class="mb-3">
+                        <label for="totalCredits" class="form-label">Tổng số tín chỉ của môn học : </label>
+                        <input type="number" name="totalCredits" id="totalCredits"  class="form-control" placeholder="Mời bạn nhập tổng số tín chỉ">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="save-subject-btn">Lưu</button>
+            </div>
+
+        </div>
+    </div>
+</div>
