@@ -34,4 +34,14 @@ public class UserController {
         return userService.create(request);
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+        userService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public UserResponse updateUser(@RequestBody @Valid UserRequest request, @PathVariable("id") Long idUser) throws ClassNotFoundException {
+        return userService.updateUser(request,idUser);
+    }
+
 }

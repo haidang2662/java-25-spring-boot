@@ -20,7 +20,7 @@ public class EmailService {
     String from;
 
     @Value("${application.accounts.activationUrl}")
-    String activationAccountUrl;
+    String activationAccountUrl; // đoạn code này để gọi sang controller để thực hiện active tài khoản
 
     public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;

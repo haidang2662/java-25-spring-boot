@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "accounts")
@@ -33,5 +34,7 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     AccountStatus status;
+
+    LocalDateTime activationMailSentAt;
 
 }

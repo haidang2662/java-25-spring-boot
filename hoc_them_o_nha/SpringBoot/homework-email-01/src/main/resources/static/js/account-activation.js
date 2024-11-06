@@ -13,7 +13,7 @@ $(document).ready(function () {
             error: function (err) {
                 // show error
                 console.log(err);
-                window.location = '/accounts/activation-failed';//......
+                window.location = '/accounts/activation-failed?errorCode=' + err.responseJSON.code;
             }
         });
     }

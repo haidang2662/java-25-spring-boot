@@ -1,6 +1,8 @@
 package com.example.homeworkemail01.rest;
 
+import com.example.homeworkemail01.exception.EmailExistedException;
 import com.example.homeworkemail01.exception.ObjectNotFoundException;
+import com.example.homeworkemail01.exception.UnprocessableEntityException;
 import com.example.homeworkemail01.model.request.AccountRequest;
 import com.example.homeworkemail01.model.response.AccountResponse;
 import com.example.homeworkemail01.service.AccountService;
@@ -20,12 +22,12 @@ public class AccountResource {
     AccountService accountService;
 
     @PostMapping
-    public AccountResponse registerAccount(@RequestBody @Valid AccountRequest request) throws MessagingException {
+    public AccountResponse registerAccount(@RequestBody @Valid AccountRequest request) throws MessagingException, EmailExistedException {
         return accountService.registerAccount(request);
     }
 
     @PutMapping("{idAccount}/activation")
-    public AccountResponse changeStatusAccount(@PathVariable Long idAccount) throws ObjectNotFoundException {
+    public AccountResponse changeStatusAccount(@PathVariable Long idAccount) throws ObjectNotFoundException, UnprocessableEntityException {
         return accountService.changeStatus(idAccount);
     }
 

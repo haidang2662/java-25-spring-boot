@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AccountController {
 
+    @GetMapping("/home")
+    public String getHome(){
+        return "home";
+    }
 
     @PostMapping("/login")
     public String login(Model model, @ModelAttribute("accountRequest") AccountRequest request) {
@@ -49,7 +53,8 @@ public class AccountController {
     }
 
     @GetMapping("/activation-failed")
-    public String activateAccountFailed() {
+    public String activateAccountFailed(@RequestParam("errorCode") String errorCode, Model model) {
+        model.addAttribute("errorCode", errorCode);
         return "account-activation-failed";
     }
 

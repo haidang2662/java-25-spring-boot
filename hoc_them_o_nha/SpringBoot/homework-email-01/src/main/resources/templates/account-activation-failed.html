@@ -19,7 +19,8 @@
 </head>
 <body>
 
-<h1>Kich hoat tai khoan KHONG thanh cong, vui long thu lai sau it phut</h1>
+<h1 th:if="${errorCode == '422'}">Link kich hoat da het hieu luc, vui long bam vao day de kich hoat lai tai khoan</h1>
+<h1 th:if="${errorCode == '500'}">Loi he thong, vui long thu lai sau it phut</h1>
 
 </body>
 </html>

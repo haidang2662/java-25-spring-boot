@@ -26,3 +26,4 @@ spring:
 application:
   accounts:
     activationUrl: "http://localhost:8080/accounts/{id}/activation"
+    activationMailExpiredInMilliseconds: 900000

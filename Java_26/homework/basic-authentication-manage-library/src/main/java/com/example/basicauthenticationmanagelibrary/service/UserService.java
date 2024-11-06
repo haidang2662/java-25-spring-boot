@@ -59,4 +59,23 @@ public class UserService {
 
         return objectMapper.convertValue(user, UserResponse.class);
     }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public UserResponse updateUser(UserRequest request, Long idUser) throws ClassNotFoundException {
+        Optional<User> userOptional = userRepository.findById(idUser);
+        if(userOptional.isEmpty()){
+            throw new ClassNotFoundException();
+        }
+        User user = userOptional.get();
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setAddress(request.getAddress());
+        user.setPhone(request.getPhone());
+        user.setEmail(request.getEmail());
+        userRepository.save(user);
+        return objectMapper.convertValue(user , UserResponse.class);
+    }
 }
