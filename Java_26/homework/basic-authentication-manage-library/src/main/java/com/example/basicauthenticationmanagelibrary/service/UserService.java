@@ -7,6 +7,7 @@ import com.example.basicauthenticationmanagelibrary.model.request.UserRequest;
 import com.example.basicauthenticationmanagelibrary.reposiotry.RoleRepository;
 import com.example.basicauthenticationmanagelibrary.reposiotry.UserRepository;
 import com.example.basicauthenticationmanagelibrary.statics.Roles;
+import com.example.basicauthenticationmanagelibrary.statics.UserStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -55,6 +56,7 @@ public class UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(roleOptional.get());
         user.setRoles(roles);
+        user.setStatus(UserStatus.INACTIVE);
         userRepository.save(user);
 
         return objectMapper.convertValue(user, UserResponse.class);
@@ -75,6 +77,17 @@ public class UserService {
         user.setAddress(request.getAddress());
         user.setPhone(request.getPhone());
         user.setEmail(request.getEmail());
+        userRepository.save(user);
+        return objectMapper.convertValue(user , UserResponse.class);
+    }
+
+    public UserResponse changeUserActivation(Long id) throws ClassNotFoundException {
+        User user = userRepository.findById(id).orElseThrow(ClassNotFoundException::new);
+        if(user.getStatus() == UserStatus.INACTIVE){
+            user.setStatus(UserStatus.ACTIVE);
+        } else {
+            user.setStatus(UserStatus.INACTIVE);
+        }
         userRepository.save(user);
         return objectMapper.convertValue(user , UserResponse.class);
     }

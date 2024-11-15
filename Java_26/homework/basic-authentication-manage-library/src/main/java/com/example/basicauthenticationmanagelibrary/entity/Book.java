@@ -1,5 +1,6 @@
 package com.example.basicauthenticationmanagelibrary.entity;
 
+import com.example.basicauthenticationmanagelibrary.statics.BookStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -21,5 +22,8 @@ public class Book {
     String publisher;
 
     Long price;
+
+    @Enumerated(EnumType.STRING)
+    BookStatus status;
 }
 

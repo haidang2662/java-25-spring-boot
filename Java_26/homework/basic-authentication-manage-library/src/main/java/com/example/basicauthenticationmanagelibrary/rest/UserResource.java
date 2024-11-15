@@ -1,4 +1,4 @@
-package com.example.basicauthenticationmanagelibrary.controller;
+package com.example.basicauthenticationmanagelibrary.rest;
 
 import com.example.basicauthenticationmanagelibrary.model.reponse.UserResponse;
 import com.example.basicauthenticationmanagelibrary.model.request.UserRequest;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class UserController {
+public class UserResource {
 
     UserService userService;
 
@@ -44,4 +44,8 @@ public class UserController {
         return userService.updateUser(request,idUser);
     }
 
+    @GetMapping("/{id}/activations")
+    public UserResponse changeUserActivation(@PathVariable Long id) throws ClassNotFoundException {
+        return userService.changeUserActivation(id);
+    }
 }

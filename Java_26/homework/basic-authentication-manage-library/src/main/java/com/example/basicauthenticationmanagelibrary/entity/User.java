@@ -1,5 +1,7 @@
 package com.example.basicauthenticationmanagelibrary.entity;
 
+import com.example.basicauthenticationmanagelibrary.statics.Roles;
+import com.example.basicauthenticationmanagelibrary.statics.UserStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -34,4 +36,9 @@ public class User {
     String address;
 
     // them thuoc tinh khac email , phone , address
+    @Enumerated(EnumType.STRING)
+    UserStatus status;
+
+    @Enumerated(EnumType.STRING)
+    Roles role;
 }
