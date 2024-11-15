@@ -1,9 +1,9 @@
 package vn.techmaster.danglh.recruitmentproject.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import vn.techmaster.danglh.recruitmentproject.constant.Roles;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
+import vn.techmaster.danglh.recruitmentproject.entity.Account;
 import vn.techmaster.danglh.recruitmentproject.entity.RefreshToken;
-import vn.techmaster.danglh.recruitmentproject.entity.User;
 import vn.techmaster.danglh.recruitmentproject.exception.ExistedUserException;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidRefreshTokenException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
@@ -11,9 +11,9 @@ import vn.techmaster.danglh.recruitmentproject.model.request.LoginRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.RefreshTokenRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.RegistrationRequest;
 import vn.techmaster.danglh.recruitmentproject.model.response.JwtResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.UserResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.repository.RefreshTokenRepository;
-import vn.techmaster.danglh.recruitmentproject.repository.UserRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
 import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
 import vn.techmaster.danglh.recruitmentproject.security.JwtService;
 import vn.techmaster.danglh.recruitmentproject.security.SecurityUtils;
@@ -46,7 +46,7 @@ public class AuthenticationService {
 
     final JwtService jwtService;
 
-    final UserRepository userRepository;
+    final AccountRepository accountRepository;
 
     final RefreshTokenRepository refreshTokenRepository;
 
@@ -62,27 +62,27 @@ public class AuthenticationService {
     @Value("${application.security.refreshToken.tokenValidityMilliseconds}")
     long refreshTokenValidityMilliseconds;
 
-    public UserResponse registerUser(RegistrationRequest registrationRequest)
+    public AccountResponse registerUser(RegistrationRequest registrationRequest)
             throws ObjectNotFoundException, ExistedUserException, MessagingException {
-        Optional<User> userOptional = userRepository.findByUsernameAndStatus(registrationRequest.getUsername(), AccountStatus.ACTIVATED);
+        Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getUsername(), AccountStatus.ACTIVATED);
         if (userOptional.isPresent()) {
             throw new ExistedUserException("Username existed");
         }
-        User user = User.builder()
-                .username(registrationRequest.getUsername())
+        Account account = Account.builder()
+                .email(registrationRequest.getUsername())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
-                .role(Roles.CANDIDATE) // Todo : đoạn này chưa hiểu lắm làm thế nào để phân biệt là  candidate hay company
+                .role(Role.CANDIDATE) // Todo : đoạn này chưa hiểu lắm làm thế nào để phân biệt là  candidate hay company
                 .status(AccountStatus.CREATED)
                 .createdBy(Constant.DEFAULT_CREATOR)
                 .lastModifiedBy(Constant.DEFAULT_CREATOR)
                 .activationMailSentAt(LocalDateTime.now())
                 .activationMailSentCount(1)
                 .build();
-        userRepository.save(user);
+        accountRepository.save(account);
 
-        emailService.sendActivationMail(user);
+        emailService.sendActivationMail(account);
 
-        return objectMapper.convertValue(user, UserResponse.class);
+        return objectMapper.convertValue(account, AccountResponse.class);
     }
 
     public JwtResponse authenticate(LoginRequest request) throws ObjectNotFoundException {
@@ -97,14 +97,14 @@ public class AuthenticationService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
 
-        User user = userRepository.findById(userDetails.getId())
+        Account account = accountRepository.findById(userDetails.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("User not found"));
 
 //        String refreshToken = UUID.randomUUID().toString();
         String refreshToken = jwtService.generateJwtRefreshToken(authentication);
         RefreshToken refreshTokenEntity = RefreshToken.builder()
                 .refreshToken(refreshToken)
-                .user(user)
+                .account(account)
                 .build();
         refreshTokenRepository.save(refreshTokenEntity);
 
@@ -121,9 +121,9 @@ public class AuthenticationService {
     public JwtResponse refreshToken(RefreshTokenRequest request) throws InvalidRefreshTokenException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        JwtResponse response = userRepository.findById(userDetails.getId())
+        JwtResponse response = accountRepository.findById(userDetails.getId())
                 .flatMap(user -> refreshTokenRepository
-                        .findByUserAndRefreshTokenAndInvalidated(user, request.getRefreshToken(), false)
+                        .findByAccountAndRefreshTokenAndInvalidated(user, request.getRefreshToken(), false)
                         .map(oldRefreshToken -> {
                             LocalDateTime createdDateTime = oldRefreshToken.getCreatedAt();
                             LocalDateTime expiryTime = createdDateTime.plusSeconds(refreshTokenValidityMilliseconds / 1000);
@@ -136,7 +136,7 @@ public class AuthenticationService {
                             String refreshToken = jwtService.generateJwtRefreshToken(authentication);
                             RefreshToken refreshTokenEntity = RefreshToken.builder()
                                     .refreshToken(refreshToken)
-                                    .user(user)
+                                    .account(user)
                                     .build();
                             refreshTokenRepository.save(refreshTokenEntity);
                             oldRefreshToken.setInvalidated(true);

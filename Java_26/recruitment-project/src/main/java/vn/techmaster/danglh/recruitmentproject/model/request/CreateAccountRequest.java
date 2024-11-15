@@ -9,10 +9,10 @@ import org.hibernate.validator.constraints.Length;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateUserRequest {
+public class CreateAccountRequest {
 
     @NotBlank
-    @Length(max = 50, message = "username must be less than 50 characters")
-    String username;
+    @Length(max = 50, message = "email must be less than 50 characters")
+    String email;
 
 }

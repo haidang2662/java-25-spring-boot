@@ -1,7 +1,7 @@
 package vn.techmaster.danglh.recruitmentproject.repository.custom;
 
 import vn.techmaster.danglh.recruitmentproject.dto.SearchUserDto;
-import vn.techmaster.danglh.recruitmentproject.model.request.UserSearchRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.AccountSearchRequest;
 import vn.techmaster.danglh.recruitmentproject.repository.BaseRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.util.Map;
 @Repository
 public class UserCustomRepository extends BaseRepository {
 
-    public List<SearchUserDto> searchUser(UserSearchRequest request) {
+    public List<SearchUserDto> searchUser(AccountSearchRequest request) {
         String query = "with raw_data as (\n" +
                 "    select id, username, status\n" +
                 "    from users\n" +

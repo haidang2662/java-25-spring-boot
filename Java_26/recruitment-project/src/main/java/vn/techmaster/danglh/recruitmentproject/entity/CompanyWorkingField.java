@@ -6,21 +6,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import vn.techmaster.danglh.recruitmentproject.constant.JobCategoryStatus;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "job_categories")
-public class JobCategories {
+@Table(name = "company_working_fields")
+public class CompanyWorkingField {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    Account account;
     String name;
-    JobCategoryStatus status;
-    Accounts account;
 }

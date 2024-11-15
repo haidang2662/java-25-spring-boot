@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "interviews")
-public class Interviews {
+public class Interview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Applications application;
+    Application application;
     LocalDateTime invitationEmailSentAt ;
     LocalDateTime interview_at ;
     String interviewAddress;

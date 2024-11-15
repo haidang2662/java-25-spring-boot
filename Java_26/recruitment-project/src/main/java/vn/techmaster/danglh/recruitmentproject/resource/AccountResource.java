@@ -1,11 +1,12 @@
 package vn.techmaster.danglh.recruitmentproject.resource;
 
-import vn.techmaster.danglh.recruitmentproject.exception.ExpiredEmailActivationUrlException;
-import vn.techmaster.danglh.recruitmentproject.exception.ExpiredPasswordForgottenUrlException;
-import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
-import vn.techmaster.danglh.recruitmentproject.exception.PasswordNotMatchedException;
+import vn.techmaster.danglh.recruitmentproject.exception.*;
+import vn.techmaster.danglh.recruitmentproject.model.request.CreateAccountRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.ForgotPasswordEmailRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.PasswordChangingRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.AccountSearchRequest;
+import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.service.AccountService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -58,5 +59,21 @@ public class AccountResource {
         accountService.changeForgotPassword(id, request);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+//    @GetMapping
+//    public CommonSearchResponse<?> search(AccountSearchRequest request) {
+//        return request.searchUser(request);
+//    }
+//
+//    @GetMapping("/{id}")
+//    public AccountResponse getDetail(@PathVariable Long id) throws ObjectNotFoundException {
+//        return id.getDetail(id);
+//    }
+//
+//    @PostMapping
+//    public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) throws ExistedUserException {
+//        AccountResponse accountResponse = userService.createUser(request);
+//        return ResponseEntity.status(HttpStatus.CREATED.value()).body(accountResponse);
+//    }
 
 }

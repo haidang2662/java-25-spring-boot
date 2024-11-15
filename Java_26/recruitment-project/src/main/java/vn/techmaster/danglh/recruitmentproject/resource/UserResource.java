@@ -2,12 +2,10 @@ package vn.techmaster.danglh.recruitmentproject.resource;
 
 import vn.techmaster.danglh.recruitmentproject.exception.ExistedUserException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
-import vn.techmaster.danglh.recruitmentproject.exception.PasswordNotMatchedException;
-import vn.techmaster.danglh.recruitmentproject.model.request.CreateUserRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.PasswordChangingRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.UserSearchRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.CreateAccountRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.AccountSearchRequest;
 import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.UserResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -26,19 +24,19 @@ public class UserResource {
     UserService userService;
 
     @GetMapping
-    public CommonSearchResponse<?> search(UserSearchRequest request) {
+    public CommonSearchResponse<?> search(AccountSearchRequest request) {
         return userService.searchUser(request);
     }
 
     @GetMapping("/{id}")
-    public UserResponse getDetail(@PathVariable Long id) throws ObjectNotFoundException {
+    public AccountResponse getDetail(@PathVariable Long id) throws ObjectNotFoundException {
         return userService.getDetail(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid CreateUserRequest request) throws ExistedUserException {
-        UserResponse userResponse = userService.createUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED.value()).body(userResponse);
+    public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) throws ExistedUserException {
+        AccountResponse accountResponse = userService.createUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED.value()).body(accountResponse);
     }
 
 }

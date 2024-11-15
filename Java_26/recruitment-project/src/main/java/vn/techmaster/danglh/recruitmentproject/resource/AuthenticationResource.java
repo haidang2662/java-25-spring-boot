@@ -7,7 +7,7 @@ import vn.techmaster.danglh.recruitmentproject.model.request.LoginRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.RefreshTokenRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.RegistrationRequest;
 import vn.techmaster.danglh.recruitmentproject.model.response.JwtResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.UserResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.service.AuthenticationService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -33,10 +33,10 @@ public class AuthenticationResource {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody RegistrationRequest request)
+    public ResponseEntity<AccountResponse> registerUser(@Valid @RequestBody RegistrationRequest request)
             throws ExistedUserException, ObjectNotFoundException, MessagingException {
-        UserResponse userResponse = authenticateService.registerUser(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+        AccountResponse accountResponse = authenticateService.registerUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountResponse);
     }
 
     @PostMapping("/refresh_token")

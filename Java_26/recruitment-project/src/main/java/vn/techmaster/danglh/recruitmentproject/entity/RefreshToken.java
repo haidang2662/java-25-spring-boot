@@ -18,8 +18,8 @@ import lombok.experimental.SuperBuilder;
 public class RefreshToken extends BaseEntity {
 
     @JoinColumn(name = "user_id")
-    @ManyToOne(targetEntity = User.class)
-    User user;
+    @ManyToOne(targetEntity = Account.class)
+    Account account;
 
     @Column(name = "refresh_token")
     String refreshToken;

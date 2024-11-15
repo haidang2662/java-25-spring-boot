@@ -16,12 +16,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "jobs")
-public class Jobs {
+public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Companies company;
+    Company company;
     String name ;
     String position ;
     Integer yearOfExperienceFrom ;

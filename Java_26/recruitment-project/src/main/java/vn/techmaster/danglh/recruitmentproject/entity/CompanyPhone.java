@@ -20,7 +20,7 @@ public class CompanyPhone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Companies company;
+    Company company;
     String phone;
     PhoneType type;
     Boolean main;

@@ -1,7 +1,7 @@
 package vn.techmaster.danglh.recruitmentproject.security;
 
 
-import vn.techmaster.danglh.recruitmentproject.entity.User;
+import vn.techmaster.danglh.recruitmentproject.entity.Account;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,33 +9,31 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+    private final Account account;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().toString()))
-                .collect(Collectors.toList());
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(account.getRole().name());
+        return List.of(simpleGrantedAuthority);
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return account.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return account.getEmail();
     }
 
     public Long getId() {
-        return user.getId();
+        return account.getId();
     }
 
     @Override
@@ -45,7 +43,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.getStatus() != AccountStatus.LOCKED;
+        return account.getStatus() != AccountStatus.LOCKED;
     }
 
     @Override
@@ -55,7 +53,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getStatus() == AccountStatus.ACTIVATED;
+        return account.getStatus() == AccountStatus.ACTIVATED;
     }
 
 }

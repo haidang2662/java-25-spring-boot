@@ -1,6 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
-import vn.techmaster.danglh.recruitmentproject.constant.Roles;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "accounts")
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User extends BaseEntity {
+public class Account extends BaseEntity {
 
-    String username;
+    String email;
 
     String password;
 
@@ -29,7 +29,7 @@ public class User extends BaseEntity {
     AccountStatus status;
 
     @Enumerated(EnumType.STRING)
-    Roles role;
+    Role role;
 
     String avatar;
 

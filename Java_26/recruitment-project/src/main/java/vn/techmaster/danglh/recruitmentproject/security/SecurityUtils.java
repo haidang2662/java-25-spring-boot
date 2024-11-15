@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public final class SecurityUtils {
         return Optional.ofNullable(securityContext.getAuthentication()).map(authentication -> {
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.addAll(authentication.getAuthorities());
-            return authorities.stream().noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Roles.USER.toString()));
+            return authorities.stream().noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.CANDIDATE.toString()));
         }).orElse(false);
     }
 

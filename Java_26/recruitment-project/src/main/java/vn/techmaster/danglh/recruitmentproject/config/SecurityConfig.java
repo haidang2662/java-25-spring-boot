@@ -1,5 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.config;
 
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.security.AuthTokenFilter;
 import vn.techmaster.danglh.recruitmentproject.security.AuthenticationEntryPointJwt;
 import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetailsService;
@@ -82,8 +83,8 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/index.html").permitAll() // Allow access to Swagger UI
 
                         // user start
-                        .requestMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyAuthority(Roles.USER.toString(), Roles.ADMIN.toString())
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users").hasAnyAuthority(Roles.ADMIN.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyAuthority(Role.CANDIDATE.name(), Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users").hasAnyAuthority(Role.ADMIN.toString())
                         // user end
 
                         // authentication start

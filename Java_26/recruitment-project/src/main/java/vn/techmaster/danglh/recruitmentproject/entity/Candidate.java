@@ -19,13 +19,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "candidates")
-public class Candidates {
+public class Candidate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Accounts account;
+    Account account;
     String name;
     LocalDate dob;
     Gender gender;

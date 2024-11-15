@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserSearchRequest extends BaseSearchRequest {
+public class AccountSearchRequest extends BaseSearchRequest {
 
     String name;
 

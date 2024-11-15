@@ -1,6 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.service;
 
-import vn.techmaster.danglh.recruitmentproject.entity.User;
+import vn.techmaster.danglh.recruitmentproject.entity.Account;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AccessLevel;
@@ -30,13 +30,13 @@ public class EmailService {
     final JavaMailSender javaMailSender;
 
     @Async
-    public void sendActivationMail(User user) throws MessagingException {
+    public void sendActivationMail(Account account) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
         mimeMessageHelper.setFrom(fromEmail);
-        mimeMessageHelper.setTo(user.getUsername());
+        mimeMessageHelper.setTo(account.getEmail());
 
-        String url = activationLink.replace("{id}", user.getId().toString());
+        String url = activationLink.replace("{id}", account.getId().toString());
         String content = "<div>" +
                 "<h1>Welcome to our website</h1>" +
                 "<div>Please click <a href='" + url + "'>this link</a> to activate your account</div>" +
@@ -49,13 +49,13 @@ public class EmailService {
     }
 
     @Async
-    public void sendForgotPasswordMail(User user) throws MessagingException {
+    public void sendForgotPasswordMail(Account account) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
         mimeMessageHelper.setFrom(fromEmail);
-        mimeMessageHelper.setTo(user.getUsername());
+        mimeMessageHelper.setTo(account.getEmail());
 
-        String url = passwordForgottenLink.replace("{id}", user.getId().toString());
+        String url = passwordForgottenLink.replace("{id}", account.getId().toString());
         String content = "<div>" +
                 "<h1>Forgot password</h1>" +
                 "<div>Please click <a href='" + url + "'>this link</a> to change your password</div>" +

@@ -6,31 +6,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import vn.techmaster.danglh.recruitmentproject.constant.TargetType;
-
-import java.time.LocalDate;
-import java.util.List;
+import vn.techmaster.danglh.recruitmentproject.constant.JobCategoryStatus;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "notification_targets")
-public class NotificationTargets {
+@Table(name = "job_categories")
+public class JobCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Accounts account;
-    Notifications notification;
-    Integer targetId;
-    TargetType type;
-    Boolean seen;
-
-    LocalDate createdAt ;
-    Integer createdBy ;
-    LocalDate modifiedAt ;
-    Integer modifiedBy ;
-
+    String name;
+    JobCategoryStatus status;
+    Account account;
 }

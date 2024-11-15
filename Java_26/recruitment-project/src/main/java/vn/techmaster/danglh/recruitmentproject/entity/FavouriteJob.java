@@ -7,18 +7,21 @@ import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "company_working_fields")
-public class CompanyWorkingFields {
-
+@Table(name = "favourite_jobs")
+public class FavouriteJob {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Accounts account;
     String name;
+    Candidate candidate;
+    Job job;
+    LocalDate createdAt;
 }

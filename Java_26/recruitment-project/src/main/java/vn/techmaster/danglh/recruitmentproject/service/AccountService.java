@@ -1,13 +1,13 @@
 package vn.techmaster.danglh.recruitmentproject.service;
 
-import vn.techmaster.danglh.recruitmentproject.entity.User;
+import vn.techmaster.danglh.recruitmentproject.entity.Account;
 import vn.techmaster.danglh.recruitmentproject.exception.ExpiredEmailActivationUrlException;
 import vn.techmaster.danglh.recruitmentproject.exception.ExpiredPasswordForgottenUrlException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
 import vn.techmaster.danglh.recruitmentproject.exception.PasswordNotMatchedException;
 import vn.techmaster.danglh.recruitmentproject.model.request.ForgotPasswordEmailRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.PasswordChangingRequest;
-import vn.techmaster.danglh.recruitmentproject.repository.UserRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountService {
 
-    final UserRepository userRepository;
+    final AccountRepository accountRepository;
 
     final PasswordEncoder passwordEncoder;
 
@@ -42,61 +42,61 @@ public class AccountService {
     int activationMailMaxSentCount;
 
     public void changePassword(Long id, PasswordChangingRequest request) throws ObjectNotFoundException, PasswordNotMatchedException {
-        User user = userRepository.findById(id)
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("User not found"));
 
         if (!request.getPassword().equals(request.getConfirmedPassword())) {
             throw new PasswordNotMatchedException("Password not matched");
         }
 
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        userRepository.save(user);
+        account.setPassword(passwordEncoder.encode(request.getPassword()));
+        accountRepository.save(account);
     }
 
     public void activateAccount(Long userId) throws ObjectNotFoundException, ExpiredEmailActivationUrlException {
-        User user = userRepository.findById(userId)
+        Account account = accountRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User not found"));
 
         // check xem link active het han chua
-        LocalDateTime activationMailSentAt = user.getActivationMailSentAt();
+        LocalDateTime activationMailSentAt = account.getActivationMailSentAt();
         if (activationMailSentAt.plusSeconds(activationMailExpiredDurationInMilliseconds / 1000).isBefore(LocalDateTime.now())) {
             throw new ExpiredEmailActivationUrlException("Activation link expired");
         }
-        user.setStatus(AccountStatus.ACTIVATED);
-        userRepository.save(user);
+        account.setStatus(AccountStatus.ACTIVATED);
+        accountRepository.save(account);
     }
 
     public void sendActivationEmail(Long id) throws MessagingException {
-        User user = userRepository.findById(id)
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        if (user.getActivationMailSentCount() > activationMailMaxSentCount) {
+        if (account.getActivationMailSentCount() > activationMailMaxSentCount) {
             throw new MessagingException("Activation email has been sent over " + activationMailMaxSentCount + " times");
         }
-        emailService.sendActivationMail(user);
-        user.setActivationMailSentCount(user.getActivationMailSentCount() + 1);
-        userRepository.save(user);
+        emailService.sendActivationMail(account);
+        account.setActivationMailSentCount(account.getActivationMailSentCount() + 1);
+        accountRepository.save(account);
     }
 
     public void sendForgotPasswordEmail(@Valid ForgotPasswordEmailRequest request) throws MessagingException {
         // TODO - cần check so lần gửi tối đa trong 1 khoag thơi gian (vi du chi duoc gui toi da 3 mail trong vong 1h)
 
         // cần check xem email có tồn tại trong hệ thống không
-        User user = userRepository.findByUsername(request.getEmail())
+        Account account = accountRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
 
         // gửi mail
-        emailService.sendForgotPasswordMail(user);
-        user.setForgotPasswordMailSentAt(LocalDateTime.now());
-        userRepository.save(user);
+        emailService.sendForgotPasswordMail(account);
+        account.setForgotPasswordMailSentAt(LocalDateTime.now());
+        accountRepository.save(account);
     }
 
     public void changeForgotPassword(Long userId, PasswordChangingRequest request)
             throws ObjectNotFoundException, ExpiredPasswordForgottenUrlException, PasswordNotMatchedException {
-        User user = userRepository.findById(userId)
+        Account account = accountRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("User not found"));
 
         // check xem link active het han chua
-        LocalDateTime forgotPasswordMailSentAt = user.getForgotPasswordMailSentAt();
+        LocalDateTime forgotPasswordMailSentAt = account.getForgotPasswordMailSentAt();
         if (forgotPasswordMailSentAt.plusSeconds(passwordForgottenExpiredDurationInMilliseconds / 1000).isBefore(LocalDateTime.now())) {
             throw new ExpiredPasswordForgottenUrlException("Forgot password link expired");
         }
@@ -105,7 +105,7 @@ public class AccountService {
             throw new PasswordNotMatchedException("Password not matched");
         }
 
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        userRepository.save(user);
+        account.setPassword(passwordEncoder.encode(request.getPassword()));
+        accountRepository.save(account);
     }
 }

@@ -1,6 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.security;
 
-import vn.techmaster.danglh.recruitmentproject.repository.UserRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomUserDetailsService implements UserDetailsService {
 
-    UserRepository userRepository;
+    AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
+        return accountRepository.findByEmail(username)
                 .map(CustomUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
