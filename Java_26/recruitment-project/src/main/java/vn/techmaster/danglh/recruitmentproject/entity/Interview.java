@@ -1,12 +1,10 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.InterviewStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.InterviewType;
 
@@ -14,27 +12,30 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
+@Entity
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "interviews")
-public class Interview {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class Interview extends BaseEntity{
 
+    @JoinColumn(name = "application_id")
+    @ManyToOne(targetEntity = Application.class)
     Application application;
+
     LocalDateTime invitationEmailSentAt ;
-    LocalDateTime interview_at ;
+    LocalDateTime interviewAt ;
     String interviewAddress;
+
+    @Enumerated(EnumType.STRING)
     InterviewType interviewType ;
+
     Integer interviewStep ;
+
+    @Enumerated(EnumType.STRING)
     InterviewStatus status;
+
     String note ;
 
-    LocalDate createdAt ;
-    Integer createdBy ;
-    LocalDate modifiedAt ;
-    Integer modifiedBy ;
 }

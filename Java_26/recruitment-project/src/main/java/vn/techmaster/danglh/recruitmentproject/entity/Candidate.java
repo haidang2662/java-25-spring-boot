@@ -1,11 +1,9 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.Gender;
 import vn.techmaster.danglh.recruitmentproject.constant.Literacy;
 import vn.techmaster.danglh.recruitmentproject.constant.WorkingTimeType;
@@ -14,35 +12,40 @@ import vn.techmaster.danglh.recruitmentproject.constant.WorkingType;
 import java.time.LocalDate;
 
 @Data
-@Builder
+@Entity
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "candidates")
-public class Candidate {
+public class Candidate extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
+    @JoinColumn(name = "account_id")
+    @OneToOne(targetEntity = Account.class)
     Account account;
+
     String name;
     LocalDate dob;
+
+    @Enumerated(EnumType.STRING)
     Gender gender;
+
     String phone;
     String address;
     String avatar;
     String skills;
     Double yearOfExperience;
+
+    @Enumerated(EnumType.STRING)
     Literacy literacy;
+
     String graduatedAt;
     Integer expectedSalaryFrom ;
     Integer expectedSalaryTo ;
+
+    @Enumerated(EnumType.STRING)
     WorkingTimeType expectedWorkingTimeType;
+    @Enumerated(EnumType.STRING)
     WorkingType expectedWorkingType ;
 
-    LocalDate createdAt ;
-    Integer createdBy ;
-    LocalDate modifiedAt ;
-    Integer modifiedBy ;
 }

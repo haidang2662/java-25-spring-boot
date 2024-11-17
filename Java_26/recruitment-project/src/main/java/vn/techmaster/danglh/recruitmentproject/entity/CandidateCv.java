@@ -1,24 +1,28 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@Entity
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "candidate_cvs")
-public class CandidateCvs {
+public class CandidateCv {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @JoinColumn(name = "candidate_id")
+    @ManyToOne(targetEntity = Candidate.class)
     Candidate candidate;
+
     String cvUrl;
-    Boolean main;
+
+    @Column(columnDefinition = "boolean default false")
+    boolean main;
 }

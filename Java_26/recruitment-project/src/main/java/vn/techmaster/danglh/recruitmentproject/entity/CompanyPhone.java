@@ -1,15 +1,14 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.PhoneType;
 
 @Data
-@Builder
+@Entity
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,8 +19,15 @@ public class CompanyPhone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @JoinColumn(name = "company_id")
+    @ManyToOne(targetEntity = Company.class)
     Company company;
+
     String phone;
+
+    @Enumerated(EnumType.STRING)
     PhoneType type;
-    Boolean main;
+
+    @Column(columnDefinition = "boolean default false")
+    boolean main;
 }

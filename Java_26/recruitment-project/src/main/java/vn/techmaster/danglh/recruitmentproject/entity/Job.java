@@ -1,36 +1,45 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.*;
 
 import java.time.LocalDate;
 
 @Data
-@Builder
+@Entity
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "jobs")
-public class Job {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class Job extends BaseEntity{
 
+    @JoinColumn(name = "company_id")
+    @ManyToOne(targetEntity = Company.class)
     Company company;
+
     String name ;
     String position ;
     Integer yearOfExperienceFrom ;
     Integer yearOfExperienceTo ;
+
+    @Enumerated(EnumType.STRING)
     WorkingType workingType ;
+
+    @Enumerated(EnumType.STRING)
     WorkingTimeType workingTimeType ;
+
     String workingAddress ;
+
+    @Enumerated(EnumType.STRING)
     Literacy literacy;
+
+    @Enumerated(EnumType.STRING)
     JobLevel level;
+
     Integer recruitingQuantity ;
     LocalDate expiredDate ;
     String skills ;
@@ -39,10 +48,9 @@ public class Job {
     String requirement ;
     Integer salaryFrom ;
     Integer salaryTo ;
+
+    @Enumerated(EnumType.STRING)
     JobStatus status ;
 
-    LocalDate createdAt ;
-    Integer createdBy ;
-    LocalDate modifiedAt ;
-    Integer modifiedBy ;
+
 }

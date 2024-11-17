@@ -1,11 +1,11 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
-import vn.techmaster.danglh.recruitmentproject.constant.Role;
-import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
 
 import java.time.LocalDateTime;
 
@@ -23,8 +23,6 @@ public class Account extends BaseEntity {
 
     String password;
 
-//    boolean activated;
-
     @Enumerated(EnumType.STRING)
     AccountStatus status;
 
@@ -32,6 +30,14 @@ public class Account extends BaseEntity {
     Role role;
 
     String avatar;
+
+    @JoinColumn(name = "company_id")
+    @OneToOne(targetEntity = Company.class)
+    Company company;
+
+    @JoinColumn(name = "candidate_id")
+    @OneToOne(targetEntity = Candidate.class)
+    Candidate candidate;
 
     LocalDateTime deletedDateTime;
 

@@ -1,16 +1,15 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
 @Data
-@Builder
+@Entity
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -21,7 +20,14 @@ public class FavouriteJob {
     Long id;
 
     String name;
+
+    @JoinColumn(name = "candidate_id")
+    @ManyToOne(targetEntity = Candidate.class)
     Candidate candidate;
+
+    @JoinColumn(name = "job_id")
+    @ManyToOne(targetEntity = Job.class)
     Job job;
+
     LocalDate createdAt;
 }

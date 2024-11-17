@@ -1,29 +1,37 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.ApplicationStatus;
 
 @Data
-@Builder
+@Entity
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "applications")
-public class Application {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class Application extends BaseEntity{
 
+    @JoinColumn(name = "job_id")
+    @ManyToOne(targetEntity = Job.class)
     Job job;
-    CandidateCvs cvsId;
+
+    @JoinColumn(name = "candidate_cv_id")
+    @ManyToOne(targetEntity = CandidateCv.class)
+    CandidateCv cvsId;
+
+    @JoinColumn(name = "candidate_id")
+    @ManyToOne(targetEntity = Candidate.class)
     Candidate candidate;
+
     String applicationDescription;
+
+    @Enumerated(EnumType.STRING)
     ApplicationStatus status;
+
     String recruiterComment;
 }

@@ -1,29 +1,27 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
 @Data
-@Builder
+@Entity
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "companies")
-public class Company {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
+public class Company extends BaseEntity{
     String name;
+
+    @JoinColumn(name = "account_id")
+    @OneToOne(targetEntity = Account.class)
     Account account;
+
     String alias; // Viết tắt
     LocalDate foundAt;
     String taxCode;
@@ -35,8 +33,4 @@ public class Company {
     String description;
     Double rating;
 
-    LocalDate createdAt ;
-    Integer createdBy ;
-    LocalDate modifiedAt ;
-    Integer modifiedBy ;
 }

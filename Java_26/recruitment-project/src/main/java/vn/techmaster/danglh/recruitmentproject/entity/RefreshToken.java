@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RefreshToken extends BaseEntity {
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "account_id")
     @ManyToOne(targetEntity = Account.class)
     Account account;
 
