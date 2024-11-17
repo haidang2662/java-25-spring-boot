@@ -1,12 +1,17 @@
 package vn.techmaster.danglh.recruitmentproject.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
+import vn.techmaster.danglh.recruitmentproject.dto.SearchUserDto;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
-import vn.techmaster.danglh.recruitmentproject.exception.ExpiredEmailActivationUrlException;
-import vn.techmaster.danglh.recruitmentproject.exception.ExpiredPasswordForgottenUrlException;
-import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
-import vn.techmaster.danglh.recruitmentproject.exception.PasswordNotMatchedException;
+import vn.techmaster.danglh.recruitmentproject.exception.*;
+import vn.techmaster.danglh.recruitmentproject.model.request.AccountSearchRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.CreateAccountRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.ForgotPasswordEmailRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.PasswordChangingRequest;
+import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.AccountSearchResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import jakarta.mail.MessagingException;
@@ -18,8 +23,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import vn.techmaster.danglh.recruitmentproject.repository.custom.AccountCustomRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +40,10 @@ public class AccountService {
     final PasswordEncoder passwordEncoder;
 
     final EmailService emailService;
+
+    final ObjectMapper objectMapper;
+
+    final AccountCustomRepository accountCustomRepository;
 
     @Value("${application.account.activation.expiredDurationInMilliseconds}")
     long activationMailExpiredDurationInMilliseconds;
@@ -108,4 +121,51 @@ public class AccountService {
         account.setPassword(passwordEncoder.encode(request.getPassword()));
         accountRepository.save(account);
     }
+
+    public AccountResponse getDetail(Long id) throws ObjectNotFoundException {
+        return accountRepository.findById(id)
+                .map(u -> objectMapper.convertValue(u, AccountResponse.class))
+                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    }
+
+
+    public AccountResponse createUser(CreateAccountRequest request) throws ExistedUserException {
+        Optional<Account> userOptional = accountRepository.findByEmail(request.getEmail());
+        if (userOptional.isPresent()) {
+            throw new ExistedUserException("Username existed");
+        }
+
+        Account account = Account.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode("123")) // TODO: change to random password
+                .role(Role.CANDIDATE) // TODO : Đoạn này chưa hiểu lắm làm thế nào để chọn candidate hay company
+                .status(AccountStatus.ACTIVE)
+                .build();
+        accountRepository.save(account);
+        return objectMapper.convertValue(account, AccountResponse.class);
+    }
+
+    public CommonSearchResponse<AccountSearchResponse> searchAccount(AccountSearchRequest request) {
+        List<SearchUserDto> result = accountCustomRepository.searchAccount(request);
+
+        Long totalRecord = 0L;
+        List<AccountSearchResponse> studentResponses = new ArrayList<>();
+        if (!result.isEmpty()) {
+            totalRecord = result.get(0).getTotalRecord();
+            studentResponses = result
+                    .stream()
+                    .map(s -> objectMapper.convertValue(s, AccountSearchResponse.class))
+                    .toList();
+        }
+
+        int totalPage = (int) Math.ceil((double) totalRecord / request.getPageSize());
+
+        return CommonSearchResponse.<AccountSearchResponse>builder()
+                .totalRecord(totalRecord)
+                .totalPage(totalPage)
+                .data(studentResponses)
+                .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                .build();
+    }
+
 }

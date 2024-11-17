@@ -82,11 +82,6 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 Console
                         .requestMatchers("/swagger-ui/index.html").permitAll() // Allow access to Swagger UI
 
-                        // user start
-                        .requestMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyAuthority(Role.CANDIDATE.name(), Role.ADMIN.toString())
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users").hasAnyAuthority(Role.ADMIN.toString())
-                        // user end
-
                         // authentication start
                         .requestMatchers(
                                 "/api/v1/authentications/refresh_token",
@@ -99,6 +94,9 @@ public class SecurityConfig {
                         // authentication end
 
                         // account start
+                        .requestMatchers(HttpMethod.GET, "/api/v1/accounts/{id}").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/accounts").hasAnyAuthority(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST, "/api/v1/accounts").hasAnyAuthority(Role.ADMIN.toString())
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/accounts/{id}/password").authenticated()
                         .requestMatchers(
                                 "/api/v1/accounts/{id}/activations",

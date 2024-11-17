@@ -60,20 +60,20 @@ public class AccountResource {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-//    @GetMapping
-//    public CommonSearchResponse<?> search(AccountSearchRequest request) {
-//        return request.searchUser(request);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public AccountResponse getDetail(@PathVariable Long id) throws ObjectNotFoundException {
-//        return id.getDetail(id);
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) throws ExistedUserException {
-//        AccountResponse accountResponse = userService.createUser(request);
-//        return ResponseEntity.status(HttpStatus.CREATED.value()).body(accountResponse);
-//    }
+    @GetMapping
+    public CommonSearchResponse<?> search(AccountSearchRequest request) {
+        return accountService.searchAccount(request);
+    }
+
+    @GetMapping("/{id}")
+    public AccountResponse getDetail(@PathVariable Long id) throws ObjectNotFoundException {
+        return accountService.getDetail(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) throws ExistedUserException {
+        AccountResponse accountResponse = accountService.createUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED.value()).body(accountResponse);
+    }
 
 }

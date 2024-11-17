@@ -7,11 +7,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AccountSearchRequest extends BaseSearchRequest {
 
-    String name;
-
     String email;
-
-    Boolean activated;
 
     String gender;
 

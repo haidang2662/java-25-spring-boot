@@ -1,24 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import vn.techmaster.danglh.recruitmentproject.constant.Role;
-import vn.techmaster.danglh.recruitmentproject.entity.Account;
-import vn.techmaster.danglh.recruitmentproject.entity.RefreshToken;
-import vn.techmaster.danglh.recruitmentproject.exception.ExistedUserException;
-import vn.techmaster.danglh.recruitmentproject.exception.InvalidRefreshTokenException;
-import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
-import vn.techmaster.danglh.recruitmentproject.model.request.LoginRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.RefreshTokenRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.RegistrationRequest;
-import vn.techmaster.danglh.recruitmentproject.model.response.JwtResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
-import vn.techmaster.danglh.recruitmentproject.repository.RefreshTokenRepository;
-import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
-import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
-import vn.techmaster.danglh.recruitmentproject.security.JwtService;
-import vn.techmaster.danglh.recruitmentproject.security.SecurityUtils;
-import vn.techmaster.danglh.recruitmentproject.constant.Constant;
-import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +15,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
+import vn.techmaster.danglh.recruitmentproject.constant.Constant;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
+import vn.techmaster.danglh.recruitmentproject.entity.Account;
+import vn.techmaster.danglh.recruitmentproject.entity.RefreshToken;
+import vn.techmaster.danglh.recruitmentproject.exception.ExistedUserException;
+import vn.techmaster.danglh.recruitmentproject.exception.InvalidRefreshTokenException;
+import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
+import vn.techmaster.danglh.recruitmentproject.model.request.LoginRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.RefreshTokenRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.RegistrationRequest;
+import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.JwtResponse;
+import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.RefreshTokenRepository;
+import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
+import vn.techmaster.danglh.recruitmentproject.security.JwtService;
+import vn.techmaster.danglh.recruitmentproject.security.SecurityUtils;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -63,7 +63,7 @@ public class AuthenticationService {
     long refreshTokenValidityMilliseconds;
 
     public AccountResponse registerUser(RegistrationRequest registrationRequest)
-            throws ObjectNotFoundException, ExistedUserException, MessagingException {
+            throws ExistedUserException, MessagingException {
         Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getUsername(), AccountStatus.ACTIVE);
         if (userOptional.isPresent()) {
             throw new ExistedUserException("Username existed");
