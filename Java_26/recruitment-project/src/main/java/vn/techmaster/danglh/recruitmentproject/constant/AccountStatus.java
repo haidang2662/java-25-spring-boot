@@ -8,8 +8,7 @@ import lombok.Getter;
 public enum AccountStatus {
 
     CREATED,
-    ACTIVATED,
-    DEACTIVATED,
-    LOCKED // or BANNED
+    ACTIVE,
+    INACTIVE
 
 }

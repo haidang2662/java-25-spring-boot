@@ -1,40 +1,44 @@
 package vn.techmaster.danglh.recruitmentproject.config;
 
-import vn.techmaster.danglh.recruitmentproject.constant.Role;
-import vn.techmaster.danglh.recruitmentproject.entity.Account;
-import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
-import vn.techmaster.danglh.recruitmentproject.constant.Constant;
-import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
+import vn.techmaster.danglh.recruitmentproject.entity.Account;
+import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
 
 import java.util.Optional;
 
 @Component
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DatabaseInitializer implements CommandLineRunner {
 
-    AccountRepository accountRepository;
+    final AccountRepository accountRepository;
 
+    final PasswordEncoder passwordEncoder;
 
-    PasswordEncoder passwordEncoder;
+    @Value("${application.account.admin.username}")
+    String adminUsername;
+
+    @Value("${application.account.admin.password}")
+    String pass;
 
     @Override
     public void run(String... args) {
-        Optional<Account> admin = accountRepository.findByEmail("admin");
+        Optional<Account> admin = accountRepository.findByEmail(adminUsername);
         if (admin.isEmpty()) {
-            Account account = new Account();
-            account.setEmail("admin"); // nen de thang hang so o yml
-            account.setPassword(passwordEncoder.encode("admin123")); // Encrypt the password
-            account.setRole(Role.ADMIN);
-            account.setStatus(AccountStatus.ACTIVATED);
-            account.setCreatedBy(Constant.DEFAULT_CREATOR);
-            account.setLastModifiedBy(Constant.DEFAULT_CREATOR);
+            Account account = Account.builder()
+                    .email(adminUsername)
+                    .password(passwordEncoder.encode(pass))
+                    .role(Role.ADMIN)
+                    .status(AccountStatus.ACTIVE)
+                    .build();
             accountRepository.save(account);
         }
     }

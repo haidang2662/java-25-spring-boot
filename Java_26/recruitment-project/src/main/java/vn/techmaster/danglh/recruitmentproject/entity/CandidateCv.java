@@ -10,12 +10,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "candidate_cvs")
-public class CandidateCv {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class CandidateCv extends BaseEntity {
 
     @JoinColumn(name = "candidate_id")
     @ManyToOne(targetEntity = Candidate.class)
@@ -25,4 +23,5 @@ public class CandidateCv {
 
     @Column(columnDefinition = "boolean default false")
     boolean main;
+
 }

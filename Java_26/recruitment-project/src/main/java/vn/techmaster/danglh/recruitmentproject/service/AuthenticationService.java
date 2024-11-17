@@ -64,7 +64,7 @@ public class AuthenticationService {
 
     public AccountResponse registerUser(RegistrationRequest registrationRequest)
             throws ObjectNotFoundException, ExistedUserException, MessagingException {
-        Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getUsername(), AccountStatus.ACTIVATED);
+        Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getUsername(), AccountStatus.ACTIVE);
         if (userOptional.isPresent()) {
             throw new ExistedUserException("Username existed");
         }

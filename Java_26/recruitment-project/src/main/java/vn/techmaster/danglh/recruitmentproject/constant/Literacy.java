@@ -11,5 +11,5 @@ public enum Literacy {
     MASTER,
     UNIVERSITY,
     COLLEGE,
-    HIGH_SCHOOL;
+    HIGH_SCHOOL
 }

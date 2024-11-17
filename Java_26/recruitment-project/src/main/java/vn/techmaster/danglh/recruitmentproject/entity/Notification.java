@@ -15,24 +15,25 @@ import java.time.LocalDate;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "notifications")
-public class Notification extends BaseEntity{
+public class Notification extends BaseEntity {
 
     @JoinColumn(name = "account_id")
     @ManyToOne(targetEntity = Account.class)
-    Account account;
+    Account senderId;
 
-    String title ;
-    String content ;
-
-    @Enumerated(EnumType.STRING)
-    NotificationStatus status ;
+    String title;
+    String content;
 
     @Enumerated(EnumType.STRING)
-    NotificationType type ;
+    NotificationStatus status;
 
-    LocalDate startAt ;
-    LocalDate finishAt ;
+    @Enumerated(EnumType.STRING)
+    NotificationType type;
+
+    LocalDate startAt;
+    LocalDate finishAt;
 
 }

@@ -3,12 +3,11 @@ package vn.techmaster.danglh.recruitmentproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.JobCategoryStatus;
 
 @Data
 @Entity
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -24,7 +23,4 @@ public class JobCategory {
     @Enumerated(EnumType.STRING)
     JobCategoryStatus status;
 
-    @JoinColumn(name = "account_id")
-    @ManyToOne(targetEntity = Account.class)
-    Account account;
 }

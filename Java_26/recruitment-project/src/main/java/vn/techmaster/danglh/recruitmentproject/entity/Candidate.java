@@ -16,11 +16,12 @@ import java.time.LocalDate;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "candidates")
-public class Candidate extends BaseEntity{
+public class Candidate extends BaseEntity {
 
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     @OneToOne(targetEntity = Account.class)
     Account account;
 
@@ -32,7 +33,7 @@ public class Candidate extends BaseEntity{
 
     String phone;
     String address;
-    String avatar;
+    String avatarUrl;
     String skills;
     Double yearOfExperience;
 
@@ -40,12 +41,13 @@ public class Candidate extends BaseEntity{
     Literacy literacy;
 
     String graduatedAt;
-    Integer expectedSalaryFrom ;
-    Integer expectedSalaryTo ;
+    Integer expectedSalaryFrom;
+    Integer expectedSalaryTo;
 
     @Enumerated(EnumType.STRING)
     WorkingTimeType expectedWorkingTimeType;
+
     @Enumerated(EnumType.STRING)
-    WorkingType expectedWorkingType ;
+    WorkingType expectedWorkingType;
 
 }

@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 
 @Data
 @Entity
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)

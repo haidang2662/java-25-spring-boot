@@ -8,11 +8,11 @@ import vn.techmaster.danglh.recruitmentproject.constant.PhoneType;
 
 @Data
 @Entity
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "company_phone")
+@Table(name = "company_phones")
 public class CompanyPhone {
 
     @Id

@@ -29,17 +29,13 @@ public class Account extends BaseEntity {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    String avatar;
-
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
     @OneToOne(targetEntity = Company.class)
     Company company;
 
-    @JoinColumn(name = "candidate_id")
+    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
     @OneToOne(targetEntity = Candidate.class)
     Candidate candidate;
-
-    LocalDateTime deletedDateTime;
 
     LocalDateTime activationMailSentAt;
 

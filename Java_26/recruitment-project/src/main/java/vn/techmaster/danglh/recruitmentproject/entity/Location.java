@@ -3,11 +3,10 @@ package vn.techmaster.danglh.recruitmentproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
 
 @Data
 @Entity
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -19,7 +18,4 @@ public class Location {
 
     String name;
 
-    @JoinColumn(name = "account_id")
-    @ManyToOne(targetEntity = Account.class)
-    Account account;
 }

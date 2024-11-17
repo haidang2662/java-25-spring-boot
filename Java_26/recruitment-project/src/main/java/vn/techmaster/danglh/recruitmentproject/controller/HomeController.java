@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class HomeController {
 
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
-
-    @GetMapping("/jd-page")
-    public String jdPage() {
-        return "jd-page";
-    }
+//    @GetMapping("/")
+//    public String index() {
+//        return "index";
+//    }
+//
+//    @GetMapping("/jd-page")
+//    public String jdPage() {
+//        return "jd-page";
+//    }
 
 }

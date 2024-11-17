@@ -62,7 +62,7 @@ public class AccountService {
         if (activationMailSentAt.plusSeconds(activationMailExpiredDurationInMilliseconds / 1000).isBefore(LocalDateTime.now())) {
             throw new ExpiredEmailActivationUrlException("Activation link expired");
         }
-        account.setStatus(AccountStatus.ACTIVATED);
+        account.setStatus(AccountStatus.ACTIVE);
         accountRepository.save(account);
     }
 

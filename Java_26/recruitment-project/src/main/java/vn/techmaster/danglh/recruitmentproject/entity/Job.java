@@ -13,26 +13,27 @@ import java.time.LocalDate;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "jobs")
-public class Job extends BaseEntity{
+public class Job extends BaseEntity {
 
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
     @ManyToOne(targetEntity = Company.class)
     Company company;
 
-    String name ;
-    String position ;
-    Integer yearOfExperienceFrom ;
-    Integer yearOfExperienceTo ;
+    String name;
+    String position;
+    Integer yearOfExperienceFrom;
+    Integer yearOfExperienceTo;
 
     @Enumerated(EnumType.STRING)
-    WorkingType workingType ;
+    WorkingType workingType;
 
     @Enumerated(EnumType.STRING)
-    WorkingTimeType workingTimeType ;
+    WorkingTimeType workingTimeType;
 
-    String workingAddress ;
+    String workingAddress;
 
     @Enumerated(EnumType.STRING)
     Literacy literacy;
@@ -40,17 +41,17 @@ public class Job extends BaseEntity{
     @Enumerated(EnumType.STRING)
     JobLevel level;
 
-    Integer recruitingQuantity ;
-    LocalDate expiredDate ;
-    String skills ;
-    String description ;
-    String benefit ;
-    String requirement ;
-    Integer salaryFrom ;
-    Integer salaryTo ;
+    Integer recruitingQuantity;
+    LocalDate expiredDate;
+    String skills;
+    String description;
+    String benefit;
+    String requirement;
+    Integer salaryFrom;
+    Integer salaryTo;
 
     @Enumerated(EnumType.STRING)
-    JobStatus status ;
+    JobStatus status;
 
 
 }

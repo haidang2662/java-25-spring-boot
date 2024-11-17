@@ -6,27 +6,24 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.TargetType;
 
-import java.time.LocalDate;
 
 @Data
 @Entity
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "notification_targets")
-public class NotificationTarget extends BaseEntity{
-
+public class NotificationTarget extends BaseEntity {
 
     @JoinColumn(name = "account_id")
     @ManyToOne(targetEntity = Account.class)
-    Account account;
+    Account targetId;
 
     @JoinColumn(name = "notification_id")
     @ManyToOne(targetEntity = Notification.class)
     Notification notification;
-
-    Integer targetId;
 
     @Enumerated(EnumType.STRING)
     TargetType type;

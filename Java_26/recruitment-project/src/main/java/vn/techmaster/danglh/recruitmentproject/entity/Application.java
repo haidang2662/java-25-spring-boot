@@ -12,9 +12,10 @@ import vn.techmaster.danglh.recruitmentproject.constant.ApplicationStatus;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "applications")
-public class Application extends BaseEntity{
+public class Application extends BaseEntity {
 
     @JoinColumn(name = "job_id")
     @ManyToOne(targetEntity = Job.class)
@@ -22,7 +23,7 @@ public class Application extends BaseEntity{
 
     @JoinColumn(name = "candidate_cv_id")
     @ManyToOne(targetEntity = CandidateCv.class)
-    CandidateCv cvsId;
+    CandidateCv cvId;
 
     @JoinColumn(name = "candidate_id")
     @ManyToOne(targetEntity = Candidate.class)

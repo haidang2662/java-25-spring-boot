@@ -6,16 +6,15 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.CompanyRatingMode;
 
-import java.time.LocalDate;
-
 @Data
 @Entity
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "company_ratings")
-public class CompanyRating extends BaseEntity{
+public class CompanyRating extends BaseEntity {
 
     Integer rate;
     String comment;

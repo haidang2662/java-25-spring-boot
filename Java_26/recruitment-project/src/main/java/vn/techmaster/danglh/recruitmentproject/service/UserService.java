@@ -56,7 +56,7 @@ public class UserService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode("123")) // TODO: change to random password
                 .role(Role.CANDIDATE) // TODO : Đoạn này chưa hiểu lắm làm thế nào để chọn candidate hay company
-                .status(AccountStatus.ACTIVATED)
+                .status(AccountStatus.ACTIVE)
                 .build();
         accountRepository.save(account);
         return objectMapper.convertValue(account, AccountResponse.class);
