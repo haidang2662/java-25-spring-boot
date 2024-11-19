@@ -34,7 +34,7 @@ public class AuthenticationResource {
 
     @PostMapping("/registration")
     public ResponseEntity<AccountResponse> registerUser(@Valid @RequestBody RegistrationRequest request)
-            throws ExistedUserException, ObjectNotFoundException, MessagingException {
+            throws ExistedUserException, MessagingException {
         AccountResponse accountResponse = authenticateService.registerUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(accountResponse);
     }

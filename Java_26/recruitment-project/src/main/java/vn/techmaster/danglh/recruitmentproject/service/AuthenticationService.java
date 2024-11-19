@@ -19,6 +19,7 @@ import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Constant;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
+import vn.techmaster.danglh.recruitmentproject.entity.Candidate;
 import vn.techmaster.danglh.recruitmentproject.entity.RefreshToken;
 import vn.techmaster.danglh.recruitmentproject.exception.ExistedUserException;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidRefreshTokenException;
@@ -29,6 +30,7 @@ import vn.techmaster.danglh.recruitmentproject.model.request.RegistrationRequest
 import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.JwtResponse;
 import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.CandidateRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.RefreshTokenRepository;
 import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
 import vn.techmaster.danglh.recruitmentproject.security.JwtService;
@@ -52,6 +54,8 @@ public class AuthenticationService {
 
     final AuthenticationManager authenticationManager;
 
+    final CandidateRepository candidateRepository;
+
 
     final PasswordEncoder passwordEncoder;
 
@@ -62,14 +66,15 @@ public class AuthenticationService {
     @Value("${application.security.refreshToken.tokenValidityMilliseconds}")
     long refreshTokenValidityMilliseconds;
 
+    @Transactional(rollbackFor = Exception.class)
     public AccountResponse registerUser(RegistrationRequest registrationRequest)
             throws ExistedUserException, MessagingException {
-        Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getUsername(), AccountStatus.ACTIVE);
+        Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getEmail(), AccountStatus.ACTIVE);
         if (userOptional.isPresent()) {
             throw new ExistedUserException("Username existed");
         }
         Account account = Account.builder()
-                .email(registrationRequest.getUsername())
+                .email(registrationRequest.getEmail())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
                 .role(Role.CANDIDATE) // Todo : đoạn này chưa hiểu lắm làm thế nào để phân biệt là  candidate hay company
                 .status(AccountStatus.CREATED)
@@ -79,6 +84,15 @@ public class AuthenticationService {
                 .activationMailSentCount(1)
                 .build();
         accountRepository.save(account);
+
+        Candidate candidate = new Candidate();
+        candidate.setName(registrationRequest.getName());
+        candidate.setAccount(account);
+        candidateRepository.save(candidate);
+
+//        Account savedAccount = accountRepository.findById(account.getId()).get();
+//        savedAccount.setCandidate(candidate);
+//        accountRepository.save(account);
 
         emailService.sendActivationMail(account);
 

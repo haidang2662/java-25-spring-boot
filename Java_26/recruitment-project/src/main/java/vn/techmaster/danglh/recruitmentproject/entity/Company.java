@@ -22,9 +22,9 @@ import java.time.LocalDate;
 public class Company extends BaseEntity {
     String name;
 
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    @OneToOne(targetEntity = Account.class)
-    Account account;
+//    @JoinColumn(name = "account_id", referencedColumnName = "id")
+//    @OneToOne(targetEntity = Account.class)
+//    Account account;
 
     String alias; // Viết tắt
     LocalDate foundAt;
