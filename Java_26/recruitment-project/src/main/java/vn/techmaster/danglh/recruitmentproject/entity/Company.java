@@ -20,12 +20,11 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "companies")
 public class Company extends BaseEntity {
+
+    @OneToOne(mappedBy = "company")
+    Account account;
+
     String name;
-
-//    @JoinColumn(name = "account_id", referencedColumnName = "id")
-//    @OneToOne(targetEntity = Account.class)
-//    Account account;
-
     String alias; // Viết tắt
     LocalDate foundAt;
     String taxCode;

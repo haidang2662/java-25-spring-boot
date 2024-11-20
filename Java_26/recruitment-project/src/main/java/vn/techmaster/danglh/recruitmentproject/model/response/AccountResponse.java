@@ -10,6 +10,8 @@ public class AccountResponse {
 
     Long id;
 
-    String username;
+    String email;
+
+    String name;
 
 }
