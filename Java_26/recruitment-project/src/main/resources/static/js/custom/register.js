@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $("p").hide();
+
     $("#register-btn").click(function () {
         // const isValidForm = $("register-form").valid();
         // if(!isValidForm){
@@ -20,19 +22,20 @@ $(document).ready(function () {
             contentType:"application/json; charset=utf-8",
             success:function (data){
                 //b3 : Hien thi thong bao thanh cong va yeu cau xac thuc tai khoan
-                alert("Tạo mới thành công , mời bạn xác thực tài khoản trong email . Nếu bạn chưa nhận được mail mới ấn vào đây ")
-                setTimeout(() => {
-                    location.reload();// refresh lại trang web
-                }, 1000);
+                $("p").show();
             },
             error:function (err){
                 alert(err.responseJSON.message)
             }
         });
 
-
-
     });
 
-
+    $("#resend-email").click(function (){
+        $.ajax({
+            url: "/api/v1/authentications/registration",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+        })
+    });
 });
