@@ -19,12 +19,14 @@ $(document).ready(function () {
             data: JSON.stringify(register),
             contentType:"application/json; charset=utf-8",
             success:function (data){
-                console.log(data);
                 //b3 : Hien thi thong bao thanh cong va yeu cau xac thuc tai khoan
-
+                alert("Tạo mới thành công , mời bạn xác thực tài khoản trong email . Nếu bạn chưa nhận được mail mới ấn vào đây ")
+                setTimeout(() => {
+                    location.reload();// refresh lại trang web
+                }, 1000);
             },
             error:function (err){
-
+                alert(err.responseJSON.message)
             }
         });
 
