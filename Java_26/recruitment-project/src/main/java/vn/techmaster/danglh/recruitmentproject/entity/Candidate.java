@@ -21,7 +21,8 @@ import java.time.LocalDate;
 @Table(name = "candidates")
 public class Candidate extends BaseEntity {
 
-    @OneToOne(mappedBy = "candidate")
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
     Account account;
 
     String name;

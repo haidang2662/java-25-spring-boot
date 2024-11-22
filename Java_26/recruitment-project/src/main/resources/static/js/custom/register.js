@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    let ENUM = "CANDIDATE";
+
     $("#success-register").hide();
     $("#failed-register").hide();
     $("#address").hide();
@@ -18,6 +20,10 @@ $(document).ready(function () {
         for (let i = 0; i < formData.length; i++) {
             register[formData[i].name] = formData[i].value;
         }
+
+        // Bổ sung ENUM vào object register với thuoc tinh la status
+        register["type"] = ENUM;
+
         //b2 : call ajax
         $.ajax({
             url: "/api/v1/authentications/registration",
@@ -64,6 +70,7 @@ $(document).ready(function () {
         $('#icon-candidate').css('color', '#34A853');
         $('#id-candidate').css('color', '#34A853');
 
+        ENUM = "COMPANY";
     });
 
     $("#register-candidate").click(function (){
@@ -79,6 +86,8 @@ $(document).ready(function () {
         $('#id-candidate').css('background-color', '#34A853');
         $('#icon-candidate').css('color', 'white');
         $('#id-candidate').css('color', 'white');
+
+        ENUM = "CANDIDATE";
     });
 
 

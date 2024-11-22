@@ -15,11 +15,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.techmaster.danglh.recruitmentproject.constant.RegistrationType;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Constant;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
 import vn.techmaster.danglh.recruitmentproject.entity.Candidate;
+import vn.techmaster.danglh.recruitmentproject.entity.Company;
 import vn.techmaster.danglh.recruitmentproject.entity.RefreshToken;
 import vn.techmaster.danglh.recruitmentproject.exception.ExistedUserException;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidRefreshTokenException;
@@ -31,6 +33,7 @@ import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.JwtResponse;
 import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.CandidateRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.CompanyRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.RefreshTokenRepository;
 import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
 import vn.techmaster.danglh.recruitmentproject.security.JwtService;
@@ -56,6 +59,8 @@ public class AuthenticationService {
 
     final CandidateRepository candidateRepository;
 
+    final CompanyRepository companyRepository;
+
 
     final PasswordEncoder passwordEncoder;
 
@@ -67,36 +72,62 @@ public class AuthenticationService {
     long refreshTokenValidityMilliseconds;
 
     @Transactional(rollbackFor = Exception.class)
-    public AccountResponse registerUser(RegistrationRequest registrationRequest)
+    public AccountResponse registerAccount(RegistrationRequest registrationRequest)
             throws ExistedUserException, MessagingException {
         Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getEmail(), AccountStatus.ACTIVE);
         if (userOptional.isPresent()) {
             throw new ExistedUserException("Username existed");
         }
-        Account account = Account.builder()
-                .email(registrationRequest.getEmail())
-                .password(passwordEncoder.encode(registrationRequest.getPassword()))
-                .role(Role.CANDIDATE) // Todo : đoạn này chưa hiểu lắm làm thế nào để phân biệt là  candidate hay company
-                .status(AccountStatus.CREATED)
-                .createdBy(Constant.DEFAULT_CREATOR)
-                .lastModifiedBy(Constant.DEFAULT_CREATOR)
-                .activationMailSentAt(LocalDateTime.now())
-                .activationMailSentCount(1)
-                .build();
-        accountRepository.save(account);
+        if (registrationRequest.getType() == RegistrationType.CANDIDATE) {
+            Account account = Account.builder()
+                    .email(registrationRequest.getEmail())
+                    .password(passwordEncoder.encode(registrationRequest.getPassword()))
+                    .role(Role.CANDIDATE) // Todo : đoạn này chưa hiểu lắm làm thế nào để phân biệt là  candidate hay company
+                    .status(AccountStatus.CREATED)
+                    .createdBy(Constant.DEFAULT_CREATOR)
+                    .lastModifiedBy(Constant.DEFAULT_CREATOR)
+                    .activationMailSentAt(LocalDateTime.now())
+                    .activationMailSentCount(1)
+                    .build();
+            accountRepository.save(account);
 
-        Candidate candidate = new Candidate();
-        candidate.setName(registrationRequest.getName());
-        candidate.setAccount(account);
-        candidateRepository.save(candidate);
+            Candidate candidate = new Candidate();
+            candidate.setName(registrationRequest.getName());
+            candidate.setAccount(account);
+            candidateRepository.save(candidate);
 
-//        Account savedAccount = accountRepository.findById(account.getId()).get();
-//        savedAccount.setCandidate(candidate);
-//        accountRepository.save(account);
+//        account.setCandidate(candidate);
 
-        emailService.sendActivationMail(account);
+            emailService.sendActivationMail(account);
 
-        return objectMapper.convertValue(account, AccountResponse.class);
+            return objectMapper.convertValue(account, AccountResponse.class);
+        } else {
+
+            Account account = Account.builder()
+                    .email(registrationRequest.getEmail())
+                    .password(passwordEncoder.encode(registrationRequest.getPassword()))
+                    .role(Role.COMPANY) // Todo : đoạn này chưa hiểu lắm làm thế nào để phân biệt là  candidate hay company
+                    .status(AccountStatus.CREATED)
+                    .createdBy(Constant.DEFAULT_CREATOR)
+                    .lastModifiedBy(Constant.DEFAULT_CREATOR)
+                    .activationMailSentAt(LocalDateTime.now())
+                    .activationMailSentCount(1)
+                    .build();
+            accountRepository.save(account);
+
+            Company company = new Company();
+            company.setName(registrationRequest.getName());
+            company.setHeadQuarterAddress(registrationRequest.getHeadQuarterAddress());
+            company.setEmployeeQuantity(registrationRequest.getEmployeeQuantity());
+            company.setWebsite(registrationRequest.getWebsite());
+            company.setAccount(account);
+            companyRepository.save(company);
+
+            emailService.sendActivationMail(account);
+
+            return objectMapper.convertValue(account, AccountResponse.class);
+        }
+
     }
 
     public JwtResponse authenticate(LoginRequest request) throws ObjectNotFoundException {

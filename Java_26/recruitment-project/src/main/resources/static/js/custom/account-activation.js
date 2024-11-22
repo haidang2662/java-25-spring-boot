@@ -1,6 +1,8 @@
 $(document).ready(function (){
 
-    // Lấy URL hiện tại
+    $("#success-activation").hide()
+    $("#fail-activation").hide()
+
     const currentUrl = window.location.href;
 
     // Tách URL thành các phần tử dựa trên dấu "/"
@@ -16,11 +18,13 @@ $(document).ready(function (){
         type:"POST",
         contentType: "application/json; charset=utf-8",
         success:function (){
-            alert("Kích hoạt thành công")
-            window.location.href = "/";
+            $("#success-activation").show()
+            setTimeout(function () {
+                window.location.href = "/";
+            }, 2000);
         },
         error:function (){
-            alert("Kích hoạt thất bại . Vui lòng kiểm tra lại .")
+            $("#fail-activation").show()
         }
     })
 

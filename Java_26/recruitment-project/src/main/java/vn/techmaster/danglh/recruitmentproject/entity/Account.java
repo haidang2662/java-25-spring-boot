@@ -29,13 +29,13 @@ public class Account extends BaseEntity {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
-    @OneToOne(cascade = CascadeType.ALL)
-    Company company;
-
-    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
-    @OneToOne(cascade = CascadeType.ALL)
-    Candidate candidate;
+//    @JoinColumn(name = "company_id", referencedColumnName = "id")
+//    @OneToOne(cascade = CascadeType.ALL)
+//    Company company;
+//
+//    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
+//    @OneToOne(cascade = CascadeType.PERSIST)
+//    Candidate candidate;
 
     LocalDateTime activationMailSentAt;
 

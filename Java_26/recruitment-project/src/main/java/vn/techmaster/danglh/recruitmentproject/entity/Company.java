@@ -1,10 +1,7 @@
 package vn.techmaster.danglh.recruitmentproject.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -21,7 +18,8 @@ import java.time.LocalDate;
 @Table(name = "companies")
 public class Company extends BaseEntity {
 
-    @OneToOne(mappedBy = "company")
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
     Account account;
 
     String name;

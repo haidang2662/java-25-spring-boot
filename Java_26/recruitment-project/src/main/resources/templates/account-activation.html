@@ -3,6 +3,12 @@
 <head th:replace="~{fragments/common/head :: my-head(pageTitle='Activation')}"/>
 <body>
 
+<p id="success-activation">
+    Congratulations, you have successfully activated your account
+</p>
+<p id="fail-activation">
+    Account activation failed, please check again
+</p>
 
 <th:block th:replace="~{fragments/common/embedded-js :: embedded-js}" />
 <script src="/js/custom/account-activation.js"></script>
