@@ -74,61 +74,49 @@ public class AuthenticationService {
     @Transactional(rollbackFor = Exception.class)
     public AccountResponse registerAccount(RegistrationRequest registrationRequest)
             throws ExistedUserException, MessagingException {
+        // Kiểm tra nếu email đã tồn tại
         Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getEmail(), AccountStatus.ACTIVE);
         if (userOptional.isPresent()) {
             throw new ExistedUserException("Username existed");
         }
-        if (registrationRequest.getType() == RegistrationType.CANDIDATE) {
-            Account account = Account.builder()
-                    .email(registrationRequest.getEmail())
-                    .password(passwordEncoder.encode(registrationRequest.getPassword()))
-                    .role(Role.CANDIDATE) // Todo : đoạn này chưa hiểu lắm làm thế nào để phân biệt là  candidate hay company
-                    .status(AccountStatus.CREATED)
-                    .createdBy(Constant.DEFAULT_CREATOR)
-                    .lastModifiedBy(Constant.DEFAULT_CREATOR)
-                    .activationMailSentAt(LocalDateTime.now())
-                    .activationMailSentCount(1)
-                    .build();
-            accountRepository.save(account);
 
-            Candidate candidate = new Candidate();
-            candidate.setName(registrationRequest.getName());
+        // Tạo tài khoản
+        Account account = Account.builder()
+                .email(registrationRequest.getEmail())
+                .password(passwordEncoder.encode(registrationRequest.getPassword()))
+                .role(registrationRequest.getType() == RegistrationType.CANDIDATE ? Role.CANDIDATE : Role.COMPANY)
+                .status(AccountStatus.CREATED)
+                .createdBy(Constant.DEFAULT_CREATOR)
+                .lastModifiedBy(Constant.DEFAULT_CREATOR)
+                .activationMailSentAt(LocalDateTime.now())
+                .activationMailSentCount(1)
+                .build();
+        accountRepository.save(account);
+
+        if (registrationRequest.getType() == RegistrationType.CANDIDATE) {
+            Candidate candidate = Candidate.builder()
+                    .name(registrationRequest.getName())
+                    .build();
             candidate.setAccount(account);
             candidateRepository.save(candidate);
-
-//        account.setCandidate(candidate);
-
-            emailService.sendActivationMail(account);
-
-            return objectMapper.convertValue(account, AccountResponse.class);
         } else {
-
-            Account account = Account.builder()
-                    .email(registrationRequest.getEmail())
-                    .password(passwordEncoder.encode(registrationRequest.getPassword()))
-                    .role(Role.COMPANY) // Todo : đoạn này chưa hiểu lắm làm thế nào để phân biệt là  candidate hay company
-                    .status(AccountStatus.CREATED)
-                    .createdBy(Constant.DEFAULT_CREATOR)
-                    .lastModifiedBy(Constant.DEFAULT_CREATOR)
-                    .activationMailSentAt(LocalDateTime.now())
-                    .activationMailSentCount(1)
+            Company company = Company.builder()
+                    .name(registrationRequest.getName())
+                    .headQuarterAddress(registrationRequest.getHeadQuarterAddress())
+                    .employeeQuantity(registrationRequest.getEmployeeQuantity())
+                    .website(registrationRequest.getWebsite())
                     .build();
-            accountRepository.save(account);
-
-            Company company = new Company();
-            company.setName(registrationRequest.getName());
-            company.setHeadQuarterAddress(registrationRequest.getHeadQuarterAddress());
-            company.setEmployeeQuantity(registrationRequest.getEmployeeQuantity());
-            company.setWebsite(registrationRequest.getWebsite());
             company.setAccount(account);
             companyRepository.save(company);
-
-            emailService.sendActivationMail(account);
-
-            return objectMapper.convertValue(account, AccountResponse.class);
         }
 
+        // Gửi email kích hoạt
+        emailService.sendActivationMail(account);
+
+        // Trả về AccountResponse
+        return objectMapper.convertValue(account, AccountResponse.class);
     }
+
 
     public JwtResponse authenticate(LoginRequest request) throws ObjectNotFoundException {
         Authentication authentication = authenticationManager.authenticate(
@@ -143,7 +131,7 @@ public class AuthenticationService {
                 .collect(Collectors.toSet());
 
         Account account = accountRepository.findById(userDetails.getId())
-                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+                .orElseThrow(() -> new ObjectNotFoundException("Account not found"));
 
 //        String refreshToken = UUID.randomUUID().toString();
         String refreshToken = jwtService.generateJwtRefreshToken(authentication);

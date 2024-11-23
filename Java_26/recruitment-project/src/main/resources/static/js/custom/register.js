@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    let ENUM = "CANDIDATE";
+    let registraionType = "CANDIDATE";
 
     $("#success-register").hide();
     $("#failed-register").hide();
@@ -22,7 +22,7 @@ $(document).ready(function () {
         }
 
         // Bổ sung ENUM vào object register với thuoc tinh la status
-        register["type"] = ENUM;
+        register["type"] = registraionType;
 
         //b2 : call ajax
         $.ajax({
@@ -70,7 +70,7 @@ $(document).ready(function () {
         $('#icon-candidate').css('color', '#34A853');
         $('#id-candidate').css('color', '#34A853');
 
-        ENUM = "COMPANY";
+        registraionType = "COMPANY";
     });
 
     $("#register-candidate").click(function (){
@@ -87,8 +87,7 @@ $(document).ready(function () {
         $('#icon-candidate').css('color', 'white');
         $('#id-candidate').css('color', 'white');
 
-        ENUM = "CANDIDATE";
+        registraionType = "CANDIDATE";
     });
-
 
 });
