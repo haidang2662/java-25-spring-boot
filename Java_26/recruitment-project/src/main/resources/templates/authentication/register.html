@@ -20,7 +20,7 @@
                     <h3>Create a Free Superio Account</h3>
 
                     <!--Login Form-->
-                    <form id="register-form">
+                    <form id="register-form" class="was-validated">
                         <div class="form-group">
                             <div class="btn-box row">
                                 <div class="col-lg-6 col-md-12" id="register-candidate">
@@ -37,16 +37,22 @@
                         <div class="form-group">
                             <label>Email Address</label>
                             <input type="email" name="email" placeholder="Email" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
 
                         <div class="form-group">
                             <label>Password</label>
-                            <input id="password-field" type="password" name="password" value="" placeholder="Password">
+                            <input id="password-field" type="password" name="password" value="" placeholder="Password" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
 
                         <div class="form-group">
                             <label>Name</label>
-                            <input id="name-field" type="text" name="name" value="" placeholder="Name">
+                            <input id="name-field" type="text" name="name" value="" placeholder="Name" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
 
                         <div class="form-group" id="address">
@@ -68,15 +74,17 @@
                             <button class="theme-btn btn-style-one" type="button" name="Register" id="register-btn">Register</button>
                         </div>
                         <p class="text-success fs-6" id="success-register">
-                            Chúc mừng bạn đã tạo mới thành công , mời bạn xác thực tài khoản trong email . Nếu bạn chưa nhận được mail mời ấn vào
-                            <a id="resend-email" href="#" account-id="">đây</a>
+
+                            Congratulations, you have successfully created a new account. Please verify your account in your email.
+                            If you have not received an email please click <a id="resend-email" href="#" account-id="">here</a>
                         </p>
                         <p class="text-danger fs-6" id="failed-register">
-                            Đăng ký thất bại . Vui lòng thử lại sau .
+                            Registration failed. Please try again later.
                         </p>
                     </form>
 
                     <div class="bottom-box">
+                        <div class="text">Alredy have an account? <a href="/login">Login</a></div>
                         <div class="divider"><span>or</span></div>
                         <div class="btn-box row">
                             <div class="col-lg-6 col-md-12">

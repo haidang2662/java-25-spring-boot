@@ -1,6 +1,15 @@
 package vn.techmaster.danglh.recruitmentproject.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.dto.SearchUserDto;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
@@ -13,16 +22,6 @@ import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.AccountSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
-import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
-import jakarta.mail.MessagingException;
-import jakarta.validation.Valid;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import vn.techmaster.danglh.recruitmentproject.repository.custom.AccountCustomRepository;
 
 import java.time.LocalDateTime;
@@ -81,11 +80,15 @@ public class AccountService {
 
     public void sendActivationEmail(Long id) throws MessagingException {
         Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        if (account.getActivationMailSentCount() > activationMailMaxSentCount) {
+                .orElseThrow(() -> new UsernameNotFoundException("Account not found"));
+        if (account.getActivationMailSentCount() >= activationMailMaxSentCount) {
             throw new MessagingException("Activation email has been sent over " + activationMailMaxSentCount + " times");
         }
-        emailService.sendActivationMail(account);
+        try {
+            emailService.sendActivationMail(account);
+        } catch (jakarta.mail.MessagingException e) {
+            throw new MessagingException(e.getMessage());
+        }
         account.setActivationMailSentCount(account.getActivationMailSentCount() + 1);
         accountRepository.save(account);
     }
@@ -98,7 +101,11 @@ public class AccountService {
                 .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
 
         // gửi mail
-        emailService.sendForgotPasswordMail(account);
+        try {
+            emailService.sendForgotPasswordMail(account);
+        } catch (jakarta.mail.MessagingException e) {
+            throw new MessagingException(e.getMessage());
+        }
         account.setForgotPasswordMailSentAt(LocalDateTime.now());
         accountRepository.save(account);
     }
@@ -129,10 +136,10 @@ public class AccountService {
     }
 
 
-    public AccountResponse createUser(CreateAccountRequest request) throws ExistedUserException {
+    public AccountResponse createUser(CreateAccountRequest request) throws ExistedAccountException {
         Optional<Account> userOptional = accountRepository.findByEmail(request.getEmail());
         if (userOptional.isPresent()) {
-            throw new ExistedUserException("Username existed");
+            throw new ExistedAccountException("Username existed");
         }
 
         Account account = Account.builder()

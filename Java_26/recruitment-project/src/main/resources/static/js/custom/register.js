@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    let registraionType = "CANDIDATE";
+    let registrationType = "CANDIDATE";
 
     $("#success-register").hide();
     $("#failed-register").hide();
@@ -22,7 +22,7 @@ $(document).ready(function () {
         }
 
         // Bổ sung ENUM vào object register với thuoc tinh la status
-        register["type"] = registraionType;
+        register["type"] = registrationType;
 
         //b2 : call ajax
         $.ajax({
@@ -33,9 +33,12 @@ $(document).ready(function () {
             success: function (data) {
                 //b3 : Hien thi thong bao thanh cong va yeu cau xac thuc tai khoan
                 $("#resend-email").attr("account-id", data.id);
+                $("#failed-register").hide();
                 $("#success-register").show();
             },
             error: function (err) {
+                handleResponseError(err, null);
+                $("#success-register").hide();
                 $("#failed-register").show();
             }
         });
@@ -51,7 +54,7 @@ $(document).ready(function () {
                 showToast("Resent email successfully", SUCCESS_TOAST);
             },
             error: function (err) {
-                showToast("Resent email failed", ERROR_TOAST);
+                handleResponseError(err, "Resent email failed");
             }
         })
     });
@@ -70,13 +73,13 @@ $(document).ready(function () {
         $('#icon-candidate').css('color', '#34A853');
         $('#id-candidate').css('color', '#34A853');
 
-        registraionType = "COMPANY";
+        registrationType = "COMPANY";
     });
 
     $("#register-candidate").click(function (){
-        $("#address").hide()
-        $("#quantity").hide()
-        $("#website").hide()
+        $("#address").hide();
+        $("#quantity").hide();
+        $("#website").hide();
         $("#register-form").trigger('reset');
 
         $('#id-company').css('background-color', '#E1F2E5');
@@ -87,7 +90,7 @@ $(document).ready(function () {
         $('#icon-candidate').css('color', 'white');
         $('#id-candidate').css('color', 'white');
 
-        registraionType = "CANDIDATE";
+        registrationType = "CANDIDATE";
     });
 
 });

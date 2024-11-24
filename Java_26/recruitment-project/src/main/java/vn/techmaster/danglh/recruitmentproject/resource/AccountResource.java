@@ -8,7 +8,6 @@ import vn.techmaster.danglh.recruitmentproject.model.request.AccountSearchReques
 import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.service.AccountService;
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -71,7 +70,7 @@ public class AccountResource {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) throws ExistedUserException {
+    public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) throws ExistedAccountException {
         AccountResponse accountResponse = accountService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED.value()).body(accountResponse);
     }

@@ -15,15 +15,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.techmaster.danglh.recruitmentproject.constant.RegistrationType;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Constant;
+import vn.techmaster.danglh.recruitmentproject.constant.RegistrationType;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
 import vn.techmaster.danglh.recruitmentproject.entity.Candidate;
 import vn.techmaster.danglh.recruitmentproject.entity.Company;
 import vn.techmaster.danglh.recruitmentproject.entity.RefreshToken;
-import vn.techmaster.danglh.recruitmentproject.exception.ExistedUserException;
+import vn.techmaster.danglh.recruitmentproject.exception.ExistedAccountException;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidRefreshTokenException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
 import vn.techmaster.danglh.recruitmentproject.model.request.LoginRequest;
@@ -73,11 +73,11 @@ public class AuthenticationService {
 
     @Transactional(rollbackFor = Exception.class)
     public AccountResponse registerAccount(RegistrationRequest registrationRequest)
-            throws ExistedUserException, MessagingException {
+            throws ExistedAccountException, MessagingException {
         // Kiểm tra nếu email đã tồn tại
-        Optional<Account> userOptional = accountRepository.findByEmailAndStatus(registrationRequest.getEmail(), AccountStatus.ACTIVE);
+        Optional<Account> userOptional = accountRepository.findByEmail(registrationRequest.getEmail());
         if (userOptional.isPresent()) {
-            throw new ExistedUserException("Username existed");
+            throw new ExistedAccountException("Username existed");
         }
 
         // Tạo tài khoản
@@ -120,7 +120,7 @@ public class AuthenticationService {
 
     public JwtResponse authenticate(LoginRequest request) throws ObjectNotFoundException {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateJwtToken(authentication);

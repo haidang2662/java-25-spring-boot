@@ -1,5 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.model.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -10,11 +11,13 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginRequest {
 
-    @NotBlank
-    @Size(max = 50)
-    String username;
+    @NotBlank(message = "")
+    @Size(max = 50, message = "")
+    @Email(message = "")
+    String email;
 
-    @NotBlank
+    @NotBlank(message = "")
+    @Size(max = 50, message = "")
     String password;
 
 }

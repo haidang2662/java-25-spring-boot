@@ -1,6 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.resource;
 
-import vn.techmaster.danglh.recruitmentproject.exception.ExistedUserException;
+import vn.techmaster.danglh.recruitmentproject.exception.ExistedAccountException;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidRefreshTokenException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
 import vn.techmaster.danglh.recruitmentproject.model.request.LoginRequest;
@@ -34,7 +34,7 @@ public class AuthenticationResource {
 
     @PostMapping("/registration")
     public ResponseEntity<AccountResponse> registerAccount(@Valid @RequestBody RegistrationRequest request)
-            throws ExistedUserException, MessagingException {
+            throws ExistedAccountException, MessagingException {
         AccountResponse accountResponse = authenticateService.registerAccount(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(accountResponse);
     }

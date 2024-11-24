@@ -13,17 +13,17 @@
 
     <!-- Info Section -->
     <div class="login-section">
-        <div class="image-layer" style="background-image: url(images/background/12.jpg);"></div>
+        <div class="image-layer" style="background-image: url('/images/background/12.jpg');"></div>
         <div class="outer-box">
             <!-- Login Form -->
             <div class="login-form default-form">
                 <div class="form-inner">
                     <h3>Login to Superio</h3>
                     <!--Login Form-->
-                    <form method="post" action="add-parcel.html">
+                    <form id="login-form">
                         <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" name="username" placeholder="Username" required>
+                            <label>Email</label>
+                            <input type="text" name="email" placeholder="Email" required>
                         </div>
 
                         <div class="form-group">
@@ -33,17 +33,17 @@
 
                         <div class="form-group">
                             <div class="field-outer">
-                                <div class="input-group checkboxes square">
-                                    <input type="checkbox" name="remember-me" value="" id="remember">
-                                    <label for="remember" class="remember"><span class="custom-checkbox"></span>
-                                        Remember me</label>
-                                </div>
+<!--                                <div class="input-group checkboxes square">-->
+<!--                                    <input type="checkbox" name="remember-me" value="" id="remember">-->
+<!--                                    <label for="remember" class="remember"><span class="custom-checkbox"></span>-->
+<!--                                        Remember me</label>-->
+<!--                                </div>-->
                                 <a href="#" class="pwd">Forgot password?</a>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <button class="theme-btn btn-style-one" type="submit" name="log-in">Log In</button>
+                            <button class="theme-btn btn-style-one" type="button" name="log-in" id="login-btn">Log In</button>
                         </div>
                     </form>
 
@@ -73,6 +73,9 @@
 
 
 <th:block th:replace="~{fragments/common/embedded-js :: embedded-js}"/>
+<script src="js/custom/login.js"></script>
+
+
 </body>
 
 </html>

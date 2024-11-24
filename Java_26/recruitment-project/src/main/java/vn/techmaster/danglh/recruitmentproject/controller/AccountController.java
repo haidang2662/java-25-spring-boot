@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccountController {
 
     @GetMapping("/{id}/activations")
-    public String activateAccount(){
-        return "account-activation";
+    public String activateAccount() {
+        return "authentication/account-activation";
     }
 
 }

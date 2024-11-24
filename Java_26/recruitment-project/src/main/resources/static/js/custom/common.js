@@ -28,3 +28,18 @@ function showToast(message, type) {
         } // Callback after click
     }).showToast();
 }
+
+function handleResponseError(err, customMessage) {
+    // console.log(err);
+    if (!err) {
+        return;
+    }
+    // const code = err?.responseJSON?.code;
+    const message = err?.responseJSON?.message || customMessage;
+
+    if (!message) {
+        return;
+    }
+
+    showToast(message, ERROR_TOAST);
+}

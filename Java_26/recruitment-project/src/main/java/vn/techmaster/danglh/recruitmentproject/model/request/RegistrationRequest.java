@@ -1,8 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.model.request;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -13,25 +11,29 @@ import vn.techmaster.danglh.recruitmentproject.constant.RegistrationType;
 public class RegistrationRequest {
 
     @NotBlank(message = "Email không được bỏ trống")
-    @Size(max = 50 , message = "Email không được quá 50 ký tụ")
+    @Size(max = 50, message = "Email không được quá 50 ký tụ")
+    @Email(message = "")
     String email;
 
     @NotBlank(message = "Password không được bỏ trống")
-    @Size(max = 50 , message = "Password không được quá 50 ký tụ")
+    @Size(max = 50, message = "Password không được quá 50 ký tự")
+//    @Pattern(regexp = "", message = "")
     String password;
 
     @NotBlank(message = "Tên không được bỏ trống")
-    @Size(max = 50 , message = "Tên không được quá 50 ký tụ")
+    @Size(max = 50, message = "Tên không được quá 50 ký tụ")
     String name;
 
-    @Size(max = 50 , message = "Tên trụ sở chính không được quá 50 ký tụ")
+    @Size(max = 50, message = "Tên trụ sở chính không được quá 50 ký tụ")
     String headQuarterAddress;
 
-    @Min(value = 1 , message = "Số nhân viên không được âm")
+    @Min(value = 1, message = "Số nhân viên không được âm")
     Integer employeeQuantity;
 
-    @Size(max = 50 , message = "Tên website không được quá 50 ký tụ")
+    @Size(max = 50, message = "Tên website không được quá 50 ký tụ")
     String website;
 
+    @NotNull(message = "Loại tài khoản không được trống")
     RegistrationType type;
+
 }
