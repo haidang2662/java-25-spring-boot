@@ -7,6 +7,7 @@ $(document).ready(function () {
         for (let i = 0; i < formData.length; i++) {
             login[formData[i].name] = formData[i].value;
         }
+        register["password"] = md5(register["password"]);
         //B2 : Call ajax
         $.ajax({
             url: "/api/v1/authentications/login",

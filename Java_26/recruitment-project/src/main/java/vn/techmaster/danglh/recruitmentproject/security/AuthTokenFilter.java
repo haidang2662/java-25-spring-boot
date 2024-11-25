@@ -20,7 +20,7 @@ import java.io.IOException;
 
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthTokenFilter extends OncePerRequestFilter {
+public class AuthTokenFilter extends OncePerRequestFilter { // bản chất là 1 filter , request nào cũng phải đi qua cái filter này hết
 
     @Autowired
     JwtService jwtService;

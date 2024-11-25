@@ -120,15 +120,15 @@ public class AuthenticationService {
 
     public JwtResponse authenticate(LoginRequest request) throws ObjectNotFoundException {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())); // đã login thành công
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtService.generateJwtToken(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication); // lưu trữ thông tin thành công vào SecurityContextHolder
+        String jwt = jwtService.generateJwtToken(authentication); // sinh ra jwt
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Set<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet());  // Lấy ra quyền của thằng vừa login
 
         Account account = accountRepository.findById(userDetails.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Account not found"));

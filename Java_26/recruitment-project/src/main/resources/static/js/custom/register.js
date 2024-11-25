@@ -8,11 +8,67 @@ $(document).ready(function () {
     $("#quantity").hide();
     $("#website").hide();
 
+    const registerValidator = $("#register-form").validate({
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false,
+        rules: {
+            "email": {
+                required: true,
+                maxlength: 50
+            },
+            "password": {
+                required: true,
+                maxlength: 50
+            },
+            "name": {
+                required: true,
+                maxlength: 50
+            },
+            "headQuarterAddress": {
+
+                maxlength: 50
+            },
+            "employeeQuantity": {
+
+                min : 1
+            },
+            "website": {
+
+                maxlength: 50
+            }
+        },
+        messages: {
+            "email": {
+                required: "Email is required.",
+                maxlength: "Email must not exceed 50 characters."
+            },
+            "password": {
+                required: "Password is required.",
+                min: "Password must not exceed 50 characters."
+            },
+            "name": {
+                required: "Name is required.",
+                maxlength: "Name must not exceed 50 characters."
+            },
+            "headQuarterAddress": {
+                maxlength: "headQuarterAddress must not exceed 50 characters."
+            },
+            "employeeQuantity": {
+                min : "Number of employees must be greater than or equal to 1"
+            },
+            "website": {
+                maxlength: "website must not exceed 50 characters."
+            },
+        }
+    });
+
+
     $("#register-btn").click(function () {
-        // const isValidForm = $("register-form").valid();
-        // if(!isValidForm){
-        //     return;
-        // }
+        const isValidForm = $("#register-form").valid();
+        if(!isValidForm){
+            return;
+        }
 
         //b1 : Lay du lieu tu form
         const formData = $("#register-form").serializeArray();
@@ -21,8 +77,8 @@ $(document).ready(function () {
             register[formData[i].name] = formData[i].value;
         }
 
-        // Bổ sung ENUM vào object register với thuoc tinh la status
         register["type"] = registrationType;
+        register["password"] = md5(register["password"]);
 
         //b2 : call ajax
         $.ajax({
@@ -63,7 +119,7 @@ $(document).ready(function () {
         $("#address").show();
         $("#quantity").show();
         $("#website").show();
-        $("#register-form").trigger('reset');
+        // $("#register-form").trigger('reset');
 
         $('#id-company').css('background-color', '#34A853');
         $('#icon-company').css('color', 'white');
@@ -80,7 +136,7 @@ $(document).ready(function () {
         $("#address").hide();
         $("#quantity").hide();
         $("#website").hide();
-        $("#register-form").trigger('reset');
+        // $("#register-form").trigger('reset');
 
         $('#id-company').css('background-color', '#E1F2E5');
         $('#icon-company').css('color', '#34A853');
