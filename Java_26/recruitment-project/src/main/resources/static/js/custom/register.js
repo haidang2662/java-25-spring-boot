@@ -119,7 +119,8 @@ $(document).ready(function () {
         $("#address").show();
         $("#quantity").show();
         $("#website").show();
-        // $("#register-form").trigger('reset');
+        registerValidator.resetForm();
+        $("#register-form").trigger('reset');
 
         $('#id-company').css('background-color', '#34A853');
         $('#icon-company').css('color', 'white');
@@ -136,7 +137,8 @@ $(document).ready(function () {
         $("#address").hide();
         $("#quantity").hide();
         $("#website").hide();
-        // $("#register-form").trigger('reset');
+        registerValidator.resetForm();
+        $("#register-form").trigger('reset');
 
         $('#id-company').css('background-color', '#E1F2E5');
         $('#icon-company').css('color', '#34A853');
