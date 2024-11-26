@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+    // Thêm phương thức "pattern" vào jQuery Validation
+    $.validator.addMethod("pattern", function (value, element, regex) {
+        // Nếu trường không bắt buộc (optional) hoặc giá trị khớp regex thì hợp lệ
+        return this.optional(element) || regex.test(value);
+    }, "Invalid format."); // Thông báo lỗi mặc định
+
     let registrationType = "CANDIDATE";
 
     $("#success-register").hide();
@@ -19,7 +25,8 @@ $(document).ready(function () {
             },
             "password": {
                 required: true,
-                maxlength: 50
+                maxlength: 50,
+                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/ // Regex: Ít nhất 1 chữ hoa, 1 chữ thường, 1 số
             },
             "name": {
                 required: true,
@@ -45,7 +52,8 @@ $(document).ready(function () {
             },
             "password": {
                 required: "Password is required.",
-                min: "Password must not exceed 50 characters."
+                maxlength: "Password must not exceed 50 characters.",
+                pattern: "Password must include at least 1 uppercase letter, 1 lowercase letter, 1 number and must be at least 8 characters."
             },
             "name": {
                 required: "Name is required.",

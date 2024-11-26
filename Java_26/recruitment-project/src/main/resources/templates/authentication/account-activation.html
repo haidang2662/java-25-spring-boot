@@ -10,89 +10,30 @@
     <header th:replace="~{fragments/common/header :: my-header}" />
     <!-- End Main Header -->
 
-    <!-- Banner Section-->
+
+
     <section class="banner-section-eight">
         <div class="image-outer">
-            <figure class="image"><img src="images/resource/banner-img-9.png" alt=""></figure>
+            <figure class="image"><img src="/images/resource/banner-img-9.png" alt=""></figure>
         </div>
-        <div class="auto-container">
+        <div class="auto-container" style="min-height: 100vh;">
             <div class="row">
                 <div class="content-column col-xl-6 col-lg-12 col-md-12 col-sm-12">
                     <div class="inner-column">
-                        <div class="title-box wow fadeInUp" data-wow-delay="500ms">
-                            <h3>Find Job</h3>
-                            <div class="text">Jobs & Job search. Find jobs in global. Executive jobs & work.
-                                Employment
-                            </div>
-                        </div>
-
-                        <!-- Job Search Form -->
-                        <div class="job-search-form wow fadeInUp" data-wow-delay="1000ms">
-                            <form method="post" action="job-list-v10.html">
-                                <div class="row">
-                                    <div class="form-group col-lg-4 col-md-12 col-sm-12">
-                                        <span class="icon flaticon-search-1"></span>
-                                        <input type="text" name="field_name"
-                                               placeholder="Job title, keywords, or company">
-                                    </div>
-                                    <!-- Form Group -->
-                                    <div class="form-group col-lg-3 col-md-12 col-sm-12 location">
-                                        <span class="icon flaticon-map-locator"></span>
-                                        <input type="text" name="field_name" placeholder="City or postcode">
-                                    </div>
-
-                                    <!-- Form Group -->
-                                    <div class="form-group col-lg-3 col-md-12 col-sm-12 category">
-                                        <span class="icon flaticon-briefcase"></span>
-                                        <select class="chosen-select">
-                                            <option value="">All Categories</option>
-                                            <option value="44">Accounting / Finance</option>
-                                            <option value="106">Automotive Jobs</option>
-                                            <option value="46">Customer</option>
-                                            <option value="48">Design</option>
-                                            <option value="47">Development</option>
-                                            <option value="45">Health and Care</option>
-                                            <option value="105">Marketing</option>
-                                            <option value="107">Project Management</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Form Group -->
-                                    <div class="form-group col-lg-2 col-md-12 col-sm-12 btn-box">
-                                        <button type="submit" class="theme-btn btn-style-one"><span class="btn-title">Find Jobs</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- Job Search Form -->
-
-                        <div class="bottom-box wow fadeInUp" data-wow-delay="1500ms">
-                            <div class="count-employers">
-                                <span class="title">10k+ Candidates</span>
-                                <img src="images/resource/multi-peoples.png" alt="">
-                            </div>
-                            <a href="#" class="upload-cv"><span class="icon flaticon-file"></span> Upload your CV</a>
+                        <div class="text-center p-4 bg-white rounded shadow">
+                            <p id="success-activation" class="text-success fs-4 fw-bold">
+                                Congratulations, you have successfully activated your account
+                            </p>
+                            <p id="fail-activation" class="text-danger fs-4 fw-bold" style="display: none;">
+                                Account activation failed, please check again
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
-    <!-- End Banner Section-->
-
-    <!-- Activation Notification Section -->
-    <div class="d-flex justify-content-center align-items-center vh-100" style="background-image: url('images/background/activation-bg.jpg'); background-size: cover; background-position: center;">
-        <div class="text-center p-4 bg-white rounded shadow">
-            <p id="success-activation" class="text-success fs-4 fw-bold">
-                Congratulations, you have successfully activated your account
-            </p>
-            <p id="fail-activation" class="text-danger fs-4 fw-bold" style="display: none;">
-                Account activation failed, please check again
-            </p>
-        </div>
-    </div>
-    <!-- End Activation Notification Section -->
 
     <!-- Main Footer -->
     <footer th:replace="~{fragments/common/footer :: my-footer}" />
@@ -104,35 +45,6 @@
 
 </body>
 </html>
-
-<!--<!doctype html>-->
-<!--<html lang="en">-->
-<!--<head th:replace="~{fragments/common/head :: my-head(pageTitle='Activation')}"></head>-->
-<!--<body class="d-flex justify-content-center align-items-center vh-100">-->
-
-<!--&lt;!&ndash; Main Header&ndash;&gt;-->
-<!--<header th:replace="~{fragments/common/header :: my-header}" />-->
-<!--&lt;!&ndash;End Main Header &ndash;&gt;-->
-
-<!--<div class="text-center">-->
-<!--    <p id="success-activation" class="text-success">-->
-<!--        Congratulations, you have successfully activated your account-->
-<!--    </p>-->
-<!--    <p id="fail-activation" class="text-danger">-->
-<!--        Account activation failed, please check again-->
-<!--    </p>-->
-<!--</div>-->
-
-
-<!--&lt;!&ndash; Main Footer &ndash;&gt;-->
-<!--<footer th:replace="~{fragments/common/footer :: my-footer}" />-->
-<!--&lt;!&ndash; End Main Footer &ndash;&gt;-->
-
-<!--<th:block th:replace="~{fragments/common/embedded-js :: embedded-js}" />-->
-<!--<script src="/js/custom/account-activation.js"></script>-->
-
-<!--</body>-->
-<!--</html>-->
 
 
 
