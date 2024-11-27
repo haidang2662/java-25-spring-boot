@@ -75,8 +75,27 @@
             <div class="outer-box">
                 <!-- Login/Register -->
                 <div class="btn-box">
-                    <a href="/login" class="theme-btn btn-style-one">Login</a>
-                    <a href="company/dashboard-post-job.html" class="theme-btn btn-style-one">Job Post</a>
+                    <a href="/login" class="theme-btn btn-style-one" id="btn-login">Login</a>
+                    <a href="company/dashboard-post-job.html" class="theme-btn btn-style-one"
+                       id="header-job-posting-btn">Job Post</a>
+                </div>
+
+                <button class="menu-btn d-none" id="notification-btn">
+                    <span class="icon la la-bell"></span>
+                </button>
+
+                <!-- Dashboard Option -->
+                <div class="dropdown dashboard-option d-none" id="header-account-info">
+                    <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="images/resource/company-6.png" alt="avatar" class="thumb">
+                        <span class="name"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="active"><a href="dashboard.html"> <i class="la la-home"></i> Dashboard</a></li>
+                        <li><a href="dashboard-company-profile.html"><i class="la la-user-alt"></i>View Profile</a></li>
+                        <li><a href="dashboard-change-password.html"><i class="la la-lock"></i>Change Password</a></li>
+                        <li><a href="index.html"><i class="la la-sign-out"></i>Logout</a></li>
+                    </ul>
                 </div>
             </div>
         </div>

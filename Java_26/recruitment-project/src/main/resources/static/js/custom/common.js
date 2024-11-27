@@ -1,7 +1,3 @@
-const SUCCESS_TOAST = "SUCCESS";
-const ERROR_TOAST = "ERROR";
-const WARNING_TOAST = "WARING";
-
 function showToast(message, type) {
     let color;
     if (type === SUCCESS_TOAST) {

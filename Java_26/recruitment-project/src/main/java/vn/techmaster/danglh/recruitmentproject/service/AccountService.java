@@ -67,7 +67,7 @@ public class AccountService {
 
     public void activateAccount(Long userId) throws ObjectNotFoundException, ExpiredEmailActivationUrlException {
         Account account = accountRepository.findById(userId)
-                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+                .orElseThrow(() -> new ObjectNotFoundException("Account not found"));
         int a = 1;
         // check xem link active het han chua
         LocalDateTime activationMailSentAt = account.getActivationMailSentAt();

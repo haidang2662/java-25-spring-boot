@@ -14,15 +14,20 @@ $(document).ready(function () {
             type: "POST",
             data: JSON.stringify(login),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {
+            success: async function (data) {
                 localStorage.setItem("accessToken", data?.jwt);
                 localStorage.setItem("refreshToken", data?.refreshToken);
-                const user  = {
+                const account  = {
                     id: data?.id,
-                    username: data?.username,
+                    email: data?.username,
                     role: data?.roles?.[0]
                 };
-                localStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("account", JSON.stringify(account));
+
+                // lấy thông tin chi tiết account
+                const accountInfo = await getAccountDetail(account.id);
+                localStorage.setItem("account-info", JSON.stringify(accountInfo));
+
                 location.href = "/";
             },
             error: function (err) {

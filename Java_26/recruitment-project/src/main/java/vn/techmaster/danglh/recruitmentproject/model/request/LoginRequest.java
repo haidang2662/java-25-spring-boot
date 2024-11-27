@@ -11,13 +11,13 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginRequest {
 
-    @NotBlank(message = "")
-    @Size(max = 50, message = "")
-    @Email(message = "")
+    @NotBlank(message = "Email is required.")
+    @Size(max = 50, message = "Email must not exceed 50 characters.")
+    @Email(message = "Must have correct email format")
     String email;
 
-    @NotBlank(message = "")
-    @Size(max = 50, message = "")
+    @NotBlank(message = "Password is required.")
+    @Size(max = 50, message = "Password must not exceed 50 characters.")
     String password;
-
+//Password must include at least 1 uppercase letter, 1 lowercase letter, 1 number and must be at least 8 characters.
 }
