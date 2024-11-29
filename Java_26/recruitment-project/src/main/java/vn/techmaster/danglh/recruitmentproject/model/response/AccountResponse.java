@@ -3,9 +3,8 @@ package vn.techmaster.danglh.recruitmentproject.model.response;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
-import vn.techmaster.danglh.recruitmentproject.constant.RegistrationType;
-import vn.techmaster.danglh.recruitmentproject.constant.Role;
+import vn.techmaster.danglh.recruitmentproject.model.CandidateModel;
+import vn.techmaster.danglh.recruitmentproject.model.CompanyModel;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -17,16 +16,8 @@ public class AccountResponse {
 
     String name;
 
-    String headQuarterAddress;
+    CandidateModel candidateModel;
 
-    Integer employeeQuantity;
-
-    String website;
-
-//    RegistrationType type;
-
-    Role role;
-
-    AccountStatus status;
+    CompanyModel companyModel;
 
 }

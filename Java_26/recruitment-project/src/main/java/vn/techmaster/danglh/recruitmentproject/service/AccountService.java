@@ -68,7 +68,7 @@ public class AccountService {
     public void activateAccount(Long userId) throws ObjectNotFoundException, ExpiredEmailActivationUrlException {
         Account account = accountRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("Account not found"));
-        int a = 1;
+
         // check xem link active het han chua
         LocalDateTime activationMailSentAt = account.getActivationMailSentAt();
         if (activationMailSentAt.plusSeconds(activationMailExpiredDurationInMilliseconds / 1000).isBefore(LocalDateTime.now())) {
@@ -90,6 +90,7 @@ public class AccountService {
             throw new MessagingException(e.getMessage());
         }
         account.setActivationMailSentCount(account.getActivationMailSentCount() + 1);
+        account.setActivationMailSentAt(LocalDateTime.now());
         accountRepository.save(account);
     }
 
@@ -130,9 +131,14 @@ public class AccountService {
     }
 
     public AccountResponse getDetail(Long id) throws ObjectNotFoundException {
-        return accountRepository.findById(id)
-                .map(u -> objectMapper.convertValue(u, AccountResponse.class))
-                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+//        return accountRepository.findById(id)
+//                .map(u -> objectMapper.convertValue(u, AccountResponse.class))
+//                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if(accountOptional.isEmpty()){
+            return new ObjectNotFoundException("Account not found");
+        }
+        return null;
     }
 
 
