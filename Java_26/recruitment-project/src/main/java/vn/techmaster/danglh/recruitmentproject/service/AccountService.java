@@ -13,7 +13,11 @@ import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.dto.SearchUserDto;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
+import vn.techmaster.danglh.recruitmentproject.entity.Candidate;
+import vn.techmaster.danglh.recruitmentproject.entity.Company;
 import vn.techmaster.danglh.recruitmentproject.exception.*;
+import vn.techmaster.danglh.recruitmentproject.model.CandidateModel;
+import vn.techmaster.danglh.recruitmentproject.model.CompanyModel;
 import vn.techmaster.danglh.recruitmentproject.model.request.AccountSearchRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.CreateAccountRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.ForgotPasswordEmailRequest;
@@ -22,6 +26,8 @@ import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.AccountSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.CandidateRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.CompanyRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.custom.AccountCustomRepository;
 
 import java.time.LocalDateTime;
@@ -43,6 +49,10 @@ public class AccountService {
     final ObjectMapper objectMapper;
 
     final AccountCustomRepository accountCustomRepository;
+
+    final CandidateRepository candidateRepository;
+
+    final CompanyRepository companyRepository;
 
     @Value("${application.account.activation.expiredDurationInMilliseconds}")
     long activationMailExpiredDurationInMilliseconds;
@@ -131,14 +141,21 @@ public class AccountService {
     }
 
     public AccountResponse getDetail(Long id) throws ObjectNotFoundException {
-//        return accountRepository.findById(id)
-//                .map(u -> objectMapper.convertValue(u, AccountResponse.class))
-//                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
-        Optional<Account> accountOptional = accountRepository.findById(id);
-        if(accountOptional.isEmpty()){
-            return new ObjectNotFoundException("Account not found");
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Account not found")) ;
+        AccountResponse accountResponse = objectMapper.convertValue(account , AccountResponse.class);
+        if(account.getRole() == Role.CANDIDATE){
+            Candidate candidate = candidateRepository.findByAccount(account)
+                    .orElseThrow(() -> new ObjectNotFoundException("Candidate not found"));
+            CandidateModel candidateModel = objectMapper.convertValue(candidate , CandidateModel.class);
+            accountResponse.setCandidateModel(candidateModel);
+        } else if(account.getRole() == Role.COMPANY){
+            Company company = companyRepository.findByAccount(account)
+                    .orElseThrow(() -> new ObjectNotFoundException("Company not found"));
+            CompanyModel companyModel = objectMapper.convertValue(company , CompanyModel.class);
+            accountResponse.setCompanyModel(companyModel);
         }
-        return null;
+        return accountResponse;
     }
 
 

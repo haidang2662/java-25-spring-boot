@@ -31,7 +31,6 @@ $(document).ready(function () {
                 location.href = "/";
             },
             error: function (err) {
-                console.log(err);
                 if (err?.responseJSON?.status == 401) {
                     showToast("Email or password incorrect", ERROR_TOAST);
                     return;
