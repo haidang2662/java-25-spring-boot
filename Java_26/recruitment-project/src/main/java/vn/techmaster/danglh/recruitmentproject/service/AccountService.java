@@ -65,7 +65,7 @@ public class AccountService {
 
     public void changePassword(Long id, PasswordChangingRequest request) throws ObjectNotFoundException, PasswordNotMatchedException {
         Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+                .orElseThrow(() -> new ObjectNotFoundException("Account not found"));
 
         if (!request.getPassword().equals(request.getConfirmedPassword())) {
             throw new PasswordNotMatchedException("Password not matched");

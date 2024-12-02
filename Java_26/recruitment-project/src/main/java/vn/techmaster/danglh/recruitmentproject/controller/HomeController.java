@@ -13,4 +13,9 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/change-password")
+    public String changePassword() {
+        return "/authentication/change-password";
+    }
+
 }

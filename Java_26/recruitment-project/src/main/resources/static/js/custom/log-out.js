@@ -1,23 +1,25 @@
 $(document).ready(function () {
 
-    $("#log-out-btn").click(function () {
+    $("#log-out-btn").click(async function () {
 
         if (!confirm("Do you want to log out ? ")) {
             return;
         };
 
-        $.ajax({
+        await $.ajax({
             url: "/api/v1/authentications/logout",
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            success: function () {
-                localStorage.clear();
-                location.href = "/";
-            },
-            error: function (err) {
-                handleResponseError(err, "Log out failed")
-            }
+            headers: {"Authorization": "Bearer " + localStorage.getItem('accessToken')},
+            success: function () {},
+            error: function () {}
         });
+
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('account');
+        localStorage.removeItem('account-info');
+        location.href = "/";
 
     });
 
