@@ -13,4 +13,24 @@ public class AccountController {
         return "authentication/account-activation";
     }
 
+    @GetMapping("/change-password")
+    public String changePassword() {
+        return "/account/change-password";
+    }
+
+    @GetMapping("/forgot-password-email")
+    public String sendForgotPasswordEmail() {
+        return "/account/forgot-password-email";
+    }
+
+    @GetMapping("/{id}/password_forgotten")
+    public String forgotPassword() {
+        return "/account/forgot-password";
+    }
+
+    @GetMapping("/profile")
+    public String viewProfile() {
+        return "/account/profile";
+    }
+
 }

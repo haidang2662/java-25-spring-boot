@@ -27,7 +27,7 @@ public class Candidate extends BaseEntity {
 
     String name;
     LocalDate dob;
-
+    // Thieu email , jobTitle thay cho skills
     @Enumerated(EnumType.STRING)
     Gender gender;
 

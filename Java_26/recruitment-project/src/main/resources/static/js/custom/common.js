@@ -39,3 +39,25 @@ function handleResponseError(err, customMessage) {
 
     showToast(message, ERROR_TOAST);
 }
+
+function handleResponseErrorVer2(jqXHR, textStatus, errorThrown) {
+    const url = jqXHR.url;
+    console.log(url);
+    if (url === "") {
+        ///....
+    }
+}
+
+const ajaxSetupObj = {
+    error: function (jqXHR, textStatus, errorThrown) {
+        handleResponseErrorVer2(jqXHR, textStatus, errorThrown);
+    }
+};
+const accessToken = localStorage.getItem('accessToken');
+if (accessToken) {
+    ajaxSetupObj['headers'] = {
+        "Authorization": "Bearer " + accessToken
+    }
+}
+$.ajaxSetup(ajaxSetupObj);
+

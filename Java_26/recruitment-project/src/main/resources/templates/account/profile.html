@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/common/head :: my-head(pageTitle='Account Activation')}" />
+<body data-anm=".anm" class="bg-light">
+
+<div class="page-wrapper">
+
+    <!-- Main Header -->
+    <header th:replace="~{fragments/common/header :: my-header}" />
+    <!-- End Main Header -->
+
+
+
+    <section class="banner-section-eight">
+        <div class="image-outer">
+            <figure class="image"><img src="/images/resource/banner-img-9.png" alt=""></figure>
+        </div>
+        <div class="auto-container" style="min-height: 100vh;">
+            <div class="row">
+                <div class="content-column col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                    <div class="inner-column">
+                        <div class="text-center p-4 bg-white rounded shadow">
+                            <div class="widget-content">
+                                <div class="uploading-outer">
+                                    <div class="uploadButton">
+                                        <input class="uploadButton-input" type="file" name="attachments[]" accept="image/*, application/pdf" id="upload" multiple />
+                                        <label class="uploadButton-button ripple-effect" for="upload">Browse Avatar</label>
+                                        <span class="uploadButton-file-name"></span>
+                                    </div>
+                                    <div class="text">Max file size is 1MB, Minimum dimension: 330x300 And Suitable files are .jpg & .png</div>
+                                </div>
+
+                                <form class="default-form">
+                                    <div class="row">
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Full Name</label>
+                                            <input type="text" name="name" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Date of birth</label>
+                                            <input type="date" name="dob" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Gender</label>
+                                            <select class="chosen-select">
+                                                <option>Male</option>
+                                                <option>Female</option>
+                                                <option>Other</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Job Title</label>
+                                            <input type="text" name="name" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Phone</label>
+                                            <input type="text" name="phone" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Email address</label>
+                                            <input type="text" name="email" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Address</label>
+                                            <input type="text" name="address" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Year of experience</label>
+                                            <input type="number" name="yearOfExperience" placeholder="">
+                                        </div>
+
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Literacy</label>
+                                            <select class="chosen-select">
+                                                <option>PROFESSOR</option>
+                                                <option>DOCTOR</option>
+                                                <option>MASTER</option>
+                                                <option>UNIVERSITY</option>
+                                                <option>COLLEGE</option>
+                                                <option>HIGH_SCHOOL</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Graduated at</label>
+                                            <input type="text" name="graduatedAt" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Expected salary from</label>
+                                            <input type="number" name="expectedSalaryFrom" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Expected salary to</label>
+                                            <input type="number" name="expectedSalaryTo" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Working time type</label>
+                                            <select class="chosen-select">
+                                                <option>PART_TIME</option>
+                                                <option>FULL_TIME</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Working type</label>
+                                            <select class="chosen-select">
+                                                <option>ONLINE</option>
+                                                <option>OFFLINE</option>
+                                            </select>
+                                        </div>
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <button class="theme-btn btn-style-one">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Footer -->
+    <footer th:replace="~{fragments/common/footer :: my-footer}" />
+    <!-- End Main Footer -->
+
+</div><!-- End Page Wrapper -->
+
+<th:block th:replace="~{fragments/common/embedded-js :: embedded-js}" />
+</body>
+</html>
+
+
+
+

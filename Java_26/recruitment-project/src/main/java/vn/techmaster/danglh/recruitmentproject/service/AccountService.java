@@ -6,9 +6,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.dto.SearchUserDto;
@@ -28,6 +30,7 @@ import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchRespon
 import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.CandidateRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.CompanyRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.RefreshTokenRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.custom.AccountCustomRepository;
 
 import java.time.LocalDateTime;
@@ -54,6 +57,8 @@ public class AccountService {
 
     final CompanyRepository companyRepository;
 
+    final RefreshTokenRepository refreshTokenRepository;
+
     @Value("${application.account.activation.expiredDurationInMilliseconds}")
     long activationMailExpiredDurationInMilliseconds;
 
@@ -63,6 +68,7 @@ public class AccountService {
     @Value("${application.account.activation.maxResendTimes}")
     int activationMailMaxSentCount;
 
+    @Transactional(rollbackFor = Exception.class)
     public void changePassword(Long id, PasswordChangingRequest request) throws ObjectNotFoundException, PasswordNotMatchedException {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Account not found"));
@@ -73,6 +79,9 @@ public class AccountService {
 
         account.setPassword(passwordEncoder.encode(request.getPassword()));
         accountRepository.save(account);
+
+        refreshTokenRepository.logOut(account.getId());
+        SecurityContextHolder.clearContext();
     }
 
     public void activateAccount(Long userId) throws ObjectNotFoundException, ExpiredEmailActivationUrlException {
@@ -142,17 +151,17 @@ public class AccountService {
 
     public AccountResponse getDetail(Long id) throws ObjectNotFoundException {
         Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("Account not found")) ;
-        AccountResponse accountResponse = objectMapper.convertValue(account , AccountResponse.class);
-        if(account.getRole() == Role.CANDIDATE){
+                .orElseThrow(() -> new ObjectNotFoundException("Account not found"));
+        AccountResponse accountResponse = objectMapper.convertValue(account, AccountResponse.class);
+        if (account.getRole() == Role.CANDIDATE) {
             Candidate candidate = candidateRepository.findByAccount(account)
                     .orElseThrow(() -> new ObjectNotFoundException("Candidate not found"));
-            CandidateModel candidateModel = objectMapper.convertValue(candidate , CandidateModel.class);
+            CandidateModel candidateModel = objectMapper.convertValue(candidate, CandidateModel.class);
             accountResponse.setCandidateModel(candidateModel);
-        } else if(account.getRole() == Role.COMPANY){
+        } else if (account.getRole() == Role.COMPANY) {
             Company company = companyRepository.findByAccount(account)
                     .orElseThrow(() -> new ObjectNotFoundException("Company not found"));
-            CompanyModel companyModel = objectMapper.convertValue(company , CompanyModel.class);
+            CompanyModel companyModel = objectMapper.convertValue(company, CompanyModel.class);
             accountResponse.setCompanyModel(companyModel);
         }
         return accountResponse;

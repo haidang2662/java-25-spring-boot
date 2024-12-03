@@ -38,7 +38,7 @@ $(document).ready(function () {
             },
             "employeeQuantity": {
 
-                min : 1
+                min: 1
             },
             "website": {
 
@@ -63,7 +63,7 @@ $(document).ready(function () {
                 maxlength: "headQuarterAddress must not exceed 50 characters."
             },
             "employeeQuantity": {
-                min : "Number of employees must be greater than or equal to 1"
+                min: "Number of employees must be greater than or equal to 1"
             },
             "website": {
                 maxlength: "website must not exceed 50 characters."
@@ -72,11 +72,17 @@ $(document).ready(function () {
     });
 
 
-    $("#register-btn").click(function () {
+    $("#register-btn").click(async function () {
         const isValidForm = $("#register-form").valid();
-        if(!isValidForm){
+        if (!isValidForm) {
             return;
         }
+
+        //disable nút đăng ký
+        $("#register-btn").prop("disabled", true);
+
+        //Chuyen doi an hien
+        $("#spinner").toggleClass('d-none');
 
         //b1 : Lay du lieu tu form
         const formData = $("#register-form").serializeArray();
@@ -89,7 +95,7 @@ $(document).ready(function () {
         register["password"] = md5(register["password"]);
 
         //b2 : call ajax
-        $.ajax({
+        await $.ajax({
             url: "/api/v1/authentications/registration",
             type: "POST",
             data: JSON.stringify(register),
@@ -106,6 +112,11 @@ $(document).ready(function () {
                 $("#failed-register").show();
             }
         });
+
+        //Nhả nút đăng ký
+        $("#register-btn").prop("disabled", false);
+        //Chuyen doi an hien
+        $("#spinner").toggleClass('d-none');
     });
 
     $("#resend-email").click(function () {
@@ -123,7 +134,7 @@ $(document).ready(function () {
         })
     });
 
-    $("#register-company").click(function (){
+    $("#register-company").click(function () {
         $("#address").show();
         $("#quantity").show();
         $("#website").show();
@@ -141,7 +152,7 @@ $(document).ready(function () {
         registrationType = "COMPANY";
     });
 
-    $("#register-candidate").click(function (){
+    $("#register-candidate").click(function () {
         $("#address").hide();
         $("#quantity").hide();
         $("#website").hide();

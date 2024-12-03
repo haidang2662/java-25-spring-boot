@@ -17,21 +17,15 @@ $(document).ready(function () {
             success: async function (data) {
                 localStorage.setItem("accessToken", data?.jwt);
                 localStorage.setItem("refreshToken", data?.refreshToken);
-                const account  = {
-                    id: data?.id,
-                    email: data?.username,
-                    role: data?.roles?.[0]
-                };
-                localStorage.setItem("account", JSON.stringify(account));
 
                 // lấy thông tin chi tiết account
-                const accountInfo = await getAccountDetail(account.id);
-                localStorage.setItem("account-info", JSON.stringify(accountInfo));
+                const accountInfo = await getAccountDetail(data?.id);
+                localStorage.setItem("account", JSON.stringify(accountInfo));
 
                 location.href = "/";
             },
             error: function (err) {
-                if (err?.responseJSON?.status == 401) {
+                if (err?.responseJSON?.status === 401) {
                     showToast("Email or password incorrect", ERROR_TOAST);
                     return;
                 }

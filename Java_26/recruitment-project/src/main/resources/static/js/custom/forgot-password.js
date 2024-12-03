@@ -6,7 +6,7 @@ $(document).ready(function () {
         return this.optional(element) || regex.test(value);
     }, "Invalid format."); // Thông báo lỗi mặc định
 
-    $("#change-password-form").validate({
+    $("#reset-password-form").validate({
         onfocusout: false,
         onkeyup: false,
         onclick: false,
@@ -41,14 +41,19 @@ $(document).ready(function () {
         }
     });
 
-    $("#change-password-btn").click(async function (event) {
-        const isValidForm = $("#change-password-form").valid();
+    $("#reset-password-btn").click(async function (event) {
+        const isValidForm = $("#reset-password-form").valid();
         if (!isValidForm) {
             return;
         }
 
-        const account = JSON.parse(localStorage.getItem("account"));
-        const accountId = account?.id;
+        const currentUrl = window.location.href;
+
+        // Tách URL thành các phần tử dựa trên dấu "/"
+        const segments = currentUrl.split('/');
+
+        // Lấy phần tử thứ 5 (đếm từ 0) - là ID
+        const id = segments[4]; // Phần tử thứ 4 (chỉ số bắt đầu từ 0)
 
         const newPassword = $("#newPassword").val();
         const confirmedPassword = $("#confirmPassword").val();
@@ -59,26 +64,21 @@ $(document).ready(function () {
         }
 
         await $.ajax({
-            url: `/api/v1/accounts/${accountId}/password`,
+            url: `/api/v1/accounts/${id}/password_forgotten`,
             type: "PATCH",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
                 password: md5(newPassword),
-                confirmedPassword: md5(confirmedPassword)
+                confirmedPassword: md5(confirmedPassword),
             }),
             success: function () {
-                showToast("Change password successfully", SUCCESS_TOAST);
-
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                localStorage.removeItem('account');
-
+                showToast("Reset password successfully", SUCCESS_TOAST);
                 setTimeout(function () {
                     location.href = "/";
-                }, 2000);
+                }, 3000);
             },
             error: function () {
-                showToast("Change password failed", ERROR_TOAST)
+                showToast("Reset password failed", ERROR_TOAST)
             }
         });
 
