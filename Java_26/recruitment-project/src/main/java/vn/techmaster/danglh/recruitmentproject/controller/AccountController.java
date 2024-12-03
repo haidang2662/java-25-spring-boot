@@ -10,7 +10,7 @@ public class AccountController {
 
     @GetMapping("/{id}/activations")
     public String activateAccount() {
-        return "authentication/account-activation";
+        return "account/account-activation";
     }
 
     @GetMapping("/change-password")
