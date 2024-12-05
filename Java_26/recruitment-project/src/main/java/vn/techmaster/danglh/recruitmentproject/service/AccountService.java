@@ -5,13 +5,16 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
+import vn.techmaster.danglh.recruitmentproject.constant.Constant;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.dto.SearchUserDto;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
@@ -20,10 +23,7 @@ import vn.techmaster.danglh.recruitmentproject.entity.Company;
 import vn.techmaster.danglh.recruitmentproject.exception.*;
 import vn.techmaster.danglh.recruitmentproject.model.CandidateModel;
 import vn.techmaster.danglh.recruitmentproject.model.CompanyModel;
-import vn.techmaster.danglh.recruitmentproject.model.request.AccountSearchRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.CreateAccountRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.ForgotPasswordEmailRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.PasswordChangingRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.*;
 import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.AccountSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
@@ -33,12 +33,19 @@ import vn.techmaster.danglh.recruitmentproject.repository.CompanyRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.RefreshTokenRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.custom.AccountCustomRepository;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountService {
@@ -67,6 +74,9 @@ public class AccountService {
 
     @Value("${application.account.activation.maxResendTimes}")
     int activationMailMaxSentCount;
+
+    static final String AVATAR_PATH = System.getProperty("user.dir") + File.separator + Constant.FOLDER_NAME.FILE_FOLDER_NAME + File.separator + Constant.FOLDER_NAME.AVATAR_FOLDER_NAME;
+    static final String COVER_PATH = System.getProperty("user.dir") + File.separator + Constant.FOLDER_NAME.FILE_FOLDER_NAME + File.separator + Constant.FOLDER_NAME.COVER_FOLDER_NAME;
 
     @Transactional(rollbackFor = Exception.class)
     public void changePassword(Long id, PasswordChangingRequest request) throws ObjectNotFoundException, PasswordNotMatchedException {
@@ -158,15 +168,16 @@ public class AccountService {
                     .orElseThrow(() -> new ObjectNotFoundException("Candidate not found"));
             CandidateModel candidateModel = objectMapper.convertValue(candidate, CandidateModel.class);
             accountResponse.setCandidateModel(candidateModel);
+            accountResponse.setName(candidateModel.getName());
         } else if (account.getRole() == Role.COMPANY) {
             Company company = companyRepository.findByAccount(account)
                     .orElseThrow(() -> new ObjectNotFoundException("Company not found"));
             CompanyModel companyModel = objectMapper.convertValue(company, CompanyModel.class);
             accountResponse.setCompanyModel(companyModel);
+            accountResponse.setName(companyModel.getName());
         }
         return accountResponse;
     }
-
 
     public AccountResponse createUser(CreateAccountRequest request) throws ExistedAccountException {
         Optional<Account> userOptional = accountRepository.findByEmail(request.getEmail());
@@ -207,4 +218,62 @@ public class AccountService {
                 .build();
     }
 
+    public AccountResponse updateAccount(Long id, MultipartFile avatar, UpdateAccountRequest request)
+            throws ObjectNotFoundException, IOException {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Account is not found"));
+
+        AccountResponse response = objectMapper.convertValue(account, AccountResponse.class);
+        if (account.getRole() == Role.CANDIDATE) {
+            CandidateModel model = updateCandidate(account, avatar, request);
+            response.setCandidateModel(model);
+            response.setName(model.getName());
+        } else {
+
+        }
+
+        return response;
+    }
+
+    private CandidateModel updateCandidate(Account account, MultipartFile avatar, UpdateAccountRequest request)
+            throws ObjectNotFoundException, IOException {
+        Candidate candidate = candidateRepository.findByAccount(account)
+                .orElseThrow(() -> new ObjectNotFoundException("Candidate not found"));
+
+        candidate.setName(request.getName());
+        candidate.setDob(request.getDob());
+        candidate.setGender(request.getGender());
+        candidate.setCurrentJobPosition(request.getCurrentJobPosition());
+        candidate.setPhone(request.getPhone());
+        candidate.setAddress(request.getAddress());
+        candidate.setSkills(request.getSkills());
+        candidate.setYearOfExperience(request.getYearOfExperience());
+        candidate.setLiteracy(request.getLiteracy());
+        candidate.setGraduatedAt(request.getGraduatedAt());
+        candidate.setExpectedSalaryFrom(request.getExpectedSalaryFrom());
+        candidate.setExpectedSalaryTo(request.getExpectedSalaryTo());
+        candidate.setExpectedWorkingTimeType(request.getExpectedWorkingTimeType());
+        candidate.setExpectedWorkingType(request.getExpectedWorkingType());
+
+        if (avatar != null && !avatar.isEmpty()) {
+            String fileName = saveAvatar(avatar);
+            candidate.setAvatarUrl(fileName);
+        }
+
+        candidateRepository.save(candidate);
+
+        return objectMapper.convertValue(candidate, CandidateModel.class);
+    }
+
+    private String saveAvatar(MultipartFile avatar) throws IOException {
+        File dir = new File(AVATAR_PATH);
+        // Kiểm tra nếu thư mục không tồn tại thì tạo mới
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        String fileName = System.currentTimeMillis() + "_" + avatar.getOriginalFilename();
+        Path filePath = Paths.get(AVATAR_PATH + File.separator + fileName);
+        Files.copy(avatar.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        return fileName;
+    }
 }

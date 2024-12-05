@@ -3,16 +3,13 @@ package vn.techmaster.danglh.recruitmentproject.service;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import vn.techmaster.danglh.recruitmentproject.model.response.CandidateResponse;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CandidateService {
 
-
-    public CandidateResponse getDetails(Long id) {
-        return null;
-    }
 }

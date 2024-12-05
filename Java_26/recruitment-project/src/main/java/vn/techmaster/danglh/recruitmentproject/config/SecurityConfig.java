@@ -81,6 +81,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 Console
                         .requestMatchers("/swagger-ui/index.html").permitAll() // Allow access to Swagger UI
+                        .requestMatchers("/api/v1/files/**").permitAll() // Allow access to Swagger UI
 
                         // authentication start
                         .requestMatchers(
@@ -98,6 +99,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/accounts").hasAnyAuthority(Role.ADMIN.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/accounts").hasAnyAuthority(Role.ADMIN.toString())
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/accounts/{id}/password").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/accounts/{id}").authenticated()
                         .requestMatchers(
                                 "/api/v1/accounts/{id}/activations",
                                 "/api/v1/accounts/{id}/activation_emails",

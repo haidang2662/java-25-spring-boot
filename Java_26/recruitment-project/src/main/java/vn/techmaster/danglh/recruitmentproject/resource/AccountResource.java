@@ -1,13 +1,7 @@
 package vn.techmaster.danglh.recruitmentproject.resource;
 
-import vn.techmaster.danglh.recruitmentproject.exception.*;
-import vn.techmaster.danglh.recruitmentproject.model.request.CreateAccountRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.ForgotPasswordEmailRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.PasswordChangingRequest;
-import vn.techmaster.danglh.recruitmentproject.model.request.AccountSearchRequest;
-import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
-import vn.techmaster.danglh.recruitmentproject.service.AccountService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,6 +9,14 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import vn.techmaster.danglh.recruitmentproject.exception.*;
+import vn.techmaster.danglh.recruitmentproject.model.request.*;
+import vn.techmaster.danglh.recruitmentproject.model.response.AccountResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
+import vn.techmaster.danglh.recruitmentproject.service.AccountService;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 public class AccountResource {
 
     AccountService accountService;
+
+    ObjectMapper objectMapper;
 
     @PatchMapping("/{id}/password")
     public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody @Valid PasswordChangingRequest request)
@@ -73,6 +77,21 @@ public class AccountResource {
     public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) throws ExistedAccountException {
         AccountResponse accountResponse = accountService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED.value()).body(accountResponse);
+    }
+
+    @PutMapping("/{id}")
+    public AccountResponse updateAccount(
+            @PathVariable Long id,
+            @RequestPart("accountRequest") String updateAccountRequest,
+            @RequestPart(value = "avatar", required = false) MultipartFile avatar,
+            @RequestPart(value = "cover", required = false) MultipartFile cover
+    ) throws ObjectNotFoundException, IOException {
+        try {
+            UpdateAccountRequest request = objectMapper.readValue(updateAccountRequest, UpdateAccountRequest.class);
+            return accountService.updateAccount(id, avatar, request);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("Dữ liệu JSON không hợp lệ", e);
+        }
     }
 
 }

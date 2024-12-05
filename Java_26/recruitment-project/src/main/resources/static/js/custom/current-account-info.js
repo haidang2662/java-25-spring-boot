@@ -19,8 +19,10 @@ $(document).ready(function () {
 
         if (account?.role === COMPANY_ROLE) {
             $("#header-job-posting-btn").show();
+            $("#header-account-info #avatar-image-header").attr("src", `/api/v1/files/avatar/${account.companyModel.avatarUrl}`);
         } else {
             $("#header-job-posting-btn").hide();
+            $("#header-account-info #avatar-image-header").attr("src", `/api/v1/files/avatar/${account.candidateModel.avatarUrl}`);
         }
 
         $("#header-account-info .dropdown-toggle .name").text(`${account.name || "My account"}`);

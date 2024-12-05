@@ -1893,6 +1893,23 @@ a.text-brand-3:hover {
     line-height: 18px;
 }
 
+.password-wrapper {
+    position: relative;
+}
+
+.icon-password {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+}
+
+
 .box-swiper {
     position: relative;
     width: 100%;
@@ -3467,7 +3484,7 @@ a.text-brand-3:hover {
 
 .header .main-header .header-left .header-nav {
     display: inline-block;
-    width: 45%;
+    width: 20%;
     text-align: center;
 }
 
@@ -4089,6 +4106,10 @@ a.text-brand-3:hover {
 .dropdown-cart.dropdown-open {
     display: block;
     visibility: visible;
+}
+
+#user-info {
+    cursor: pointer;
 }
 
 .dropdown-account {
@@ -10632,7 +10653,7 @@ a:hover span {
     }
 
     .header .main-header .header-left .header-shop {
-        width: 16%;
+
     }
 }
 
@@ -11496,14 +11517,6 @@ a:hover span {
 
     .header .main-header .header-left .header-shop {
         width: 55%;
-    }
-
-    #user-info {
-        white-space: nowrap; /* Không cho chữ xuống dòng */
-        overflow: hidden; /* Ẩn phần nội dung thừa */
-        text-overflow: ellipsis; /* Thay phần nội dung bị thừa bằng "..." */
-        max-width: 150px; /* Đặt độ rộng tối đa để giới hạn nội dung */
-        display: inline-block; /* Hiển thị trên cùng một hàng */
     }
 
     .list-products-5.list-products-3 .card-grid-style-3 {

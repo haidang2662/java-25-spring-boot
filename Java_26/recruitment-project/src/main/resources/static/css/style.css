@@ -998,6 +998,7 @@ input:checked + .slider:before {
 }
 
 .default-form .form-group input[type="text"],
+.default-form .form-group input[type="date"],
 .default-form .form-group input[type="password"],
 .default-form .form-group input[type="number"],
 .default-form .form-group input[type="email"],

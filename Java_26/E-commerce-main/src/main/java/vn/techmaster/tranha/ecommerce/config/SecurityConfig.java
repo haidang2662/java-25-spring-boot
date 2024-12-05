@@ -85,6 +85,8 @@ public class SecurityConfig {
                         // user start
                         .requestMatchers(HttpMethod.GET, "/api/v1/users", "/api/v1/users/{id}").hasAnyAuthority(Roles.USER.toString(), Roles.ADMIN.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").hasAnyAuthority(Roles.ADMIN.toString())
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/{id}").authenticated()
+                        .requestMatchers("/api/v1/files/{type}/{fileName}").permitAll()
                         // user end
 
                         // authentication start

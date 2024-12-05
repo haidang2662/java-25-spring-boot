@@ -24,6 +24,7 @@ public class Company extends BaseEntity {
 
     String name;
     String alias; // Viết tắt
+    String phone;
     LocalDate foundAt;
     String taxCode;
     String headQuarterAddress;
@@ -33,5 +34,6 @@ public class Company extends BaseEntity {
     String coverImageUrl;
     String description;
     Double rating;
+
 
 }

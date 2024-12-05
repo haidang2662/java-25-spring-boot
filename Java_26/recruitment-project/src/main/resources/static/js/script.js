@@ -690,21 +690,21 @@
     });
 
 	// Input Upload 
-    var uploadButton = {
-        $button: $('.uploadButton-input'),
-        $nameField: $('.uploadButton-file-name')
-    };
-    uploadButton.$button.on('change', function() {
-        _populateFileField($(this));
-    });
-
-    function _populateFileField($button) {
-        var selectedFile = [];
-        for (var i = 0; i < $button.get(0).files.length; ++i) {
-            selectedFile.push($button.get(0).files[i].name + '<br>');
-        }
-        uploadButton.$nameField.html(selectedFile);
-    }
+    // var uploadButton = {
+    //     $button: $('.uploadButton-input'),
+    //     $nameField: $('.uploadButton-file-name')
+    // };
+    // uploadButton.$button.on('change', function() {
+    //     _populateFileField($(this));
+    // });
+	//
+    // function _populateFileField($button) {
+    //     var selectedFile = [];
+    //     for (var i = 0; i < $button.get(0).files.length; ++i) {
+    //         selectedFile.push($button.get(0).files[i].name + '<br>');
+    //     }
+    //     uploadButton.$nameField.html(selectedFile);
+    // }
 
 	//Header Search
 	if($('.mobile-search-btn').length) {

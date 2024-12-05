@@ -1,4 +1,4 @@
-package vn.techmaster.danglh.recruitmentproject.model;
+package vn.techmaster.danglh.recruitmentproject.model.request;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -12,27 +12,37 @@ import java.time.LocalDate;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CandidateModel {
+public class UpdateAccountRequest {
 
     String name;
+    String avatarUrl;
+
+    //////////////////////
+
     LocalDate dob;
-
     Gender gender;
-
     String phone;
     String address;
-    String avatarUrl;
     String skills;
     Double yearOfExperience;
-
     Literacy literacy;
-
     String graduatedAt;
     Integer expectedSalaryFrom;
     Integer expectedSalaryTo;
-
     WorkingTimeType expectedWorkingTimeType;
-
     WorkingType expectedWorkingType;
+    String currentJobPosition;
+
+    /////////////////////////
+
+    String alias;
+    LocalDate foundAt;
+    String taxCode;
+    String headQuarterAddress;
+    Integer employeeQuantity;
+    String website;
+    String coverImageUrl;
+    String description;
+    Double rating;
 
 }
