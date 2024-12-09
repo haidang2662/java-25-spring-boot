@@ -21,7 +21,8 @@ $(document).ready(function () {
         rules: {
             "email": {
                 required: true,
-                maxlength: 50
+                maxlength: 50,
+                email:true
             },
             "password": {
                 required: true,
@@ -48,7 +49,8 @@ $(document).ready(function () {
         messages: {
             "email": {
                 required: "Email is required.",
-                maxlength: "Email must not exceed 50 characters."
+                maxlength: "Email must not exceed 50 characters.",
+                email: "Must have correct email format"
             },
             "password": {
                 required: "Password is required.",

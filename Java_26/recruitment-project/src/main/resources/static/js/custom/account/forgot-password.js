@@ -42,6 +42,13 @@ $(document).ready(function () {
     });
 
     $("#reset-password-btn").click(async function (event) {
+
+        //disable nút update
+        $("#reset-password-btn").prop("disabled", true);
+
+        //Chuyen doi an hien
+        $("#spinner").toggleClass('d-none');
+
         const isValidForm = $("#reset-password-form").valid();
         if (!isValidForm) {
             return;
@@ -82,6 +89,13 @@ $(document).ready(function () {
             }
         });
 
+        //disable nút update
+        $("#reset-password-btn").prop("disabled", false);
+
+        //Chuyen doi an hien
+        $("#spinner").toggleClass('d-none');
+
+        // TODO : Chưa xử lý được đặt pass sai quy ước nút update cứ quay dều không cho ấn lại nữa . Ca 2 forgotpassword đêu bi
 
     })
 

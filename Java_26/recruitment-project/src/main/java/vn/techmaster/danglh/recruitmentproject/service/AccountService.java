@@ -218,7 +218,7 @@ public class AccountService {
                 .build();
     }
 
-    public AccountResponse updateAccount(Long id, MultipartFile avatar, UpdateAccountRequest request)
+    public AccountResponse updateAccount(Long id, MultipartFile avatar, MultipartFile cover , UpdateAccountRequest request)
             throws ObjectNotFoundException, IOException {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Account is not found"));
@@ -228,11 +228,46 @@ public class AccountService {
             CandidateModel model = updateCandidate(account, avatar, request);
             response.setCandidateModel(model);
             response.setName(model.getName());
-        } else {
+        } else if (account.getRole() == Role.COMPANY) {
+            CompanyModel model = updateCompany(account , avatar , cover , request);
 
+            response.setCompanyModel(model);
+            response.setName(model.getName());
         }
 
         return response;
+    }
+
+    private CompanyModel updateCompany(Account account, MultipartFile avatar, MultipartFile cover , UpdateAccountRequest request)
+            throws ObjectNotFoundException, IOException {
+
+        Company company = companyRepository.findByAccount(account)
+                .orElseThrow(() -> new ObjectNotFoundException("Company not found"));
+
+        company.setName(request.getName());
+        company.setAlias(request.getAlias());
+        company.setPhone(request.getPhone());
+        company.setFoundAt(request.getFoundAt());
+        company.setTaxCode(request.getTaxCode());
+        company.setHeadQuarterAddress(request.getHeadQuarterAddress());
+        company.setEmployeeQuantity(request.getEmployeeQuantity());
+        company.setWebsite(request.getWebsite());
+        company.setDescription(request.getDescription());
+        company.setRating(request.getRating());
+
+        if (avatar != null && !avatar.isEmpty()) {
+            String avatarFileName = saveAvatar(avatar , AVATAR_PATH);
+            company.setAvatarUrl(avatarFileName);
+        }
+
+        if (cover != null && !cover.isEmpty()) {
+            String coverFileName = saveAvatar(cover , COVER_PATH);
+            company.setCoverImageUrl(coverFileName);
+        }
+
+        companyRepository.save(company);
+
+        return objectMapper.convertValue(company , CompanyModel.class);
     }
 
     private CandidateModel updateCandidate(Account account, MultipartFile avatar, UpdateAccountRequest request)
@@ -256,7 +291,7 @@ public class AccountService {
         candidate.setExpectedWorkingType(request.getExpectedWorkingType());
 
         if (avatar != null && !avatar.isEmpty()) {
-            String fileName = saveAvatar(avatar);
+            String fileName = saveAvatar(avatar , AVATAR_PATH);
             candidate.setAvatarUrl(fileName);
         }
 
@@ -265,13 +300,18 @@ public class AccountService {
         return objectMapper.convertValue(candidate, CandidateModel.class);
     }
 
-    private String saveAvatar(MultipartFile avatar) throws IOException {
+    private String saveAvatar(MultipartFile avatar , String folderPath) throws IOException {
+
+        if (avatar == null || avatar.isEmpty()) {
+            return null; // Không xử lý nếu file không tồn tại
+        }
+
         File dir = new File(AVATAR_PATH);
         // Kiểm tra nếu thư mục không tồn tại thì tạo mới
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        String fileName = System.currentTimeMillis() + "_" + avatar.getOriginalFilename();
+        String fileName = System.currentTimeMillis() + "_" + avatar.getOriginalFilename().replaceAll(" ", "_");;
         Path filePath = Paths.get(AVATAR_PATH + File.separator + fileName);
         Files.copy(avatar.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         return fileName;

@@ -24,6 +24,7 @@ public class CandidateModel {
     String avatarUrl;
     String skills;
     Double yearOfExperience;
+    String currentJobPosition;
 
     Literacy literacy;
 

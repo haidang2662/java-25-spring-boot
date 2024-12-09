@@ -9,16 +9,32 @@
 
                 <div class="widget-content">
 
-                    <div class="uploading-outer">
-                        <div class="uploadButton">
-                            <input class="uploadButton-input" type="file" name="attachments[]"
-                                   accept="image/*, application/pdf" id="upload" multiple/>
-                            <label class="uploadButton-button ripple-effect" for="upload">Browse Avatar</label>
-                            <span class="uploadButton-file-name"></span>
-                        </div>
-                        <div class="text">Max file size is 1MB, Minimum dimension: 330x300 And Suitable files are .jpg &
-                            .png
-                        </div>
+                    <div class="uploading-outer d-flex justify-content-center candidate-avatar">
+                        <figure>
+                            <img src="" class="img-company-avatar" alt="" style="cursor: pointer; height: 120px; width: 200px;">
+                            <div class="uploadButton">
+                                <input class="uploadButton-input" type="file" name="avatar"
+                                       accept="image/*" id="avatar-company-input"/>
+                                <label class="uploadButton-button ripple-effect change-avatar-btn" for="avatar-company-input">Browse Avatar</label>
+                                <span class="uploadButton-file-name"></span>
+                            </div>
+                            <div class="text">Max file size is 1MB</div>
+                            <p id="avatar-company-error" class="error"></p>
+                        </figure>
+                    </div>
+
+                    <div class="uploading-outer d-flex justify-content-center candidate-avatar">
+                        <figure>
+                            <img src="" class="img-company-cover-avatar" alt="" style="cursor: pointer; height: 120px; width: 200px;">
+                            <div class="uploadButton">
+                                <input class="uploadButton-input" type="file" name="cover-avatar"
+                                       accept="image/*" id="avatar-cover-input"/>
+                                <label class="uploadButton-button ripple-effect change-avatar-btn" for="avatar-cover-input">Browse Avatar</label>
+                                <span class="uploadButton-file-name"></span>
+                            </div>
+                            <div class="text">Max file size is 1MB</div>
+                            <p id="avatar-cover-error" class="error"></p>
+                        </figure>
                     </div>
 
                     <form class="default-form" id="company-info-form">
@@ -38,13 +54,13 @@
                             <!-- Input -->
                             <div class="form-group col-lg-6 col-md-12">
                                 <label>Phone</label>
-                                <input type="text" name="name" placeholder="">
+                                <input type="text" name="phone" placeholder="">
                             </div>
 
                             <!-- Input -->
                             <div class="form-group col-lg-6 col-md-12">
                                 <label>Found at</label>
-                                <input type="text" name="foundAt" placeholder="">
+                                <input type="date" name="foundAt" placeholder="">
                             </div>
 
                             <!-- Input -->
@@ -72,16 +88,9 @@
                             </div>
 
                             <!-- About Company -->
-                            <div class="form-group col-lg-12 col-md-12">
+                            <div class="form-group col-lg-6 col-md-12">
                                 <label>About Company</label>
-                                <textarea placeholder="Spent several years working on sheep on Wall Street. Had moderate
-                                 success investing in Yugo's on Wall Street. Managed a small team buying and selling
-                                 Pogo sticks for farmers. Spent several years licensing licorice in West Palm Beach,
-                                 FL. Developed several new methods for working it banjos in the aftermarket. Spent a
-                                 weekend importing banjos in West Palm Beach, FL.In this position, the Software Engineer
-                                  collaborates with Evention's Development team to continuously enhance our current
-                                  software solutions as well as create new solutions to eliminate the back-office
-                                  operations and management challenges present"></textarea>
+                                <textarea name="description" placeholder=""></textarea>
                             </div>
 
                             <!-- Input -->
@@ -91,8 +100,11 @@
                             </div>
 
                             <!-- Input -->
-                            <div class="form-group col-lg-6 col-md-12">
-                                <button type="button" class="theme-btn btn-style-one account-info-saving-btn">Save</button>
+                            <div class="form-group col-lg-6 col-md-12 d-flex">
+                                <button type="button" class="theme-btn btn-style-one account-info-saving-btn">
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="spinner-update"></span>
+                                    Save
+                                </button>
                             </div>
                         </div>
                     </form>

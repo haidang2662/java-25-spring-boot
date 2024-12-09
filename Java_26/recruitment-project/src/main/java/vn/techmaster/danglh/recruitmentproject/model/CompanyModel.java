@@ -12,6 +12,7 @@ public class CompanyModel {
 
     String name;
     String alias; // Viết tắt
+    String phone;
     LocalDate foundAt;
     String taxCode;
     String headQuarterAddress;

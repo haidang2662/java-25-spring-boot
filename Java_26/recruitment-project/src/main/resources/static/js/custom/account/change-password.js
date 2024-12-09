@@ -42,6 +42,13 @@ $(document).ready(function () {
     });
 
     $("#change-password-btn").click(async function (event) {
+
+        //disable nút update
+        $("#change-password-btn").prop("disabled", true);
+
+        //Chuyen doi an hien
+        $("#spinner").toggleClass('d-none');
+
         const isValidForm = $("#change-password-form").valid();
         if (!isValidForm) {
             return;
@@ -75,13 +82,18 @@ $(document).ready(function () {
 
                 setTimeout(function () {
                     location.href = "/";
-                }, 2000);
+                }, 3000);
             },
             error: function () {
                 showToast("Change password failed", ERROR_TOAST)
             }
         });
 
+        //nhả nút update
+        $("#change-password-btn").prop("disabled", false);
+
+        //Chuyen doi an hien
+        $("#spinner").toggleClass('d-none');
 
     })
 

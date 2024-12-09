@@ -1,6 +1,43 @@
 $(document).ready(function () {
 
+    $("#send-email-forget-password").validate({
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false,
+        rules: {
+            "email": {
+                required: true,
+                maxlength: 50,
+                email: true
+            },
+        },
+        messages: {
+            "email": {
+                required: "Email is required.",
+                maxlength: "Email must not exceed 50 characters.",
+                email: "Must have correct email format" // Regex: Ít nhất 1 chữ hoa, 1 chữ thường, 1 số
+            },
+        },
+        errorPlacement: function (error, element) {
+            // Gắn thông báo lỗi ngay sau input và đổi màu thành đỏ
+            error.css("color", "red");
+            error.insertAfter(element);
+        }
+    });
+
     $("#send-email-forget-password-btn").click(function () {
+
+        //disable nút update
+        $("#send-email-forget-password-btn").prop("disabled", true);
+
+        //Chuyen doi an hien
+        $("#spinner").toggleClass('d-none');
+
+        const isValidForm = $("#send-email-forget-password").valid();
+        if (!isValidForm) {
+            return;
+        }
+
         const inputEmail = $("#input-email").val();
 
         $.ajax({
@@ -20,6 +57,12 @@ $(document).ready(function () {
                 showToast("Send email failed", ERROR_TOAST);
             }
         });
+
+        //disable nút update
+        $("#send-email-forget-password-btn").prop("disabled", false);
+
+        //Chuyen doi an hien
+        $("#spinner").toggleClass('d-none');
 
     });
 

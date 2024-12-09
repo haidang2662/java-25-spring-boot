@@ -88,7 +88,7 @@ public class AccountResource {
     ) throws ObjectNotFoundException, IOException {
         try {
             UpdateAccountRequest request = objectMapper.readValue(updateAccountRequest, UpdateAccountRequest.class);
-            return accountService.updateAccount(id, avatar, request);
+            return accountService.updateAccount(id, avatar,cover , request);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Dữ liệu JSON không hợp lệ", e);
         }
