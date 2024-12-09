@@ -27,16 +27,16 @@ $(document).ready(function () {
 
     $("#send-email-forget-password-btn").click(function () {
 
+        const isValidForm = $("#send-email-forget-password").valid();
+        if (!isValidForm) {
+            return;
+        }
+
         //disable nút update
         $("#send-email-forget-password-btn").prop("disabled", true);
 
         //Chuyen doi an hien
         $("#spinner").toggleClass('d-none');
-
-        const isValidForm = $("#send-email-forget-password").valid();
-        if (!isValidForm) {
-            return;
-        }
 
         const inputEmail = $("#input-email").val();
 

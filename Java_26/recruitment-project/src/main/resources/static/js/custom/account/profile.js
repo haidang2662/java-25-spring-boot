@@ -330,19 +330,19 @@ $(document).ready(async function () {
 
     $(".account-info-saving-btn").click(() => {
 
-        //disable nút update
-        $(".account-info-saving-btn").prop("disabled", true);
-
-        //Chuyen doi an hien
-        $("#spinner-update").toggleClass('d-none');
-
-
         const formHtml = account.role === CANDIDATE_ROLE ? $("#candidate-info-form") : $("#company-info-form");
 
         const isValidForm = formHtml.valid();
         if (!isValidForm) {
             return;
         }
+
+        //disable nút update
+        $(".account-info-saving-btn").prop("disabled", true);
+
+        //Chuyen doi an hien
+        $("#spinner-update").toggleClass('d-none')
+
         const formData = new FormData();
         formData.append('accountRequest', JSON.stringify(getDataForm()));
 

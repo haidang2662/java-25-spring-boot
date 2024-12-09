@@ -2058,6 +2058,8 @@ Accordian Box
   transition: all 300ms ease;
 }
 
+
+
 .accordion-box .block .content p:last-child {
   margin-bottom: 0;
 }
@@ -2358,6 +2360,11 @@ Buttons Styles
   justify-content: center;
   align-items: center;
   z-index: 1;
+}
+/*TODO vẫn chưa làm được*/
+.theme-btn:disabled{
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* Btn Style One */

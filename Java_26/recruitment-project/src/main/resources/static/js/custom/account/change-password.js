@@ -43,16 +43,16 @@ $(document).ready(function () {
 
     $("#change-password-btn").click(async function (event) {
 
+        const isValidForm = $("#change-password-form").valid();
+        if (!isValidForm) {
+            return;
+        }
+
         //disable nút update
         $("#change-password-btn").prop("disabled", true);
 
         //Chuyen doi an hien
         $("#spinner").toggleClass('d-none');
-
-        const isValidForm = $("#change-password-form").valid();
-        if (!isValidForm) {
-            return;
-        }
 
         const account = JSON.parse(localStorage.getItem("account"));
         const accountId = account?.id;

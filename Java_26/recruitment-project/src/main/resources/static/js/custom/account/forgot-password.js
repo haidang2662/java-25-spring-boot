@@ -43,16 +43,16 @@ $(document).ready(function () {
 
     $("#reset-password-btn").click(async function (event) {
 
+        const isValidForm = $("#reset-password-form").valid();
+        if (!isValidForm) {
+            return;
+        }
+
         //disable nút update
         $("#reset-password-btn").prop("disabled", true);
 
         //Chuyen doi an hien
         $("#spinner").toggleClass('d-none');
-
-        const isValidForm = $("#reset-password-form").valid();
-        if (!isValidForm) {
-            return;
-        }
 
         const currentUrl = window.location.href;
 

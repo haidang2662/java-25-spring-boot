@@ -43,18 +43,18 @@ $(document).ready(function () {
 
     $("#login-btn").click(function () {
 
+        const isValidForm = $("#login-form").valid();
+        if (!isValidForm) {
+            return;
+        }
+
         //disable nút login
         $("#login-btn").prop("disabled", true);
 
         //Chuyen doi an hien
         $("#spinner").toggleClass('d-none');
 
-        const isValidForm = $("#login-form").valid();
-        if (!isValidForm) {
-            return;
-        }
-
-        //B1 : Lay du lieu tu form
+        // B1 : Lay du lieu tu form
         const formData = $("#login-form").serializeArray();
         let login = {};
         for (let i = 0; i < formData.length; i++) {
