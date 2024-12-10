@@ -43,10 +43,19 @@ public class Job extends BaseEntity {
 
     Integer recruitingQuantity;
     LocalDate expiredDate;
+
+    @Column(name = "skills", length = 1000)
     String skills;
+
+    @Column(name = "description", length = 5000)
     String description;
+
+    @Column(name = "benefit", length = 5000)
     String benefit;
+
+    @Lob
     String requirement;
+
     Integer salaryFrom;
     Integer salaryTo;
 

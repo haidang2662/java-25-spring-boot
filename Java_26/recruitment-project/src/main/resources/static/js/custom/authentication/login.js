@@ -75,7 +75,13 @@ $(document).ready(function () {
                 const accountInfo = await getAccountDetail(data?.id);
                 localStorage.setItem("account", JSON.stringify(accountInfo));
 
-                location.href = "/";
+                const id = data?.id;
+
+                if (accountInfo.role === CANDIDATE_ROLE) {
+                    location.href = "/";
+                } else if (accountInfo.role === COMPANY_ROLE) {
+                    location.href = `/companies/dashboard`;
+                }
             },
             error: function (err) {
                 if (err?.responseJSON?.status === 401) {

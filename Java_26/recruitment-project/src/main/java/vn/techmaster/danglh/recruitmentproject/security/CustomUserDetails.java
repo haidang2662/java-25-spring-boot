@@ -1,12 +1,12 @@
 package vn.techmaster.danglh.recruitmentproject.security;
 
 
-import vn.techmaster.danglh.recruitmentproject.entity.Account;
-import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
+import vn.techmaster.danglh.recruitmentproject.entity.Account;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +34,10 @@ public class CustomUserDetails implements UserDetails {
 
     public Long getId() {
         return account.getId();
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     @Override

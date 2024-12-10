@@ -41,14 +41,14 @@ $(document).ready(async function () {
                 },
                 "dob": {
                     required: true,
-                    dobPastDate : true
+                    dobPastDate: true
                 },
                 "currentJobPosition": {
                     required: true,
                     maxlength: 50
                 },
                 "phone": {
-                    required: true ,
+                    required: true,
                     phonePattern: true
                 },
                 "address": {
@@ -133,9 +133,7 @@ $(document).ready(async function () {
         for (let prop in candidateInfo) {
             $("#candidate-info-form [name='" + prop + "']").val(candidateInfo[prop]);
         }
-        if (candidateInfo.avatarUrl) {
-            $(".img-avatar").attr("src", "/api/v1/files/avatar/" + candidateInfo.avatarUrl);
-        }
+        $(".img-avatar").attr("src", candidateInfo.avatarUrl ? "/api/v1/files/avatar/" + candidateInfo.avatarUrl : DEFAULT_AVATAR_URL);
 
     } else if (account.role === COMPANY_ROLE) {
 
@@ -173,12 +171,12 @@ $(document).ready(async function () {
                     maxlength: 50
                 },
                 "phone": {
-                    required: true ,
+                    required: true,
                     phonePattern: true
                 },
                 "foundAt": {
                     required: true,
-                    pastDate : true
+                    pastDate: true
                 },
                 "taxCode": {
                     required: true,
@@ -258,18 +256,12 @@ $(document).ready(async function () {
 
         const companyInfo = accountInfo.companyModel;
 
-        for(let prop in companyInfo){
+        for (let prop in companyInfo) {
             $("#company-info-form [name='" + prop + "']").val(companyInfo[prop]);
 
-        } if(companyInfo.avatarUrl) {
-            $(".img-company-avatar").attr("src", "/api/v1/files/avatar/" + companyInfo.avatarUrl)
-        } if(companyInfo.coverImageUrl) {
-            $(".img-company-cover-avatar").attr("src", "/api/v1/files/avatar/" + companyInfo.coverImageUrl)
         }
-
-        console.log(companyInfo.avatarUrl)
-        console.log(companyInfo.coverImageUrl)
-
+        $(".img-company-avatar").attr("src", companyInfo.avatarUrl ? "/api/v1/files/avatar/" + companyInfo.avatarUrl : DEFAULT_AVATAR_URL);
+        $(".img-company-cover-avatar").attr("src", companyInfo.coverImageUrl ? "/api/v1/files/avatar/" + companyInfo.coverImageUrl : DEFAULT_COVER_URL);
 
         //..... do data vao form
     }
@@ -327,7 +319,6 @@ $(document).ready(async function () {
     });
 
 
-
     $(".account-info-saving-btn").click(() => {
 
         const formHtml = account.role === CANDIDATE_ROLE ? $("#candidate-info-form") : $("#company-info-form");
@@ -354,10 +345,6 @@ $(document).ready(async function () {
             formData.append('cover', chosenFileCover, chosenFileCover.name);
         }
 
-        // Thêm log kiểm tra dữ liệu
-        console.log("Form Data:", getDataForm());
-        console.log("Chosen File:", chosenFile);
-        console.log("Chosen File Cover:", chosenFileCover);
 
         $.ajax({
             url: `/api/v1/accounts/${account.id}`,

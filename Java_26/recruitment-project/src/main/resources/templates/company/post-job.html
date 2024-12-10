@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/common/head :: my-head(pageTitle='Post New Job')}"/>
+<body data-anm=".anm" class="bg-light">
+
+<div class="page-wrapper dashboard">
+
+    <!-- Main Header -->
+    <header th:replace="~{fragments/common/header :: my-header}"/>
+    <!-- End Main Header -->
+
+    <header th:replace="~{fragments/common/sidebar :: sidebar}"/>
+
+    <section class="user-dashboard">
+        <div class="dashboard-outer">
+            <div class="upper-title-box">
+                <h3>My Profile!</h3>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Ls widget -->
+                    <div class="ls-widget">
+                        <div class="tabs-box">
+                            <div class="widget-title">
+                                <h4>Post Job</h4>
+                            </div>
+
+                            <div class="widget-content">
+                                <form class="default-form" id="post-job-form">
+                                    <div class="row">
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Job title</label>
+                                            <input type="text" name="name" placeholder=""/>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Position</label>
+                                            <input type="text" name="position" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Year of experience from</label>
+                                            <input type="number" name="yearOfExperienceFrom" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Year of experience to</label>
+                                            <input type="number" name="yearOfExperienceTo" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Working type</label>
+                                            <select class="chosen-select" name="workingType">
+                                                <option value="ONLINE">Online</option>
+                                                <option value="OFFLINE">Offline</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Working time type</label>
+                                            <select class="chosen-select" name="workingTimeType">
+                                                <option value="PART_TIME">Part time</option>
+                                                <option value="FULL_TIME">Full time</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Working address</label>
+                                            <input type="text" name="workingAddress" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Literacy</label>
+                                            <select class="chosen-select" name="literacy">
+                                                <option value="PROFESSOR">Professor</option>
+                                                <option value="DOCTOR">Doctor</option>
+                                                <option value="MASTER">Master</option>
+                                                <option value="UNIVERSITY">University</option>
+                                                <option value="COLLEGE">College</option>
+                                                <option value="HIGH_SCHOOL">High school</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Job level</label>
+                                            <select class="chosen-select" name="level">
+                                                <option value="INTERN">INTERN</option>
+                                                <option value="FRESHER">FRESHER</option>
+                                                <option value="JUNIOR">JUNIOR</option>
+                                                <option value="SENIOR">SENIOR</option>
+                                                <option value="MASTER">MASTER</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Recruiting quantity</label>
+                                            <input type="number" name="recruitingQuantity" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Expired Date</label>
+                                            <input type="date" name="expiredDate" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Salary from</label>
+                                            <input type="number" name="salaryFrom" placeholder="">
+                                        </div>
+
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>Salary to</label>
+                                            <input type="number" name="salaryTo" placeholder="">
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>Skills</label>
+                                            <textarea name="skills" placeholder=""></textarea>
+                                        </div>
+
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>Benefit</label>
+                                            <textarea name="benefit" placeholder=""></textarea>
+                                        </div>
+
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>Requirement</label>
+                                            <textarea name="requirement" placeholder=""></textarea>
+                                        </div>
+
+                                        <!-- About Company -->
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>Job description</label>
+                                            <textarea name="description" placeholder=""></textarea>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12 d-flex">
+                                            <button type="button" class="theme-btn btn-style-one"
+                                                    id="post-job-btn">
+                                                <span class="spinner-border spinner-border-sm d-none" role="status"
+                                                      aria-hidden="true" id="job-posting-spinner"></span>
+                                                Post
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Main Footer -->
+    <footer th:replace="~{fragments/common/footer :: my-footer}"/>
+    <!-- End Main Footer -->
+
+</div><!-- End Page Wrapper -->
+
+<th:block th:replace="~{fragments/common/embedded-js :: embedded-js}"/>
+<script src="/js/custom/job/post-job.js"></script>
+
+</body>
+</html>
+
+
+
+

@@ -5,12 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/companies")
-public class CompanyController {
+@RequestMapping("/jobs")
+public class JobController {
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "/company/dashboard";
+    @GetMapping("/job-posting")
+    public String postJob() {
+        return "/company/post-job";
     }
 
+    @GetMapping
+    public String manageJob() {
+        return "company/jobs";
+    }
 }

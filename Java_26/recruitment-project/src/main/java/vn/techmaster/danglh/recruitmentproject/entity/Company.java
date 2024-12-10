@@ -35,5 +35,4 @@ public class Company extends BaseEntity {
     String description;
     Double rating;
 
-
 }

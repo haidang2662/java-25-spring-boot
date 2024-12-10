@@ -95,7 +95,7 @@ $(document).ready(function () {
         //Chuyen doi an hien
         $("#spinner").toggleClass('d-none');
 
-        // TODO : Chưa xử lý được đặt pass sai quy ước nút update cứ quay dều không cho ấn lại nữa . Ca 2 forgotpassword đêu bi
+
 
     })
 
