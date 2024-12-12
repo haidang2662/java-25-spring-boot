@@ -61,3 +61,29 @@ if (accessToken) {
 }
 $.ajaxSetup(ajaxSetupObj);
 
+function fillSidebarLinks() {
+    const account = localStorage.getItem('account');
+    const currentRole = account ? JSON.parse(account)?.role : '';
+    for (let i = 0; i < SIDEBAR_APPLICATION_PATHS.length; i++) {
+        const element = SIDEBAR_APPLICATION_PATHS[i];
+        if (currentRole !== element.role) {
+            continue;
+        }
+        $('.user-sidebar .' + element.sidebarClass + ' a').attr("href", element.path);
+    }
+}
+
+function activateCurrentSidebarMenu() {
+    const currentPath = window.location.pathname;
+    for (let i = 0; i < SIDEBAR_APPLICATION_PATHS.length; i++) {
+        const element = SIDEBAR_APPLICATION_PATHS[i];
+        if (element.path === currentPath) {
+            $('.user-sidebar .' + element.sidebarClass).toggleClass('active');
+        }
+    }
+}
+
+$(document).ready(function () {
+    fillSidebarLinks();
+    activateCurrentSidebarMenu();
+});

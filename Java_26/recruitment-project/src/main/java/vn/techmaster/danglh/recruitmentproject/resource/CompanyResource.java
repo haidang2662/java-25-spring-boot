@@ -1,12 +1,10 @@
 package vn.techmaster.danglh.recruitmentproject.resource;
 
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.*;
-import vn.techmaster.danglh.recruitmentproject.model.request.JobRequest;
-import vn.techmaster.danglh.recruitmentproject.model.response.JobResponse;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import vn.techmaster.danglh.recruitmentproject.service.CompanyService;
 
 @RestController
@@ -16,7 +14,6 @@ import vn.techmaster.danglh.recruitmentproject.service.CompanyService;
 public class CompanyResource {
 
     CompanyService companyService;
-
 
 
 }

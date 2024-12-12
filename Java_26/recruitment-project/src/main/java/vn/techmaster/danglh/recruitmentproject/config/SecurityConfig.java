@@ -108,6 +108,14 @@ public class SecurityConfig {
                         ).permitAll()
                         // account end
 
+                        // Job start
+                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs/{id}").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/jobs/{id}").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/jobs/{id}").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.POST, "/api/v1/jobs").hasAnyAuthority(Role.COMPANY.toString())
+                        // Job end
+
+
                         .requestMatchers("/api/**").authenticated() // all other apis need authentication
                         .anyRequest().permitAll() // all thymeleaf, html page don't have to authenticate
                 )

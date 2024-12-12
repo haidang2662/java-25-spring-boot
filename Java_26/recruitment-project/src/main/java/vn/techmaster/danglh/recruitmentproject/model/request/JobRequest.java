@@ -1,5 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.model.request;
 
+import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -14,30 +15,66 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class JobRequest {
 
+    @NotBlank(message = "Job title không được bỏ trống")
+    @Size(max = 50, message = "Job title không được quá 50 ký tụ")
     String name;
+
+    @NotBlank(message = "Position không được bỏ trống")
+    @Size(max = 50, message = "Position không được quá 50 ký tụ")
     String position;
+
+    @NotNull(message = "Year Of Experience From không được bỏ trống")
+    @Min(value = 1, message = "Year Of Experience From phải lớn hơn hoặc bằng 1")
     Integer yearOfExperienceFrom;
+
+    @NotNull(message = "Year Of Experience From không được bỏ trống")
+    @Min(value = 1, message = "Year Of Experience From phải lớn hơn hoặc bằng 1")
     Integer yearOfExperienceTo;
 
+    @NotNull(message = "....")
     WorkingType workingType;
 
     WorkingTimeType workingTimeType;
 
+    @NotBlank(message = "Working Address không được bỏ trống")
+    @Size(max = 50, message = "Working Address không được quá 50 ký tụ")
     String workingAddress;
 
     Literacy literacy;
 
     JobLevel level;
 
+    @NotNull(message = "Recruiting Quantity không được bỏ trống")
+    @Min(value = 1, message = "Recruiting Quantity phải lớn hơn hoặc bằng 1")
     Integer recruitingQuantity;
+
+    @NotNull(message = "Expired Date không được bỏ trống")
+    @Future(message = "Expired Date phải là ngày trong tương lai")
     LocalDate expiredDate;
+
+    @NotBlank(message = "Skills không được bỏ trống")
+    @Size(max = 1000, message = "Skills không được quá 1000 ký tụ")
     String skills;
+
+    @NotBlank(message = "Benefit không được bỏ trống")
+    @Size(max = 5000, message = "Benefit không được quá 5000 ký tụ")
     String benefit;
+
+    @NotBlank(message = "Requirement không được bỏ trống")
+    @Size(max = 5000, message = "Requirement không được quá 5000 ký tụ")
     String requirement;
+
+    @NotNull(message = "Salary From không được bỏ trống")
+    @Min(value = 1, message = "Salary from phải lớn hơn hoặc bằng 1 ")
     Integer salaryFrom;
+
+    @NotNull(message = "Salary To không được bỏ trống")
+    @Min(value = 1, message = "Salary to phải lớn hơn hoặc bằng 1")
     Integer salaryTo;
 
 
+    @NotBlank(message = "Description không được bỏ trống")
+    @Size(max = 5000, message = "Description không được quá 5000 ký tụ")
     String description;
 
 }

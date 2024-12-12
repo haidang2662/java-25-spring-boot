@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/common/head :: my-head(pageTitle='Post New Job')}"/>
+
+<body>
+
+<div class="page-wrapper dashboard ">
+
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Header Span -->
+    <span class="header-span"></span>
+
+    <!-- Main Header -->
+    <header th:replace="~{fragments/common/header :: my-header}"/>
+    <!-- End Main Header -->
+
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop"></div>
+
+    <!-- User Sidebar -->
+    <header th:replace="~{fragments/common/sidebar :: sidebar}"/>
+    <!-- End User Sidebar -->
+
+    <!-- Dashboard -->
+    <section class="user-dashboard">
+        <div class="dashboard-outer">
+            <div class="upper-title-box">
+                <h3>Job management</h3>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Ls widget -->
+                    <div class="ls-widget">
+                        <div class="tabs-box">
+                            <div class="widget-title">
+                                <div class="chosen-outer">
+                                    <a href="/companies/jobs/job-posting" class="theme-btn btn-style-one py-2 px-3">Post a New
+                                        Job</a>
+                                </div>
+                            </div>
+
+                            <div class="widget-content">
+                                <div class="table-outer">
+                                    <table class="table table-bordered table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Address</th>
+                                            <th>Expired</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="congViec: ${jobs}">
+                                            <td th:text="${congViec.name}"></td>
+                                            <td th:text="${congViec.workingAddress}"></td>
+                                            <td th:text="${congViec.expiredDate}"></td>
+                                            <td th:text="${congViec.status}"></td>
+                                            <td>
+                                                <span role="button" class="text-primary update-btn me-2">
+                                                    <i class="la la-eye"></i>
+                                                </span>
+                                                <a role="button" class="text-primary me-2"
+
+                                                      th:attr="job-id=${congViec.id}">
+                                                        <i class="fa-solid fa-pencil"></i>
+                                                </a>
+                                                <span role="button" class="text-danger delete-job-btn"
+                                                      th:attr="job-id=${congViec.id}">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="widget-title">
+                                <ul class="pagination pagination-sm justify-content-center"
+                                    th:if="${jobs.getTotalPages() > 1}">
+                                    <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+                                        <a class="page-link" th:href="|/jobs?page=${currentPage - 1}|">Trang trước</a>
+                                    </li>
+                                    <li class="page-item"
+                                        th:classappend="${currentPage == number ? 'active' : ''}"
+                                        th:each="number : ${#numbers.sequence(1,jobs.getTotalPages())}">
+                                        <a class="page-link" th:href="|/jobs?page=${number}|" th:text="${number}">1</a>
+                                    </li>
+                                    <li class="page-item"
+                                        th:classappend="${currentPage == jobs.getTotalPages() ? 'disabled' : ''}">
+                                        <a class="page-link" th:href="|/jobs?page=${currentPage + 1}|">Trang sau</i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- End Dashboard -->
+
+    <!-- Copyright -->
+    <div class="copyright-text">
+        <p>© 2021 Superio. All Right Reserved.</p>
+    </div>
+
+</div><!-- End Page Wrapper -->
+
+
+<th:block th:replace="~{fragments/common/embedded-js :: embedded-js}"/>
+<script src="/js/custom/job/jobs.js"></script>
+</body>
+
+</html>

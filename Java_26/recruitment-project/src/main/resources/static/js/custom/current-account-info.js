@@ -19,6 +19,11 @@ $(document).ready(function () {
 
         if (account?.role === COMPANY_ROLE) {
             $("#header-job-posting-btn").show();
+            $(".main-header #job-header").hide();
+            $(".main-header #has-mega-menu").hide();
+            $("#nav-mobile #job-header").hide();
+            $("#nav-mobile #has-mega-menu").hide();
+            $(".main-box").addClass("py-2");
             $("#header-account-info #avatar-image-header").attr("src", `/api/v1/files/avatar/${account.companyModel.avatarUrl}`);
         } else {
             $("#header-job-posting-btn").hide();

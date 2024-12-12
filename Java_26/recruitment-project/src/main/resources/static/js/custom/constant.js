@@ -14,3 +14,20 @@ const MAX_AVATAR_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const DEFAULT_AVATAR_URL = "/api/v1/files/avatar/default-avatar.jpg";
 const DEFAULT_COVER_URL = "/api/v1/files/cover/default-cover.jpg";
 
+const SIDEBAR_APPLICATION_PATHS = [
+    {
+        path: "/companies/dashboard",
+        sidebarClass: "dashboard-menu",
+        role: COMPANY_ROLE
+    },
+    {
+        path: "/companies/jobs",
+        sidebarClass: "jobs-dashboard-menu",
+        role: COMPANY_ROLE
+    },
+    {
+        path: "/companies/applications",
+        sidebarClass: "applications-dashboard-menu",
+        role: COMPANY_ROLE
+    }
+];
