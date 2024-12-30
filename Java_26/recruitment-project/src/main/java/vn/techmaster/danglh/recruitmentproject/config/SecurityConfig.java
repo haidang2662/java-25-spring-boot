@@ -113,6 +113,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/jobs/{id}").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/jobs/{id}").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/jobs").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs").permitAll()
+
                         // Job end
 
 

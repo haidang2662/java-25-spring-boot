@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum JobStatus {
     DRAFT,
-    ACTIVE,
+    PUBLISHED,
     EXPIRED,
     INACTIVE
 }

@@ -16,7 +16,9 @@ public class GlobalExceptionHandler {
             ObjectNotFoundException.class,
             ExpiredEmailActivationUrlException.class,
             ExpiredPasswordForgottenUrlException.class,
-            MessagingException.class
+            MessagingException.class,
+            UnprocessableEntityException.class,
+            IllegalArgumentException.class
     })
     public ResponseEntity<ErrorResponse> handleValidationExceptions(Exception ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -26,6 +28,7 @@ public class GlobalExceptionHandler {
         if (
                 ex instanceof ExistedAccountException
                         || ex instanceof PasswordNotMatchedException
+                        || ex instanceof IllegalArgumentException
         ) {
             errorResponse.setCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -39,6 +42,7 @@ public class GlobalExceptionHandler {
                 ex instanceof ExpiredEmailActivationUrlException
                         || ex instanceof ExpiredPasswordForgottenUrlException
                         || ex instanceof MessagingException
+                        || ex instanceof UnprocessableEntityException
         ) {
             errorResponse.setCode(String.valueOf(HttpStatus.UNPROCESSABLE_ENTITY.value()));
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);

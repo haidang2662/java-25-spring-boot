@@ -6,7 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
+import vn.techmaster.danglh.recruitmentproject.exception.UnprocessableEntityException;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.JobSearchRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.JobStatusChangeRequest;
+import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.JobResponse;
 import vn.techmaster.danglh.recruitmentproject.service.JobService;
 
@@ -24,7 +28,7 @@ public class JobResource {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteJob(@PathVariable Long id){
+    public void deleteJob(@PathVariable Long id) throws UnprocessableEntityException {
         jobService.deleteJob(id);
     }
 
@@ -34,8 +38,20 @@ public class JobResource {
     }
 
     @PutMapping("{id}")
-    public JobResponse updateJob(@PathVariable("id") Long idJob, @RequestBody JobRequest request) throws ObjectNotFoundException {
+    public JobResponse updateJob(@PathVariable("id") Long idJob, @RequestBody JobRequest request)
+            throws ObjectNotFoundException {
         return jobService.updateJob(idJob, request);
+    }
+
+    @GetMapping
+    public CommonSearchResponse<?> searchJobs(JobSearchRequest request) {
+        return jobService.searchJob(request);
+    }
+
+    @PatchMapping("/{jobId}/status")
+    public void changeJobStatus(@PathVariable Long jobId, @RequestBody @Valid JobStatusChangeRequest request)
+            throws ObjectNotFoundException {
+        jobService.changeJobStatus(jobId, request);
     }
 
 }

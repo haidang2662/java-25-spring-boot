@@ -1,16 +1,10 @@
 package vn.techmaster.danglh.recruitmentproject.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import vn.techmaster.danglh.recruitmentproject.model.response.JobResponse;
 import vn.techmaster.danglh.recruitmentproject.service.JobService;
-
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -20,19 +14,23 @@ public class CompanyJobController {
     JobService jobService;
 
     @GetMapping("/job-posting")
-    public String postJob() {
+    public String createJob() {
         return "/company/job/post-job";
     }
 
     @GetMapping
-    public String manageJob(
-            Model model,
-            @RequestParam(required = false, defaultValue = "1") int page,
-            @RequestParam(required = false, defaultValue = "6") int pageSize
-    ) {
-        Page<JobResponse> jobResponseList = jobService.getJobs(page , pageSize);
-        model.addAttribute("jobs" , jobResponseList);
-        model.addAttribute("currentPage", page);
+    public String searchJob() {
         return "company/job/jobs";
     }
+
+    @GetMapping("/{id}")
+    public String jobDetails() {
+        return "company/job/job-details";
+    }
+
+    @GetMapping("/job-updating/{id}")
+    public String updateJob() {
+        return "/company/job/post-job";
+    }
+
 }

@@ -22350,3 +22350,20 @@ Work Section
 .logo img {
   max-width: 70%;
 }
+
+/* Flexbox container cho các action icon */
+.action-icons {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 10px; /* Khoảng cách giữa các icon */
+}
+
+/* Custom khoảng cách nếu cần */
+.action-icons > * {
+  margin-right: 10px;
+}
+
+.icon.flaticon-briefcase {
+  color: #0056b3; /* Màu xanh đậm hơn */
+  font-size: 1.3em; /* Tăng kích thước lên 1.5 lần */
+}

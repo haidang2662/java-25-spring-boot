@@ -24,7 +24,7 @@
                     <div class="ls-widget">
                         <div class="tabs-box">
                             <div class="widget-title">
-                                <h4>Post Job</h4>
+                                <h4 id="form-title">Post Job</h4>
                             </div>
 
                             <div class="widget-content">
@@ -32,7 +32,7 @@
                                     <div class="row">
                                         <!-- Input -->
                                         <div class="form-group col-lg-6 col-md-12">
-                                            <label>Job title</label>
+                                            <label>Job title<span class="text-danger fw-bold">*</span></label>
                                             <input type="text" name="name" placeholder=""/>
                                         </div>
 
@@ -146,24 +146,10 @@
                                             <label>Job description</label>
                                             <textarea name="description" placeholder=""></textarea>
                                         </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12 d-flex">
-                                            <button type="button" class="theme-btn btn-style-one"
-                                                    id="post-job-btn">
-                                                <span class="spinner-border spinner-border-sm d-none" role="status"
-                                                      aria-hidden="true" id="job-posting-spinner"></span>
-                                                Post
-                                            </button>
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12 d-flex">
-                                            <button type="button" class="theme-btn btn-style-one"
-                                                    id="update-job-btn">
-                                                <span class="spinner-border spinner-border-sm d-none" role="status"
-                                                      aria-hidden="true" id="job-updating-spinner"></span>
-                                                Update
+                                        <div class="form-group col-lg-12 col-md-12 d-flex">
+                                            <button type="button" class="theme-btn btn-style-one" id="save-job-btn">
+                                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="job-saving-spinner"></span>
+                                                Save
                                             </button>
                                         </div>
                                     </div>
@@ -180,14 +166,15 @@
         </div>
     </section>
 
-    <!-- Main Footer -->
-    <footer th:replace="~{fragments/common/footer :: my-footer}"/>
-    <!-- End Main Footer -->
+    <!-- Copyright -->
+    <div class="copyright-text">
+        <p>© 2021 Superio. All Right Reserved.</p>
+    </div>
 
 </div><!-- End Page Wrapper -->
 
 <th:block th:replace="~{fragments/common/embedded-js :: embedded-js}"/>
-<script src="/js/custom/job/post-job.js"></script>
+<script src="/js/custom/company/job/post-job.js"></script>
 
 </body>
 </html>

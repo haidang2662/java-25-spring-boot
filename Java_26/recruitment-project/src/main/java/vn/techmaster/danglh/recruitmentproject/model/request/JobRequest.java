@@ -27,8 +27,7 @@ public class JobRequest {
     @Min(value = 1, message = "Year Of Experience From phải lớn hơn hoặc bằng 1")
     Integer yearOfExperienceFrom;
 
-    @NotNull(message = "Year Of Experience From không được bỏ trống")
-    @Min(value = 1, message = "Year Of Experience From phải lớn hơn hoặc bằng 1")
+    @Min(value = 1, message = "Year Of Experience To phải lớn hơn hoặc bằng 1")
     Integer yearOfExperienceTo;
 
     @NotNull(message = "....")

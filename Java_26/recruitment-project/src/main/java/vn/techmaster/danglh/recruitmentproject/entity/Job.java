@@ -62,5 +62,4 @@ public class Job extends BaseEntity {
     @Enumerated(EnumType.STRING)
     JobStatus status;
 
-
 }

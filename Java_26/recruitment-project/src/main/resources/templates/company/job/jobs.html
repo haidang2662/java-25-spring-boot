@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="~{fragments/common/head :: my-head(pageTitle='Post New Job')}"/>
+<head th:replace="~{fragments/common/head :: my-head(pageTitle='Job Management')}"/>
 
 <body>
 
@@ -32,77 +32,145 @@
             </div>
 
             <div class="row">
+                <div class="col">
+                    <div class="ls-widget">
+                        <div class="tabs-box">
+                            <div class="widget-content py-4">
+                                <form id="search-job-form">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label fw-500">Name</label>
+                                                <input type="text" class="form-control" id="name"
+                                                       placeholder="Enter title job"
+                                                       name="name">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="position" class="form-label fw-500">Position</label>
+                                                <input type="text" class="form-control" id="position"
+                                                       placeholder="Enter position"
+                                                       name="position">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label for="expiredDateFrom" class="form-label fw-500">Expired date
+                                                        from</label>
+                                                    <input type="date" class="form-control" id="expiredDateFrom"
+                                                           placeholder="Enter expiredDate from"
+                                                           name="expiredDateFrom">
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="expiredDateTo" class="form-label fw-500">Expired date
+                                                        to</label>
+                                                    <input type="date" class="form-control" id="expiredDateTo"
+                                                           placeholder="Enter expiredDate to"
+                                                           name="expiredDateTo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="skills" class="form-label fw-500">Skills</label>
+                                                <input type="text" class="form-control" id="skills"
+                                                       placeholder="Enter skill"
+                                                       name="skills">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="level" class="form-label fw-500">Job level</label>
+                                                <select id="level" name="level" class="form-select">
+                                                    <option value="">--Please select a level--</option>
+                                                    <option value="INTERN">Intern</option>
+                                                    <option value="FRESHER">Fresher</option>
+                                                    <option value="JUNIOR">Junior</option>
+                                                    <option value="SENIOR">Senior</option>
+                                                    <option value="MASTER">Master</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="status" class="form-label fw-500">Job status</label>
+                                                <select id="status" name="status" class="form-select">
+                                                    <option value="">--Please select a status--</option>
+                                                    <option value="DRAFT">Draft</option>
+                                                    <option value="ACTIVE">Active</option>
+                                                    <option value="EXPIRED">Expired</option>
+                                                    <option value="INACTIVE">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary me-4 px-4" id="search-job-btn">
+                                        <span class="spinner-border spinner-border-sm d-none" role="status"
+                                              aria-hidden="true" id="spinner-search"></span>
+                                        Search
+                                    </button>
+
+                                    <button type="button" class="btn btn-secondary px-4" id="reset-search-job-btn">
+                                        <span class="spinner-border spinner-border-sm d-none" role="status"
+                                              aria-hidden="true" id="spinner-reset"></span>
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-lg-12">
                     <!-- Ls widget -->
                     <div class="ls-widget">
                         <div class="tabs-box">
-                            <div class="widget-title">
-                                <div class="chosen-outer">
-                                    <a href="/companies/jobs/job-posting" class="theme-btn btn-style-one py-2 px-3">Post a New
-                                        Job</a>
-                                </div>
-                            </div>
-
-                            <div class="widget-content">
+                            <div class="widget-content pt-5">
                                 <div class="table-outer">
-                                    <table class="table table-bordered table-striped table-hover">
+                                    <table class="table table-bordered table-striped table-hover" id="job-table">
                                         <thead>
                                         <tr>
+                                            <th>No.</th>
                                             <th>Title</th>
-                                            <th>Address</th>
-                                            <th>Expired</th>
+                                            <th>Position</th>
+                                            <th>Recruiting quantity</th>
+                                            <th>Level</th>
+                                            <th>Experience</th>
+                                            <th>Expired date</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <tr th:each="congViec: ${jobs}">
-                                            <td th:text="${congViec.name}"></td>
-                                            <td th:text="${congViec.workingAddress}"></td>
-                                            <td th:text="${congViec.expiredDate}"></td>
-                                            <td th:text="${congViec.status}"></td>
-                                            <td>
-                                                <span role="button" class="text-primary update-btn me-2">
-                                                    <i class="la la-eye"></i>
-                                                </span>
-                                                <a role="button" class="text-primary me-2"
 
-                                                      th:attr="job-id=${congViec.id}">
-                                                        <i class="fa-solid fa-pencil"></i>
-                                                </a>
-                                                <span role="button" class="text-danger delete-job-btn"
-                                                      th:attr="job-id=${congViec.id}">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                </span>
-                                            </td>
-                                        </tr>
+                                        <tbody>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
 
-                            <div class="widget-title">
-                                <ul class="pagination pagination-sm justify-content-center"
-                                    th:if="${jobs.getTotalPages() > 1}">
-                                    <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}">
-                                        <a class="page-link" th:href="|/jobs?page=${currentPage - 1}|">Trang trước</a>
-                                    </li>
-                                    <li class="page-item"
-                                        th:classappend="${currentPage == number ? 'active' : ''}"
-                                        th:each="number : ${#numbers.sequence(1,jobs.getTotalPages())}">
-                                        <a class="page-link" th:href="|/jobs?page=${number}|" th:text="${number}">1</a>
-                                    </li>
-                                    <li class="page-item"
-                                        th:classappend="${currentPage == jobs.getTotalPages() ? 'disabled' : ''}">
-                                        <a class="page-link" th:href="|/jobs?page=${currentPage + 1}|">Trang sau</i></a>
-                                    </li>
-                                </ul>
+                            <div class="widget-title pt-0">
+                                <div class="row w-100 align-items-center" id="job-paging">
+                                    <div class="col total-record">
+                                    </div>
+                                    <div class="col">
+                                        <ul class="pagination justify-content-end" style="margin:20px 0">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </section>
@@ -117,7 +185,7 @@
 
 
 <th:block th:replace="~{fragments/common/embedded-js :: embedded-js}"/>
-<script src="/js/custom/job/jobs.js"></script>
+<script src="/js/custom/company/job/jobs.js"></script>
 </body>
 
 </html>

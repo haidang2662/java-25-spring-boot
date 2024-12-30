@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(async function () {
 
     $.validator.addMethod(
         "futureDate",
@@ -10,7 +10,6 @@ $(document).ready(function () {
         },
         "Date must be a date in the future"
     );
-
 
     $("#post-job-form").validate({
         onfocusout: false,
@@ -26,10 +25,6 @@ $(document).ready(function () {
                 maxlength: 50,
             },
             "yearOfExperienceFrom": {
-                required: true,
-                min: 1,
-            },
-            "yearOfExperienceTo": {
                 required: true,
                 min: 1,
             },
@@ -83,11 +78,6 @@ $(document).ready(function () {
                 required: "Year Of Experience From is required.",
                 min: "Year Of Experience From must be greater than or equal to 1"
             },
-            "yearOfExperienceTo": {
-                maxlength: "Year Of Experience To must not exceed 50 characters.",
-                min: "Year Of Experience To must be greater than or equal to 1"
-
-            },
             "workingAddress": {
                 required: "Working Address is required.",
                 maxlength: "Working Address must not exceed 50 characters.",
@@ -129,7 +119,7 @@ $(document).ready(function () {
 
     $("#post-job-btn").click(async function () {
         const isValidForm = $("#post-job-form").valid();
-        if(!isValidForm){
+        if (!isValidForm) {
             return;
         }
         $("#post-job-btn").prop("disabled", true);
@@ -158,46 +148,111 @@ $(document).ready(function () {
         $("#job-posting-spinner").toggleClass('d-none');
     });
 
-    // Lay thong tin chi tiet cua 1 dau sach
-    async function getJobDetails(id) {
-        let job = null;
-        await $.ajax({
-            url: '/api/v1/jobs/' + id,
-            type: 'GET',
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                job = data;
-            },
-            error: function (err) {
-                alert(err.responseJSON.error);
-            }
-        });
-        return job;
+    // Lấy jobId từ URL path
+    const pathParts = window.location.pathname.split('/');
+    const jobId = pathParts[pathParts.length - 1]; // Lấy phần tử cuối cùng
+
+
+    // Thay đổi tiêu đề form dựa trên jobId
+    if (jobId) {
+        // Chế độ cập nhật
+        await loadJobDetails(jobId);
+        $("#form-title").text("Update Job");
+    } else {
+        // Chế độ tạo mới
+        $("#form-title").text("Post Job");
     }
 
-    // xử lý nút update
-    $(".update-job-btn").click(async function (event) {
-        // 1 . Lay ra id cua sach
-        const bookId = $(event.currentTarget).attr("book-id");
-        // 2 . Lay thong tin cua sach -> goi API lay thong tin chi tiet
-        const book = await getBookDetails(bookId);
-        if (book == null) {
-            return;
+    $(document).ready(async function () {
+        // Lấy jobId từ URL path
+        const pathParts = window.location.pathname.split('/');
+        const jobId = pathParts[pathParts.length - 1]; // Lấy phần tử cuối cùng
+
+
+        // Thay đổi tiêu đề form và tải dữ liệu nếu có jobId
+        if (jobId) {
+            $("#form-title").text("Update Job");
+            await loadJobDetails(jobId);
+        } else {
+            $("#form-title").text("Post Job");
         }
 
-        // 3 . Dien thong tin cua dau sach vao form cua modal
-        $("#book-form #name").val(book.name);
-        $("#book-form #price").val(book.price);
-        $("#book-form #publisher").val(book.publisher);
-        $("#book-form #publishedYear").val(book.publishedYear);
+        // Xử lý sự kiện khi nhấn nút Save
+        $("#save-job-btn").click(async function () {
+            const isValidForm = $("#post-job-form").valid();
+            if (!isValidForm) {
+                return;
+            }
 
-        //Them đánh dấu id giup phan biet save và update để xử lý dữ kiện
-        $("#save-book-btn").attr("book-id" , bookId);
+            $("#save-job-btn").prop("disabled", true);
+            $("#job-saving-spinner").toggleClass("d-none");
 
-        $("#book-modal .modal-title").text("Cập nhât đầu sách");
+            // Thu thập dữ liệu từ form
+            const formData = $("#post-job-form").serializeArray();
+            const jobData = {};
+            formData.forEach(item => jobData[item.name] = item.value);
 
-        // 4 . Show modal len :
-        $("#book-modal").modal('show');
+            if (jobId) {
+                try {
+                    await $.ajax({
+                        url: `/api/v1/jobs/${jobId}`,
+                        type: "PUT",
+                        data: JSON.stringify(jobData),
+                        contentType: "application/json; charset=utf-8",
+                    });
+                    showToast("Job updated successfully", SUCCESS_TOAST);
+                    await loadJobDetails(jobId); // Tải lại dữ liệu
+                    window.location.href = `/companies/jobs/${jobId}`; // Chuyển về chi tiết công việc
+                } catch (error) {
+                    showToast("Failed to update job", ERROR_TOAST);
+                }
+            } else {
+                // Nếu không có jobId -> Tạo mới công việc
+                try {
+                    await $.ajax({
+                        url: "/api/v1/jobs",
+                        type: "POST",
+                        data: JSON.stringify(jobData),
+                        contentType: "application/json; charset=utf-8",
+                    });
+                    showToast("Job posted successfully", SUCCESS_TOAST);
+                    window.location.href = "/companies/jobs"; // Chuyển về danh sách công việc
+                } catch (error) {
+                    showToast("Failed to post job", ERROR_TOAST);
+                }
+            }
+
+            $("#save-job-btn").prop("disabled", false);
+            $("#job-saving-spinner").toggleClass("d-none");
+        });
     });
 
 });
+
+// Hàm tải dữ liệu job từ API và điền vào form
+async function loadJobDetails(jobId) {
+    try {
+        const job = await $.ajax({
+            url: `/api/v1/jobs/${jobId}`,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+        });
+
+        // Lặp qua các key trong object job và gán giá trị trực tiếp vào form
+        for (const key in job) {
+            const field = $(`[name='${key}']`);
+            // Nếu tìm thấy field tương ứng trong form
+            if (field.length > 0) {
+                if (field.is("input, textarea")) {
+                    field.val(job[key]); // Gán giá trị cho input và textarea
+                } else if (field.is("select")) {
+                    field.val(job[key]); // Gán giá trị cho select
+                }
+            }
+        }
+    } catch (err) {
+        showToast("Failed to load job details", ERROR_TOAST);
+    }
+}
+
+

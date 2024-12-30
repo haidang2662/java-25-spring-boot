@@ -39,4 +39,6 @@ public class JobResponse {
 
     String description;
 
+    LocalDate createdAt;
+
 }

@@ -31,3 +31,19 @@ const SIDEBAR_APPLICATION_PATHS = [
         role: COMPANY_ROLE
     }
 ];
+
+const AUTHENTICATED_APPLICATION_URLS = {
+    COMPANY: [
+        '/companies/jobs'
+    ],
+    ADMIN: [
+
+    ]
+};
+
+const JOB_STATUS = {
+    DRAFT: "DRAFT",
+    ACTIVE: "ACTIVE",
+    EXPIRED: "EXPIRED",
+    INACTIVE: "INACTIVE"
+}

@@ -42,7 +42,7 @@ function handleResponseError(err, customMessage) {
 
 function handleResponseErrorVer2(jqXHR, textStatus, errorThrown) {
     const url = jqXHR.url;
-    console.log(url);
+    // console.log(url);
     if (url === "") {
         ///....
     }
@@ -54,6 +54,7 @@ const ajaxSetupObj = {
     }
 };
 const accessToken = localStorage.getItem('accessToken');
+const account = JSON.parse(localStorage.getItem("account"));
 if (accessToken) {
     ajaxSetupObj['headers'] = {
         "Authorization": "Bearer " + accessToken
@@ -83,7 +84,30 @@ function activateCurrentSidebarMenu() {
     }
 }
 
+function validateAuthenticatedPage() {
+    const accessToken = localStorage.getItem('accessToken');
+    const currentPath = window.location.pathname; // lấy url hiện tại
+    if (!accessToken || accessToken?.trim()?.length === 0) { // khong co token
+        if (currentPath.startsWith("/companies") || currentPath.startsWith("/admin")) {
+            window.location = "/401";
+        }
+        // if (AUTHENTICATED_APPLICATION_URLS.COMPANY.includes(currentPath)
+        //     || AUTHENTICATED_APPLICATION_URLS.ADMIN.includes(currentPath)) {
+        //     // chuyen trang den trang 401
+        //     window.location = "/401";
+        // }
+    }
+
+    const account = JSON.parse(localStorage.getItem("account"));
+}
+
 $(document).ready(function () {
     fillSidebarLinks();
     activateCurrentSidebarMenu();
+    validateAuthenticatedPage();
+
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    })
 });
