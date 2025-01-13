@@ -1,47 +1,26 @@
 $(document).ready(async function () {
 
+    const candidateJobSearchObjStr = localStorage.getItem("candidateJobSearchObj");
+    const candidateJobSearchObj = candidateJobSearchObjStr ? JSON.parse(candidateJobSearchObjStr) : {};
+    console.log(candidateJobSearchObj);
+
+    // call ajax search job va render du lieu (Co phan trang)
+    // sẽ call đúng vào API search job của company luôn (thêm điều kiện để phân biệt company và candidate)
     let totalPage;
     let totalRecord;
     let paging;
     let pageIndex = 0;
-    let pageSize = 10;
-    await getJobData({});
+    let pageSize = 20;
+    await getJobs(candidateJobSearchObj);
 
-    $(document).on("click", ".btn-delete", function (event) {
-        const jobId = $(event.currentTarget).attr("data-id"); // Lấy job ID từ thuộc tính id
-
-        const confirmResult = confirm("Do you want to delete this job?");
-        if (!confirmResult) {
-            return;
-        }
-
-        $.ajax({
-            url: '/api/v1/jobs/' + jobId,
-            type: 'DELETE',
-            contentType: "application/json; charset=utf-8",
-            success: async function () {
-                showToast("Delete job successfully", SUCCESS_TOAST);
-                await getJobData({});
-            },
-            error: function (err) {
-                showToast(err.responseJSON.message, ERROR_TOAST);
-            }
-        });
-    });
-
-    $(document).on("click", ".btn-update", function (event) {
-        const jobId = $(event.currentTarget).attr("data-id");
-        window.location.href = `/companies/jobs/job-updating/${jobId}`;
-    });
-
-    async function getJobData(request) {
+    async function getJobs(request) {
         // Disable nút search và hiển thị spinner
-        $("#search-job-btn").prop("disabled", true);
-        $("#spinner-search").removeClass('d-none');
-        $(".page-item .page-link").addClass('disabled');
+        // $("#search-job-btn").prop("disabled", true);
+        // $("#spinner-search").removeClass('d-none');
+        // $(".page-item .page-link").addClass('disabled');
 
-        // Hiển thị spinner ở bảng
-        $("#job-table tbody").html('<tr><td colspan="9" class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>');
+        // Hiển thị spinner ở khối div bên phải
+        // $("#job-table tbody").html('<tr><td colspan="9" class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>');
 
         await $.ajax({
             url: "/api/v1/jobs",
@@ -53,8 +32,7 @@ $(document).ready(async function () {
             },
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                renderJobTable(data);
-
+                // renderJobs(data);
             },
             error: function () {
                 showToast("Get job failed", ERROR_TOAST);
@@ -62,12 +40,12 @@ $(document).ready(async function () {
         });
 
         // Ẩn spinner và kích hoạt lại nút search
-        $("#spinner-search").addClass('d-none');
-        $("#search-job-btn").prop("disabled", false);
-        $(".page-item .page-link").removeClass('disabled');
+        // $("#spinner-search").addClass('d-none');
+        // $("#search-job-btn").prop("disabled", false);
+        // $(".page-item .page-link").removeClass('disabled');
     }
 
-    function renderJobTable(data) {
+    function renderJobs(data) {
         const paginationHtml = $("#job-paging .pagination");
         const tableContent = $("#job-table tbody");
         const totalRecordHtml = $(".total-record");
@@ -221,70 +199,4 @@ $(document).ready(async function () {
         });
     }
 
-    function getJobActionButtons(job) {
-        const UPDATE_BUTTON =
-            "<span role='button' class='text-primary btn-update me-2 btn-update' data-bs-toggle='tooltip' title='Update' data-id='" + job.id + "'>" +
-            "    <i class='fa-solid fa-pencil'></i>" +
-            "</span>";
-        const DELETE_BUTTON =
-            "<span role='button' class='text-danger btn-delete me-2 btn-delete' data-bs-toggle='tooltip' title='Delete' data-id='" + job.id + "'>" +
-            "    <i class='fa-solid fa-trash'></i>" +
-            "</span>";
-        const PUBLISH_BUTTON =
-            "<span role='button' class='text-success me-2 btn-publish' data-id='" + job.id + "' data-bs-toggle='tooltip' title='Publish'>" +
-            "    <i class='fa-solid fa-check'></i> " +
-            "</span>";
-        const UNPUBLISHED_BUTTON =
-            "<span role='button' class='text-warning me-2 btn-unpublish' data-id='" + job.id + "' data-bs-toggle='tooltip' title='Unpublished'>" +
-            "    <i class='fa-solid fa-x'></i> " +
-            "</span>";
-        const EXPIRE_BUTTON =
-            "<span role='button' class='text-secondary me-2 btn-expire' data-id='" + job.id + "' data-bs-toggle='tooltip' title='Expire'>" +
-            "    <i class='fa-solid fa-clock'></i> " +
-            "</span>";
-
-        let buttons = "";
-        switch (job.status) {
-            case "DRAFT":
-                buttons = UPDATE_BUTTON + DELETE_BUTTON + PUBLISH_BUTTON;
-                break;
-            case "PUBLISH":
-                buttons = UNPUBLISHED_BUTTON + EXPIRE_BUTTON;
-                break;
-            case "UNPUBLISHED":
-                buttons = UPDATE_BUTTON + PUBLISH_BUTTON;
-                break;
-            case "EXPIRED":
-                buttons = UPDATE_BUTTON + PUBLISH_BUTTON;
-                break;
-        }
-
-        return buttons;
-    }
-
-
-    $("#search-job-btn").click(async function () {
-
-        // Lấy dữ liệu từ form
-        const formData = $("#search-job-form").serializeArray();
-        let searchJob = {};
-        for (let i = 0; i < formData.length; i++) {
-            searchJob[formData[i].name] = formData[i].value;
-        }
-
-        await getJobData(searchJob);
-
-    });
-
-
-    $("#reset-search-job-btn").click(async function () {
-        // Reset form
-        $("#search-job-form").trigger("reset");
-
-        // Lấy lại dữ liệu
-        await getJobData({});
-    });
-
-
-})
-;
+});

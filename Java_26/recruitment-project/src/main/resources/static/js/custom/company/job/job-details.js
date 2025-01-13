@@ -23,9 +23,9 @@ const PUBLISH_BUTTON = `
         <i class="fa-solid fa-check"></i> Publish
     </button>
 `;
-const UNPUBLISH_BUTTON = `
+const UNPUBLISHED_BUTTON = `
     <button type="button" class="btn btn-secondary me-2 btn-unpublish" data-id="job-id">
-        <i class="fa-solid fa-x"></i> Un-publish
+        <i class="fa-solid fa-x"></i> Unpublished
     </button>
 `;
 const EXPIRE_BUTTON = `
@@ -58,10 +58,10 @@ function renderJobDetails(job) {
         case "DRAFT":
             buttons = UPDATE_BUTTON + DELETE_BUTTON + PUBLISH_BUTTON;
             break;
-        case "ACTIVE":
-            buttons = UNPUBLISH_BUTTON + EXPIRE_BUTTON;
+        case "PUBLISH":
+            buttons = UNPUBLISHED_BUTTON + EXPIRE_BUTTON;
             break;
-        case "INACTIVE":
+        case "UNPUBLISHED":
             buttons = UPDATE_BUTTON + PUBLISH_BUTTON;
             break;
         case "EXPIRED":
@@ -105,7 +105,7 @@ function renderJobDetails(job) {
         }
     });
 
-    //  ACTIVE
+    //  PUBLISH
     $(".btn-publish").off("click").click(async function (event) {
         const toggleInput = $(event.currentTarget);
         const jobId = toggleInput.attr("data-id");
@@ -114,17 +114,17 @@ function renderJobDetails(job) {
             await $.ajax({
                 url: '/api/v1/jobs/' + jobId + '/status',
                 type: 'PATCH',
-                data: JSON.stringify({status: JOB_STATUS.ACTIVE}),
+                data: JSON.stringify({status: JOB_STATUS.PUBLISH}),
                 contentType: 'application/json; charset=utf-8',
             });
-            showToast("Job marked as active successfully", SUCCESS_TOAST);
+            showToast("Job marked as publish successfully", SUCCESS_TOAST);
             await loadJobDetails(jobId); // Cập nhật lại giao diện
         } catch (err) {
             showToast(err.responseJSON.message, ERROR_TOAST);
         }
     });
 
-    // INACTIVE
+    // UNPUBLISHED
     $(".btn-unpublish").off("click").click(async function (event) {
         const toggleInput = $(event.currentTarget);
         const jobId = toggleInput.attr("data-id");
@@ -133,10 +133,10 @@ function renderJobDetails(job) {
             await $.ajax({
                 url: '/api/v1/jobs/' + jobId + '/status',
                 type: 'PATCH',
-                data: JSON.stringify({status: JOB_STATUS.INACTIVE}),
+                data: JSON.stringify({status: JOB_STATUS.UNPUBLISHED}),
                 contentType: 'application/json; charset=utf-8',
             });
-            showToast("Job marked as inactive successfully", SUCCESS_TOAST);
+            showToast("Job marked as unpublished successfully", SUCCESS_TOAST);
             await loadJobDetails(jobId); // Cập nhật lại giao diện
         } catch (err) {
             showToast(err.responseJSON.message, ERROR_TOAST);
@@ -214,10 +214,10 @@ function decodeJobStatus(status) {
     switch (status) {
         case "DRAFT":
             return "Draft";
-        case "ACTIVE":
-            return "Active";
-        case "INACTIVE":
-            return "Inactive";
+        case "PUBLISH":
+            return "Publish";
+        case "UNPUBLISHED":
+            return "Unpublished";
         case "EXPIRED":
             return "Expired";
     }

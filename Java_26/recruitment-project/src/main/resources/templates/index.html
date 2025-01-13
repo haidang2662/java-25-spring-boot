@@ -15,6 +15,7 @@
     <header th:replace="~{fragments/common/header :: my-header}" />
     <!--End Main Header -->
 
+
     <!-- Banner Section-->
     <section class="banner-section-eight">
         <div class="image-outer">
@@ -32,39 +33,32 @@
                         </div>
 
                         <!-- Job Search Form -->
-                        <div class="job-search-form wow fadeInUp" data-wow-delay="1000ms">
-                            <form method="post" action="job-list-v10.html">
+                        <div class="job-search-form wow fadeInUp" data-wow-delay="1000ms" style="z-index: 2">
+                            <form id="search-job-candidate-form">
                                 <div class="row">
                                     <div class="form-group col-lg-4 col-md-12 col-sm-12">
                                         <span class="icon flaticon-search-1"></span>
-                                        <input type="text" name="field_name"
+                                        <input type="text" name="jobName"
                                                placeholder="Job title, keywords, or company">
                                     </div>
                                     <!-- Form Group -->
                                     <div class="form-group col-lg-3 col-md-12 col-sm-12 location">
                                         <span class="icon flaticon-map-locator"></span>
-                                        <input type="text" name="field_name" placeholder="City or postcode">
+<!--                                        <input type="text" name="field_name" placeholder="City or postcode">-->
+                                        <select id="location" name="locations" data-placeholder="Locations" class="chosen-select multiple" multiple tabindex="4">
+                                        </select>
                                     </div>
 
                                     <!-- Form Group -->
                                     <div class="form-group col-lg-3 col-md-12 col-sm-12 category">
                                         <span class="icon flaticon-briefcase"></span>
-                                        <select class="chosen-select">
-                                            <option value="">All Categories</option>
-                                            <option value="44">Accounting / Finance</option>
-                                            <option value="106">Automotive Jobs</option>
-                                            <option value="46">Customer</option>
-                                            <option value="48">Design</option>
-                                            <option value="47">Development</option>
-                                            <option value="45">Health and Care</option>
-                                            <option value="105">Marketing</option>
-                                            <option value="107">Project Management</option>
+                                        <select id="job-categories" class="chosen-select" name="category" data-placeholder="Job category">
                                         </select>
                                     </div>
 
                                     <!-- Form Group -->
                                     <div class="form-group col-lg-2 col-md-12 col-sm-12 btn-box">
-                                        <button type="submit" class="theme-btn btn-style-one"><span class="btn-title">Find Jobs</span>
+                                        <button type="button" class="theme-btn btn-style-one" id="search-job-btn"><span class="btn-title">Find Jobs</span>
                                         </button>
                                     </div>
                                 </div>
@@ -77,7 +71,7 @@
                                 <span class="title">10k+ Candidates</span>
                                 <img src="images/resource/multi-peoples.png" alt="">
                             </div>
-                            <a href="#" class="upload-cv"><span class="icon flaticon-file"></span> Upload your CV</a>
+                            <a href="#" class="upload-cv" id="upload-cv"><span class="icon flaticon-file"></span> Upload your CV</a>
                         </div>
                     </div>
                 </div>
@@ -123,26 +117,9 @@
     </section>
     <!-- End Clients Section-->
 
-    <!-- Recruiter Section -->
-    <section class="recruiter-section">
-        <div class="outer-box">
-            <div class="image-column">
-                <figure class="image"><img src="images/resource/recruiter.png" alt=""></figure>
-            </div>
-            <div class="content-column">
-                <div class="inner-column wow fadeInUp">
-                    <div class="sec-title">
-                        <h2>I am Recruiter</h2>
-                        <div class="text">One of our One of our jobs has some kind of flexibility jobs has some kind of
-                            flexibility option such as telecommuting, a part-time schedule or a flexible or flextime.
-                        </div>
-                        <a href="#" class="theme-btn btn-style-one">Post New Job</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Recruiter Section -->
+    <!-- Company Section -->
+    <section th:replace="~{fragments/company/company-section-home :: #company-section}"></section>
+
 
     <!-- Job Section -->
     <section class="job-section-four alternate">
@@ -267,26 +244,9 @@
     </section>
     <!-- End Job Section -->
 
-    <!-- Jobseeker Section -->
-    <section class="jobseeker-section">
-        <div class="outer-box">
-            <div class="image-column">
-                <figure class="image"><img src="images/resource/jobseeker.png" alt=""></figure>
-            </div>
-            <div class="content-column">
-                <div class="inner-column wow fadeInUp">
-                    <div class="sec-title">
-                        <h2>I am Jobseeker</h2>
-                        <div class="text">One of our One of our jobs has some kind of flexibility jobs has some kind of
-                            flexibility option such as telecommuting, a part-time schedule or a flexible or flextime.
-                        </div>
-                        <a href="#" class="theme-btn btn-style-one">Browse Job</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Jobseeker Section -->
+    <!-- Candidate Section -->
+    <section th:replace="~{fragments/candidate/home/candidate-section :: #candidate-section}"></section>
+    <!-- End Candidate Section -->
 
     <!-- Top Companies -->
     <section class="top-companies">
@@ -387,6 +347,7 @@
 
 
 <th:block th:replace="~{fragments/common/embedded-js :: embedded-js}" />
+<script src="/js/custom/index.js"></script>
 
 </body>
 

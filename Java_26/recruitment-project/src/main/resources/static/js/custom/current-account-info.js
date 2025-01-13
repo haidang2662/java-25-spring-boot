@@ -14,8 +14,8 @@ $(document).ready(function () {
     if (account) {
         $("#btn-login").hide();
 
-        $("#notification-btn").toggleClass('d-none');
-        $("#header-account-info").toggleClass('d-none');
+        $("#notification-btn").removeClass('d-none');
+        $("#header-account-info").removeClass('d-none');
 
         if (account?.role === COMPANY_ROLE) {
             $("#header-job-posting-btn").show();

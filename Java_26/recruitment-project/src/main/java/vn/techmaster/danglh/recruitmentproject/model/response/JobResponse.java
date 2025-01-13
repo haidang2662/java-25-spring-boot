@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import vn.techmaster.danglh.recruitmentproject.constant.*;
+import vn.techmaster.danglh.recruitmentproject.entity.JobCategory;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -38,6 +40,8 @@ public class JobResponse {
     JobStatus status;
 
     String description;
+
+    JobCategory category;
 
     LocalDate createdAt;
 

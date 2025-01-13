@@ -32,18 +32,9 @@ const SIDEBAR_APPLICATION_PATHS = [
     }
 ];
 
-const AUTHENTICATED_APPLICATION_URLS = {
-    COMPANY: [
-        '/companies/jobs'
-    ],
-    ADMIN: [
-
-    ]
-};
-
 const JOB_STATUS = {
     DRAFT: "DRAFT",
-    ACTIVE: "ACTIVE",
+    PUBLISH: "PUBLISH",
     EXPIRED: "EXPIRED",
-    INACTIVE: "INACTIVE"
+    UNPUBLISHED: "UNPUBLISHED"
 }

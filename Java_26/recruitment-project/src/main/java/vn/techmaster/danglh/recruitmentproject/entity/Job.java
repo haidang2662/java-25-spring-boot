@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import vn.techmaster.danglh.recruitmentproject.constant.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -61,5 +62,9 @@ public class Job extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     JobStatus status;
+
+    @JoinColumn(name = "category_id")
+    @ManyToOne(targetEntity = JobCategory.class)
+    JobCategory category;
 
 }

@@ -2,6 +2,7 @@ package vn.techmaster.danglh.recruitmentproject.repository.custom;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.dto.SearchJobDto;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobSearchRequest;
 import vn.techmaster.danglh.recruitmentproject.repository.BaseRepository;
@@ -13,7 +14,7 @@ import java.util.Map;
 @Repository
 public class JobCustomRepository extends BaseRepository {
 
-    public List<SearchJobDto> searchJob(JobSearchRequest request) {
+    public List<SearchJobDto> searchJob(JobSearchRequest request, Long creatorId, Role role) {
         String query = "with raw_data as (\n" +
                 "    select id, name, position, " +
                 "       year_of_experience_from yearOfExperienceFrom, " +
@@ -62,6 +63,18 @@ public class JobCustomRepository extends BaseRepository {
         if (request.getStatus() != null) {
             parameters.put("p_status", request.getStatus().name());
             searchCondition += "and status = :p_status\n";
+        }
+
+        // nếu role của user hiện tại đang tìm job là company => chỉ show các job của company đấy thôi
+        if (role != null && role.equals(Role.COMPANY)) {
+            parameters.put("p_company", creatorId);
+            searchCondition += "and company_id = :p_company\n";
+        }
+
+        // nếu role của user hiện tại đang tìm job là candidate
+        //      => show tất cả các job của tất cả các company nhưng chưa hết hạn và đang ở trạng thái PUBLISH
+        if (role == null || role.equals(Role.CANDIDATE)) {
+            searchCondition += "and status = 'PUBLISH'\n";
         }
 
         query = query.replace("{{search_condition}}", searchCondition);

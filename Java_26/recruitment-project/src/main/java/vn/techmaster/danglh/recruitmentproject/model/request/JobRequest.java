@@ -8,8 +8,10 @@ import vn.techmaster.danglh.recruitmentproject.constant.JobLevel;
 import vn.techmaster.danglh.recruitmentproject.constant.Literacy;
 import vn.techmaster.danglh.recruitmentproject.constant.WorkingTimeType;
 import vn.techmaster.danglh.recruitmentproject.constant.WorkingType;
+import vn.techmaster.danglh.recruitmentproject.entity.JobCategory;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -71,9 +73,11 @@ public class JobRequest {
     @Min(value = 1, message = "Salary to phải lớn hơn hoặc bằng 1")
     Integer salaryTo;
 
-
     @NotBlank(message = "Description không được bỏ trống")
     @Size(max = 5000, message = "Description không được quá 5000 ký tụ")
     String description;
+
+    @NotNull(message = "Category không được bỏ trống")
+    Long categoryId;
 
 }

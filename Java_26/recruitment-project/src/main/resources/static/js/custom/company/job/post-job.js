@@ -117,41 +117,15 @@ $(document).ready(async function () {
         }
     });
 
-    $("#post-job-btn").click(async function () {
-        const isValidForm = $("#post-job-form").valid();
-        if (!isValidForm) {
-            return;
-        }
-        $("#post-job-btn").prop("disabled", true);
-        $("#job-posting-spinner").toggleClass('d-none');
-
-        const formData = $("#post-job-form").serializeArray();
-        const postJob = {};
-        for (let i = 0; i < formData.length; i++) {
-            postJob[formData[i].name] = formData[i].value;
-        }
-
-        await $.ajax({
-            url: "/api/v1/jobs",
-            type: "POST",
-            data: JSON.stringify(postJob),
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                showToast("Post job successfully", SUCCESS_TOAST);
-            },
-            error: function () {
-                showToast("Post job failed", ERROR_TOAST);
-            }
-        });
-
-        $("#post-job-btn").prop("disabled", false);
-        $("#job-posting-spinner").toggleClass('d-none');
-    });
+    renderJobCategories();
 
     // Lấy jobId từ URL path
-    const pathParts = window.location.pathname.split('/');
-    const jobId = pathParts[pathParts.length - 1]; // Lấy phần tử cuối cùng
-
+    const path = window.location.pathname;
+    let jobId = null;
+    if (path.startsWith("/companies/jobs/job-updating")) {
+        const pathParts = window.location.pathname.split('/');
+        jobId = pathParts[pathParts.length - 1]; // Lấy phần tử cuối cùng
+    }
 
     // Thay đổi tiêu đề form dựa trên jobId
     if (jobId) {
@@ -163,68 +137,54 @@ $(document).ready(async function () {
         $("#form-title").text("Post Job");
     }
 
-    $(document).ready(async function () {
-        // Lấy jobId từ URL path
-        const pathParts = window.location.pathname.split('/');
-        const jobId = pathParts[pathParts.length - 1]; // Lấy phần tử cuối cùng
-
-
-        // Thay đổi tiêu đề form và tải dữ liệu nếu có jobId
-        if (jobId) {
-            $("#form-title").text("Update Job");
-            await loadJobDetails(jobId);
-        } else {
-            $("#form-title").text("Post Job");
+    // Xử lý sự kiện khi nhấn nút Save
+    $("#save-job-btn").click(async function () {
+        const isValidForm = $("#post-job-form").valid();
+        if (!isValidForm) {
+            return;
         }
 
-        // Xử lý sự kiện khi nhấn nút Save
-        $("#save-job-btn").click(async function () {
-            const isValidForm = $("#post-job-form").valid();
-            if (!isValidForm) {
-                return;
+        $("#save-job-btn").prop("disabled", true);
+        $("#job-saving-spinner").toggleClass("d-none");
+
+        // Thu thập dữ liệu từ form
+        const formData = $("#post-job-form").serializeArray();
+        const jobData = {};
+        formData.forEach(item => jobData[item.name] = item.value);
+        jobData['categoryId'] = jobData['category'];
+
+        if (jobId) {
+            try {
+                await $.ajax({
+                    url: `/api/v1/jobs/${jobId}`,
+                    type: "PUT",
+                    data: JSON.stringify(jobData),
+                    contentType: "application/json; charset=utf-8",
+                });
+                showToast("Job updated successfully", SUCCESS_TOAST);
+                await loadJobDetails(jobId); // Tải lại dữ liệu
+                window.location.href = `/companies/jobs/${jobId}`; // Chuyển về chi tiết công việc
+            } catch (error) {
+                showToast("Failed to update job", ERROR_TOAST);
             }
-
-            $("#save-job-btn").prop("disabled", true);
-            $("#job-saving-spinner").toggleClass("d-none");
-
-            // Thu thập dữ liệu từ form
-            const formData = $("#post-job-form").serializeArray();
-            const jobData = {};
-            formData.forEach(item => jobData[item.name] = item.value);
-
-            if (jobId) {
-                try {
-                    await $.ajax({
-                        url: `/api/v1/jobs/${jobId}`,
-                        type: "PUT",
-                        data: JSON.stringify(jobData),
-                        contentType: "application/json; charset=utf-8",
-                    });
-                    showToast("Job updated successfully", SUCCESS_TOAST);
-                    await loadJobDetails(jobId); // Tải lại dữ liệu
-                    window.location.href = `/companies/jobs/${jobId}`; // Chuyển về chi tiết công việc
-                } catch (error) {
-                    showToast("Failed to update job", ERROR_TOAST);
-                }
-            } else {
-                // Nếu không có jobId -> Tạo mới công việc
-                try {
-                    await $.ajax({
-                        url: "/api/v1/jobs",
-                        type: "POST",
-                        data: JSON.stringify(jobData),
-                        contentType: "application/json; charset=utf-8",
-                    });
-                    showToast("Job posted successfully", SUCCESS_TOAST);
-                    window.location.href = "/companies/jobs"; // Chuyển về danh sách công việc
-                } catch (error) {
-                    showToast("Failed to post job", ERROR_TOAST);
-                }
+        } else {
+            // Nếu không có jobId -> Tạo mới công việc
+            try {
+                await $.ajax({
+                    url: "/api/v1/jobs",
+                    type: "POST",
+                    data: JSON.stringify(jobData),
+                    contentType: "application/json; charset=utf-8",
+                });
+                showToast("Job posted successfully", SUCCESS_TOAST);
+                window.location.href = "/companies/jobs"; // Chuyển về danh sách công việc
+            } catch (error) {
+                showToast("Failed to post job", ERROR_TOAST);
             }
+        }
 
-            $("#save-job-btn").prop("disabled", false);
-            $("#job-saving-spinner").toggleClass("d-none");
-        });
+        $("#save-job-btn").prop("disabled", false);
+        $("#job-saving-spinner").toggleClass("d-none");
     });
 
 });
@@ -255,4 +215,24 @@ async function loadJobDetails(jobId) {
     }
 }
 
+function renderJobCategories() {
+    $.ajax({
+        url: '/api/v1/job-categories',
+        method: 'GET',
+        success: function (response) {
+            const jobCategorySelect = $('#job-categories');
+            jobCategorySelect.empty();
 
+            response.forEach(function (category) {
+                jobCategorySelect.append(`<option value="${category.id}">${category.name}</option>`);
+            });
+
+            if ($.fn.chosen) {
+                jobCategorySelect.trigger("chosen:updated");
+            }
+        },
+        error: function (error) {
+            showToast("Error fetching job categories", ERROR_TOAST);
+        }
+    });
+}

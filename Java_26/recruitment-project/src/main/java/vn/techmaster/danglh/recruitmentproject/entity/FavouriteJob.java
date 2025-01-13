@@ -18,8 +18,6 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "favourite_jobs")
 public class FavouriteJob extends BaseEntity {
 
-    String name;
-
     @JoinColumn(name = "candidate_id")
     @ManyToOne(targetEntity = Candidate.class)
     Candidate candidate;

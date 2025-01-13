@@ -82,6 +82,8 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 Console
                         .requestMatchers("/swagger-ui/index.html").permitAll() // Allow access to Swagger UI
                         .requestMatchers("/api/v1/files/**").permitAll() // Allow access to Swagger UI
+                        .requestMatchers("/api/v1/locations").permitAll() // Allow access to Swagger UI
+                        .requestMatchers("/api/v1/job-categories").permitAll() // Allow access to Swagger UI
 
                         // authentication start
                         .requestMatchers(
@@ -114,7 +116,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/jobs/{id}").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/jobs").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/jobs").permitAll()
-
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/jobs/{jobId}/status").hasAnyAuthority(Role.COMPANY.toString())
                         // Job end
 
 

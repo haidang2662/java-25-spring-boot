@@ -1,3 +1,11 @@
 .main-menu .navigation > li > .mega-menu {
     width: 250px !important;
 }
+
+.job-search-form {
+    min-width: 80vw !important;
+}
+
+.job-search-form .chosen-container-multi {
+    padding-left: 15px;
+}
