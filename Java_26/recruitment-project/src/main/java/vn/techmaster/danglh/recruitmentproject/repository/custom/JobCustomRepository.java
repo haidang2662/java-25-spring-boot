@@ -21,7 +21,8 @@ public class JobCustomRepository extends BaseRepository {
                 "       year_of_experience_to yearOfExperienceTo, " +
                 "       working_type workingType, working_time_type workingTimeType, " +
                 "       working_address workingAddress, literacy, level, recruiting_quantity recruitingQuantity, " +
-                "       expired_date expiredDate, salary_from salaryFrom, salary_to salaryTo, status\n" +
+                "       expired_date expiredDate, salary_from salaryFrom, salary_to salaryTo, status,\n" +
+                "       created_at createdAt\n" +
                 "    from jobs\n" +
                 "    where 1 = 1\n" +
                 "   {{search_condition}}\n" +

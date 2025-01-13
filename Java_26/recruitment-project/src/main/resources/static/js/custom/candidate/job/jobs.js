@@ -32,7 +32,7 @@ $(document).ready(async function () {
             },
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                // renderJobs(data);
+                renderJobs(data);
             },
             error: function () {
                 showToast("Get job failed", ERROR_TOAST);
@@ -47,7 +47,7 @@ $(document).ready(async function () {
 
     function renderJobs(data) {
         const paginationHtml = $("#job-paging .pagination");
-        const tableContent = $("#job-table tbody");
+        const tableContent = $("#candidate-jobs");
         const totalRecordHtml = $(".total-record");
 
         tableContent.empty();
@@ -74,25 +74,30 @@ $(document).ready(async function () {
 
         for (let i = 0; i < jobs.length; i++) {
             const job = jobs[i];
-            let tr = "<tr>" +
-                "<td>" + job.stt + "</td>" +
-                "<td>" + "<a href='/companies/jobs/" + job.id + "'>" + job.name + "</a></td>" +
-                "<td>" + job.position + "</td>" +
-                "<td>" + job.recruitingQuantity + "</td>" +
-                "<td>" + job.level + "</td>" +
-                "<td>" + (job.yearOfExperienceTo ? job.yearOfExperienceFrom + " - " + job.yearOfExperienceTo : job.yearOfExperienceFrom) + "</td>" +
-                "<td>" + job.expiredDate + "</td>" +
-                "<td>" + job.status + "</td>" +
-                "<td>" +
-                "<div class='action-icons d-flex align-items-center'>" + // Thêm container Flexbox
-                getJobActionButtons(job) +
-                "</div>" +
-                "</td>" +
-                "</tr>";
+            let jobBlock = `<div class="job-block col-lg-6 col-md-12 col-sm-12">
+                            <div class="inner-box">
+                                <div class="content">
+                                    <span class="company-logo"><img src="images/resource/company-logo/1-1.png" alt=""></span>
+                                    <h4><a href="#">${job.name}</a></h4>
+                                    <ul class="job-info">
+                                        <li><span class="icon flaticon-briefcase"></span> ${job.position}</li>
+                                        <li><span class="icon flaticon-map-locator"></span> ${job.workingAddress}</li>
+                                        <li><span class="icon flaticon-clock-3"></span> ${getTimeDifferenceInDays(new Date(job.createdAt), new Date())}</li>
+                                        <li><span class="icon flaticon-money"></span> ${job.salaryTo ? `${job.salaryFrom} - ${job.salaryTo}` : job.salaryFrom}</li>
+                                    </ul>
+                                    <ul class="job-other-info">
+                                        <li class="time">Full Time</li>
+                                        <li class="privacy">Private</li>
+                                        <li class="required">Urgent</li>
+                                    </ul>
+                                    <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                </div>
+                            </div>
+                        </div>`;
 
-            tableContent.append(tr);
+            tableContent.append(jobBlock);
 
-            //  EXPIRED
+            //  favorite
             $(".btn-expire").off("click").click(async function (event) {
                 const toggleInput = $(event.currentTarget);
                 const jobId = toggleInput.attr("data-id");
@@ -104,44 +109,7 @@ $(document).ready(async function () {
                         contentType: 'application/json; charset=utf-8',
                     });
                     showToast("Job marked as expired successfully", SUCCESS_TOAST);
-                    await getJobData({});
-                } catch (err) {
-                    showToast(err.responseJSON.message, ERROR_TOAST);
-                }
-            });
-
-            //  PUBLISH
-            $(".btn-publish").off("click").click(async function (event) {
-                const toggleInput = $(event.currentTarget);
-                const jobId = toggleInput.attr("data-id");
-                try {
-                    await $.ajax({
-                        url: '/api/v1/jobs/' + jobId + '/status',
-                        type: 'PATCH',
-                        data: JSON.stringify({ status: JOB_STATUS.PUBLISH }),
-                        contentType: 'application/json; charset=utf-8',
-                    });
-                    showToast("Job marked as publish successfully", SUCCESS_TOAST);
-                    await getJobData({});
-                } catch (err) {
-                    showToast(err.responseJSON.message, ERROR_TOAST);
-                }
-            });
-
-            // UNPUBLISHED
-            $(".btn-unpublish").off("click").click(async function (event) {
-                const toggleInput = $(event.currentTarget);
-                const jobId = toggleInput.attr("data-id");
-
-                try {
-                    await $.ajax({
-                        url: '/api/v1/jobs/' + jobId + '/status',
-                        type: 'PATCH',
-                        data: JSON.stringify({ status: JOB_STATUS.UNPUBLISHED }),
-                        contentType: 'application/json; charset=utf-8',
-                    });
-                    showToast("Job marked as unpublisged successfully", SUCCESS_TOAST);
-                    await getJobData({});
+                    await getJobs({});
                 } catch (err) {
                     showToast(err.responseJSON.message, ERROR_TOAST);
                 }
@@ -169,17 +137,17 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = parseInt(newPageIndex);
-            await getJobData({});
+            await getJobs({});
         });
 
         $(".go-to-first-page").click(async function () {
             pageIndex = 0;
-            await getJobData({});
+            await getJobs({});
         });
 
         $(".go-to-last-page").click(async function () {
             pageIndex = totalPage - 1;
-            await getJobData({});
+            await getJobs({});
         });
 
         $(".previous-page").click(async function () {
@@ -187,7 +155,7 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex - 1;
-            await getJobData({});
+            await getJobs({});
         });
 
         $(".next-page").click(async function () {
@@ -195,7 +163,7 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex + 1;
-            await getJobData({});
+            await getJobs({});
         });
     }
 

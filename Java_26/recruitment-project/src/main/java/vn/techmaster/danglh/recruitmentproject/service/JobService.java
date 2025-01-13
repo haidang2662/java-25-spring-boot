@@ -69,25 +69,6 @@ public class JobService {
         return objectMapper.convertValue(job, JobResponse.class);
     }
 
-    public Page<JobResponse> getJobs(int page, int pageSize) {
-
-        // 1 - tìm trong DB
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("id").descending());
-        Page<Job> jobPage = jobRepository.findAll(pageable);
-
-        // 2 - convert từ entity sang response
-        List<Job> jobList = jobPage.getContent();
-
-        // 2.4 - dùng object mapper kết hợp với stream của java 8
-        List<JobResponse> jobResponses = jobList
-                .stream()
-                .map(jobTemp -> objectMapper.convertValue(jobTemp, JobResponse.class))
-                .toList();
-
-        // 3 - trả về kết quả
-        return new PageImpl<>(jobResponses, pageable, jobPage.getTotalElements());
-    }
-
     public void deleteJob(Long id) throws UnprocessableEntityException {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new ObjenesisException("Không tìm thấy job có id : " + id));

@@ -7,6 +7,7 @@ import vn.techmaster.danglh.recruitmentproject.constant.JobLevel;
 import vn.techmaster.danglh.recruitmentproject.constant.JobStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -15,12 +16,16 @@ public class SearchJobDto {
     Long id;
     String name;
     LocalDate expiredDate;
+    LocalDateTime createdAt;
     JobStatus status;
     Integer yearOfExperienceFrom;
     Integer yearOfExperienceTo;
     String position;
     JobLevel level;
     Integer recruitingQuantity;
+    String workingAddress;
+    Integer salaryFrom;
+    Integer salaryTo;
 
     Long totalRecord;
 

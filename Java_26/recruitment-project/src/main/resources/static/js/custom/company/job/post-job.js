@@ -150,7 +150,7 @@ $(document).ready(async function () {
         // Thu thập dữ liệu từ form
         const formData = $("#post-job-form").serializeArray();
         const jobData = {};
-        formData.forEach(item => jobData[item.name] = item.value);
+        formData.forEach(item => jobData[item.name] = item.value?.trim());
         jobData['categoryId'] = jobData['category'];
 
         if (jobId) {
