@@ -26,6 +26,10 @@ public class SearchJobDto {
     String workingAddress;
     Integer salaryFrom;
     Integer salaryTo;
+    String companyAvatarUrl;
+    boolean urgent;
+    String workingTimeType;
+    String workingType;
 
     Long totalRecord;
 

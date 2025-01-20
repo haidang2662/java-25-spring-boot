@@ -90,6 +90,9 @@ public class JobService {
         Job job = objectMapper.convertValue(request, Job.class);
         job.setId(idJob);
         job.setStatus(entity.getStatus());
+        job.setCreatedAt(entity.getCreatedAt());
+        job.setCreatedBy(entity.getCreatedBy());
+        job.setCompany(entity.getCompany());
 
         JobCategory category = jobCategoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new ObjectNotFoundException("Category not found"));

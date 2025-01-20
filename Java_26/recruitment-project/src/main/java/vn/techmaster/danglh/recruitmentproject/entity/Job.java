@@ -67,4 +67,7 @@ public class Job extends BaseEntity {
     @ManyToOne(targetEntity = JobCategory.class)
     JobCategory category;
 
+    @Column(columnDefinition = "boolean default false")
+    boolean urgent;
+
 }

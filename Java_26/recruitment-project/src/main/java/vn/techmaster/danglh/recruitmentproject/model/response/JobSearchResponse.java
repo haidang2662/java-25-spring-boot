@@ -29,5 +29,9 @@ public class JobSearchResponse {
     String workingAddress;
     Integer salaryFrom;
     Integer salaryTo;
+    String companyAvatarUrl;
+    boolean urgent;
+    String workingTimeType;
+    String workingType;
 
 }

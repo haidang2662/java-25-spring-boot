@@ -74,11 +74,13 @@ $(document).ready(async function () {
 
         for (let i = 0; i < jobs.length; i++) {
             const job = jobs[i];
+            const avatar = job?.companyAvatarUrl ? `/api/v1/files/avatar/${job.companyAvatarUrl}` : DEFAULT_AVATAR_URL;
+            const urgentHtml = job?.urgent ? '<li class="required">Urgent</li>' : '';
             let jobBlock = `<div class="job-block col-lg-6 col-md-12 col-sm-12">
                             <div class="inner-box">
                                 <div class="content">
-                                    <span class="company-logo"><img src="images/resource/company-logo/1-1.png" alt=""></span>
-                                    <h4><a href="#">${job.name}</a></h4>
+                                    <span class="company-logo"><img src='${avatar}' alt="" class="rounded rounded-circle"></span>
+                                    <h4><a href="/jobs/${job.id}">${job.name}</a></h4>
                                     <ul class="job-info">
                                         <li><span class="icon flaticon-briefcase"></span> ${job.position}</li>
                                         <li><span class="icon flaticon-map-locator"></span> ${job.workingAddress}</li>
@@ -86,11 +88,11 @@ $(document).ready(async function () {
                                         <li><span class="icon flaticon-money"></span> ${job.salaryTo ? `${job.salaryFrom} - ${job.salaryTo}` : job.salaryFrom}</li>
                                     </ul>
                                     <ul class="job-other-info">
-                                        <li class="time">Full Time</li>
-                                        <li class="privacy">Private</li>
-                                        <li class="required">Urgent</li>
+                                        <li class="time">${decodeJobWorkingTimeType(job?.workingTimeType || 'FULL_TIME')}</li>
+                                        <li class="privacy">${decodeJobWorkingType(job?.workingType || 'OFFLINE')}</li>
+                                        ${urgentHtml}
                                     </ul>
-                                    <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                    <button class="bookmark-btn"><i class="fa-regular fa-heart"></i></button>
                                 </div>
                             </div>
                         </div>`;
@@ -105,7 +107,7 @@ $(document).ready(async function () {
                     await $.ajax({
                         url: '/api/v1/jobs/' + jobId + '/status',
                         type: 'PATCH',
-                        data: JSON.stringify({ status: JOB_STATUS.EXPIRED }),
+                        data: JSON.stringify({status: JOB_STATUS.EXPIRED}),
                         contentType: 'application/json; charset=utf-8',
                     });
                     showToast("Job marked as expired successfully", SUCCESS_TOAST);
@@ -168,3 +170,25 @@ $(document).ready(async function () {
     }
 
 });
+
+function decodeJobWorkingTimeType(workingTimeType) {
+    switch (workingTimeType) {
+        case "FULL_TIME":
+            return "Full time";
+        case "PART_TIME":
+            return "Part time";
+        default:
+            return "Full time";
+    }
+}
+
+function decodeJobWorkingType(workingType) {
+    switch (workingType) {
+        case "OFFLINE":
+            return "Offline";
+        case "ONLINE":
+            return "Online";
+        default:
+            return "Offline";
+    }
+}

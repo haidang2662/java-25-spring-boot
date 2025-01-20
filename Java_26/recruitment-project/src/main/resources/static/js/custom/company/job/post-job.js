@@ -130,7 +130,7 @@ $(document).ready(async function () {
     // Thay đổi tiêu đề form dựa trên jobId
     if (jobId) {
         // Chế độ cập nhật
-        await loadJobDetails(jobId);
+        await getJobDetails(jobId);
         $("#form-title").text("Update Job");
     } else {
         // Chế độ tạo mới
@@ -152,6 +152,7 @@ $(document).ready(async function () {
         const jobData = {};
         formData.forEach(item => jobData[item.name] = item.value?.trim());
         jobData['categoryId'] = jobData['category'];
+        jobData['urgent'] = $("#post-job-form input[name='urgent']").is(":checked");
 
         if (jobId) {
             try {
@@ -162,7 +163,7 @@ $(document).ready(async function () {
                     contentType: "application/json; charset=utf-8",
                 });
                 showToast("Job updated successfully", SUCCESS_TOAST);
-                await loadJobDetails(jobId); // Tải lại dữ liệu
+                await getJobDetails(jobId); // Tải lại dữ liệu
                 window.location.href = `/companies/jobs/${jobId}`; // Chuyển về chi tiết công việc
             } catch (error) {
                 showToast("Failed to update job", ERROR_TOAST);
@@ -190,7 +191,7 @@ $(document).ready(async function () {
 });
 
 // Hàm tải dữ liệu job từ API và điền vào form
-async function loadJobDetails(jobId) {
+async function getJobDetails(jobId) {
     try {
         const job = await $.ajax({
             url: `/api/v1/jobs/${jobId}`,
@@ -211,6 +212,10 @@ async function loadJobDetails(jobId) {
             }
         }
     } catch (err) {
+        if (err.status === 404) {
+            window.location.href = "/404";
+            return;
+        }
         showToast("Failed to load job details", ERROR_TOAST);
     }
 }

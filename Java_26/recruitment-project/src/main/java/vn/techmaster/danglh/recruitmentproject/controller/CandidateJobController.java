@@ -13,4 +13,9 @@ public class CandidateJobController {
         return "candidate/job/jobs";
     }
 
+    @GetMapping("/{id}")
+    public String getJobDetails() {
+        return "candidate/job/job-details";
+    }
+
 }

@@ -7,7 +7,6 @@ import vn.techmaster.danglh.recruitmentproject.constant.*;
 import vn.techmaster.danglh.recruitmentproject.entity.JobCategory;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -44,5 +43,7 @@ public class JobResponse {
     JobCategory category;
 
     LocalDate createdAt;
+
+    boolean urgent;
 
 }

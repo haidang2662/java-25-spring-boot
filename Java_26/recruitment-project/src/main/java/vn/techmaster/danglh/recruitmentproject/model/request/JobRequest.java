@@ -80,4 +80,6 @@ public class JobRequest {
     @NotNull(message = "Category không được bỏ trống")
     Long categoryId;
 
+    boolean urgent = false;
+
 }

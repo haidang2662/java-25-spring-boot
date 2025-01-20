@@ -44,7 +44,11 @@ async function loadJobDetails(jobId) {
         });
         renderJobDetails(job);
     } catch (error) {
-        showToast(err.responseJSON.message, ERROR_TOAST);
+        if (error.status === 404) {
+            window.location.href = "/404";
+            return;
+        }
+        showToast(error.responseJSON.message, ERROR_TOAST);
     }
 }
 
@@ -86,6 +90,7 @@ function renderJobDetails(job) {
     $("#literacy").text(decodeJobLiteracy(job.literacy));
     $("#status").text(decodeJobStatus(job.status));
     $("#level").text(decodeJobLevel(job.level));
+    $("#job-urgent").toggleClass(job.urgent ? 'd-block' : 'd-none');
 
     //  EXPIRED
     $(".btn-expire").off("click").click(async function (event) {
@@ -167,7 +172,7 @@ function renderJobDetails(job) {
     });
 
     // Update
-    $( ".btn-update").off("click").click(async function (event) {
+    $(".btn-update").off("click").click(async function (event) {
         const jobId = $(event.currentTarget).attr("data-id");
 
         window.location.href = `/companies/jobs/job-updating/${jobId}`;

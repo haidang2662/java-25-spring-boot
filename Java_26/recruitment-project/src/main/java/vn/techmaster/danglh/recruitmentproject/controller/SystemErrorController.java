@@ -13,4 +13,9 @@ public class SystemErrorController {
         return "error/401";
     }
 
+    @GetMapping("/404")
+    public String notFoundError() {
+        return "error/404";
+    }
+
 }

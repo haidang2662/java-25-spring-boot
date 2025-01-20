@@ -16,14 +16,15 @@ public class JobCustomRepository extends BaseRepository {
 
     public List<SearchJobDto> searchJob(JobSearchRequest request, Long creatorId, Role role) {
         String query = "with raw_data as (\n" +
-                "    select id, name, position, " +
-                "       year_of_experience_from yearOfExperienceFrom, " +
-                "       year_of_experience_to yearOfExperienceTo, " +
-                "       working_type workingType, working_time_type workingTimeType, " +
-                "       working_address workingAddress, literacy, level, recruiting_quantity recruitingQuantity, " +
-                "       expired_date expiredDate, salary_from salaryFrom, salary_to salaryTo, status,\n" +
-                "       created_at createdAt\n" +
-                "    from jobs\n" +
+                "    select j.id, j.name, j.position, " +
+                "       j.year_of_experience_from yearOfExperienceFrom, " +
+                "       j.year_of_experience_to yearOfExperienceTo, " +
+                "       j.working_type workingType, j.working_time_type workingTimeType, " +
+                "       j.working_address workingAddress, j.literacy, j.level, j.recruiting_quantity recruitingQuantity, " +
+                "       j.expired_date expiredDate, j.salary_from salaryFrom, j.salary_to salaryTo, j.status,\n" +
+                "       j.created_at createdAt, c.avatar_url companyAvatarUrl, j.urgent\n" +
+                "    from jobs j\n" +
+                "    left join companies c on j.company_id = c.id\n" +
                 "    where 1 = 1\n" +
                 "   {{search_condition}}\n" +
                 "), count_data as(\n" +
@@ -75,7 +76,7 @@ public class JobCustomRepository extends BaseRepository {
         // nếu role của user hiện tại đang tìm job là candidate
         //      => show tất cả các job của tất cả các company nhưng chưa hết hạn và đang ở trạng thái PUBLISH
         if (role == null || role.equals(Role.CANDIDATE)) {
-            searchCondition += "and status = 'PUBLISH'\n";
+//            searchCondition += "and status = 'PUBLISH'\n";
         }
 
         query = query.replace("{{search_condition}}", searchCondition);
