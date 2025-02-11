@@ -119,6 +119,8 @@ $(document).ready(async function () {
 
     renderJobCategories();
 
+    renderLocations();
+
     // Lấy jobId từ URL path
     const path = window.location.pathname;
     let jobId = null;
@@ -152,6 +154,7 @@ $(document).ready(async function () {
         const jobData = {};
         formData.forEach(item => jobData[item.name] = item.value?.trim());
         jobData['categoryId'] = jobData['category'];
+        jobData['workingCityId'] = jobData['locations'];
         jobData['urgent'] = $("#post-job-form input[name='urgent']").is(":checked");
 
         if (jobId) {
@@ -203,14 +206,24 @@ async function getJobDetails(jobId) {
         for (const key in job) {
             const field = $(`[name='${key}']`);
             // Nếu tìm thấy field tương ứng trong form
-            if (field.length > 0) {
-                if (field.is("input, textarea")) {
-                    field.val(job[key]); // Gán giá trị cho input và textarea
-                } else if (field.is("select")) {
-                    field.val(job[key]); // Gán giá trị cho select
-                }
+            if (field.length > 0 && key !== "workingCity" && key !== "category") {
+                field.val(job[key]);
             }
         }
+
+        // Xử lý riêng cho trường workingCity
+        if (job.workingCity && job.workingCity.id) {
+            setTimeout(() => {
+                $("#location").val(job.workingCity.id).trigger("chosen:updated");
+            }, 300);
+        }
+        // Xử lý riêng cho trường category
+        if (job.category && job.category.id) {
+            setTimeout(() => {
+                $("#job-categories").val(job.category.id).trigger("chosen:updated");
+            }, 300);
+        }
+
     } catch (err) {
         if (err.status === 404) {
             window.location.href = "/404";
@@ -238,6 +251,28 @@ function renderJobCategories() {
         },
         error: function (error) {
             showToast("Error fetching job categories", ERROR_TOAST);
+        }
+    });
+}
+
+function renderLocations() {
+    $.ajax({
+        url: '/api/v1/locations',
+        method: 'GET',
+        success: function (response) {
+            const locationSelect = $('#location');
+            locationSelect.empty();
+            response.forEach(function (location) {
+                // Thêm từng địa điểm vào thẻ <select> dưới dạng thẻ <option>
+                locationSelect.append(`<option value="${location.id}">${location.name}</option>`);
+            });
+
+            if ($.fn.chosen) { //xem plugin Chosen đã được tích hợp trong dự án chưa.
+                locationSelect.trigger("chosen:updated"); // Thông báo cho thẻ select đã thay đổi , plugin sẽ tự động làm mới giao diện
+            }
+        },
+        error: function (err) {
+            showToast(err.responseJSON.message, ERROR_TOAST);
         }
     });
 }

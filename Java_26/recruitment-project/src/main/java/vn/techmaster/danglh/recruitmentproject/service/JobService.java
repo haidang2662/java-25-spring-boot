@@ -13,20 +13,17 @@ import org.springframework.stereotype.Service;
 import vn.techmaster.danglh.recruitmentproject.constant.JobStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.dto.SearchJobDto;
-import vn.techmaster.danglh.recruitmentproject.entity.Company;
-import vn.techmaster.danglh.recruitmentproject.entity.Job;
-import vn.techmaster.danglh.recruitmentproject.entity.JobCategory;
+import vn.techmaster.danglh.recruitmentproject.entity.*;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
 import vn.techmaster.danglh.recruitmentproject.exception.UnprocessableEntityException;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobSearchRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobStatusChangeRequest;
 import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.CompanyResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.JobResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.JobSearchResponse;
-import vn.techmaster.danglh.recruitmentproject.repository.CompanyRepository;
-import vn.techmaster.danglh.recruitmentproject.repository.JobCategoryRepository;
-import vn.techmaster.danglh.recruitmentproject.repository.JobRepository;
+import vn.techmaster.danglh.recruitmentproject.repository.*;
 import vn.techmaster.danglh.recruitmentproject.repository.custom.JobCustomRepository;
 import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
 
@@ -42,14 +39,12 @@ import java.util.Optional;
 public class JobService {
 
     ObjectMapper objectMapper;
-
     JobRepository jobRepository;
-
     CompanyRepository companyRepository;
-
     JobCustomRepository jobCustomRepository;
-
     JobCategoryRepository jobCategoryRepository;
+    CandidateRepository candidateRepository;
+    LocationRepository locationRepository;
 
     public JobResponse postJob(JobRequest request) throws ObjectNotFoundException {
         Job job = objectMapper.convertValue(request, Job.class);
@@ -81,7 +76,16 @@ public class JobService {
     public JobResponse getJobDetails(Long idJob) throws ObjectNotFoundException {
         Job job = jobRepository.findById(idJob)
                 .orElseThrow(() -> new ObjectNotFoundException("Không tìm thấy job có id : " + idJob));
-        return objectMapper.convertValue(job, JobResponse.class);
+
+        Company company = companyRepository.findById(job.getCompany().getId())
+                .orElseThrow(() -> new ObjectNotFoundException("Không tìm thấy company có id : " + job.getCompany().getId()));
+
+        JobResponse response =  objectMapper.convertValue(job, JobResponse.class);
+        CompanyResponse companyResponse = objectMapper.convertValue(company, CompanyResponse.class);
+        companyResponse.setEmail(company.getAccount().getEmail());
+        response.setCompany(companyResponse);
+
+        return response;
     }
 
     public JobResponse updateJob(Long idJob, JobRequest request) throws ObjectNotFoundException {
@@ -98,6 +102,10 @@ public class JobService {
                 .orElseThrow(() -> new ObjectNotFoundException("Category not found"));
         job.setCategory(category);
 
+        Location location = locationRepository.findById(request.getWorkingCityId())
+                .orElseThrow(() -> new ObjectNotFoundException("Working city not found"));
+        job.setWorkingCity(location);
+
         jobRepository.save(job);
         return objectMapper.convertValue(job, JobResponse.class);
     }
@@ -105,6 +113,7 @@ public class JobService {
     public CommonSearchResponse<?> searchJob(JobSearchRequest request) {
         Role role = null;
         Long creatorId = null;
+        Long candidateId = null;
         try {
             CustomUserDetails authentication = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             role = authentication.getAccount().getRole();
@@ -120,9 +129,21 @@ public class JobService {
                 }
                 creatorId = companyOptional.get().getId();
             }
+            if (role == Role.CANDIDATE) {
+                Optional<Candidate> candidateOptional = candidateRepository.findByAccount(authentication.getAccount());
+                if (candidateOptional.isEmpty()) {
+                    return CommonSearchResponse.<JobSearchResponse>builder()
+                            .totalRecord(0L)
+                            .totalPage(1)
+                            .data(Collections.emptyList())
+                            .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                            .build();
+                }
+                candidateId = candidateOptional.get().getId();
+            }
         } catch (Exception ignored) {
         }
-        List<SearchJobDto> result = jobCustomRepository.searchJob(request, creatorId, role);
+        List<SearchJobDto> result = jobCustomRepository.searchJob(request, creatorId, candidateId, role);
 
         Long totalRecord = 0L;
         List<JobSearchResponse> jobResponses = new ArrayList<>();
@@ -130,7 +151,20 @@ public class JobService {
             totalRecord = result.get(0).getTotalRecord();
             jobResponses = result
                     .stream()
-                    .map(s -> objectMapper.convertValue(s, JobSearchResponse.class))
+                    .map(s -> {
+                        JobSearchResponse response = objectMapper.convertValue(s, JobSearchResponse.class);
+
+                        CompanyResponse companyResponse = new CompanyResponse();
+                        companyResponse.setName(s.getCompanyName());
+                        companyResponse.setAlias(s.getAlias());
+                        companyResponse.setEmail(s.getCompanyEmail());
+                        companyResponse.setHeadQuarterAddress(s.getHeadQuarterAddress());
+                        companyResponse.setWebsite(s.getWebsite());
+                        companyResponse.setCreatedAt(s.getCompanyCreatedAt());
+
+                        response.setCompany(companyResponse);
+                        return response;
+                    })
                     .toList();
         }
 

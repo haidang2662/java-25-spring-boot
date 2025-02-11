@@ -36,6 +36,10 @@ public class Job extends BaseEntity {
 
     String workingAddress;
 
+    @JoinColumn(name = "working_city")
+    @ManyToOne(targetEntity = Location.class)
+    Location workingCity;
+
     @Enumerated(EnumType.STRING)
     Literacy literacy;
 

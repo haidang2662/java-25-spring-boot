@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import vn.techmaster.danglh.recruitmentproject.constant.*;
 import vn.techmaster.danglh.recruitmentproject.entity.JobCategory;
+import vn.techmaster.danglh.recruitmentproject.entity.Location;
 
 import java.time.LocalDate;
 
@@ -15,6 +16,7 @@ public class JobResponse {
     Long id;
     String name;
     String position;
+    Location workingCity;
     Integer yearOfExperienceFrom;
     Integer yearOfExperienceTo;
 
@@ -45,5 +47,7 @@ public class JobResponse {
     LocalDate createdAt;
 
     boolean urgent;
+
+    CompanyResponse company;
 
 }

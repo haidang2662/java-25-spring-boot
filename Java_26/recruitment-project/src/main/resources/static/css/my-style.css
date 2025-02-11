@@ -9,3 +9,11 @@
 .job-search-form .chosen-container-multi {
     padding-left: 15px;
 }
+
+.favorite-job {
+    background-color: #1967d2 !important;
+}
+
+.favorite-job i {
+    color: #fff !important;
+}

@@ -1,5 +1,6 @@
 package vn.techmaster.danglh.recruitmentproject.exception.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import vn.techmaster.danglh.recruitmentproject.exception.*;
 import vn.techmaster.danglh.recruitmentproject.model.response.ErrorResponse;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -48,6 +50,7 @@ public class GlobalExceptionHandler {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
         }
 
+        log.error(ex.getMessage(), ex);
         errorResponse.setCode(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }

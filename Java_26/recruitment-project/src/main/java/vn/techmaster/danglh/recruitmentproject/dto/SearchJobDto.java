@@ -30,6 +30,16 @@ public class SearchJobDto {
     boolean urgent;
     String workingTimeType;
     String workingType;
+    String workingCity;
+    boolean favorite;
+
+    String companyName;
+    String alias;
+    String companyEmail;
+    String headQuarterAddress;
+    String website;
+    LocalDate companyCreatedAt;
+
 
     Long totalRecord;
 

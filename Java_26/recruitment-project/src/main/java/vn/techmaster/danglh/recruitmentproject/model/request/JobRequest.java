@@ -9,6 +9,7 @@ import vn.techmaster.danglh.recruitmentproject.constant.Literacy;
 import vn.techmaster.danglh.recruitmentproject.constant.WorkingTimeType;
 import vn.techmaster.danglh.recruitmentproject.constant.WorkingType;
 import vn.techmaster.danglh.recruitmentproject.entity.JobCategory;
+import vn.techmaster.danglh.recruitmentproject.entity.Location;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +25,9 @@ public class JobRequest {
     @NotBlank(message = "Position không được bỏ trống")
     @Size(max = 50, message = "Position không được quá 50 ký tụ")
     String position;
+
+    @NotNull(message = "Working City không được bỏ trống")
+    Long workingCityId;
 
     @NotNull(message = "Year Of Experience From không được bỏ trống")
     @Min(value = 1, message = "Year Of Experience From phải lớn hơn hoặc bằng 1")

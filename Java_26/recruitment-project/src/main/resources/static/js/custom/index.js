@@ -21,7 +21,7 @@ $(document).ready(function () {
                 locationSelect.empty();
                 response.forEach(function (location) {
                     // Thêm từng địa điểm vào thẻ <select> dưới dạng thẻ <option>
-                    locationSelect.append(`<option value="${location.name}">${location.name}</option>`);
+                    locationSelect.append(`<option value="${location.id}">${location.name}</option>`);
                 });
 
                 if ($.fn.chosen) { //xem plugin Chosen đã được tích hợp trong dự án chưa.
@@ -65,11 +65,11 @@ $(document).ready(function () {
         const jobSearchObj = {};
         for (let i = 0; i < formData.length; i++) {
             if (formData[i].name === 'locations') {
-                if (!jobSearchObj['locations']) {
-                    jobSearchObj['locations'] = [formData[i].value];
+                if (!jobSearchObj['locationIds']) {
+                    jobSearchObj['locationIds'] = [formData[i].value];
                     continue;
                 }
-                jobSearchObj['locations'].push(formData[i].value);
+                jobSearchObj['locationIds'].push(formData[i].value);
                 continue;
             }
             jobSearchObj[formData[i].name] = formData[i].value;

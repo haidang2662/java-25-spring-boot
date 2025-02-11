@@ -33,5 +33,9 @@ public class JobSearchResponse {
     boolean urgent;
     String workingTimeType;
     String workingType;
+    String workingCity;
+    boolean favorite;
+
+    CompanyResponse company;
 
 }
