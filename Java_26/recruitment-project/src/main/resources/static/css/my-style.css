@@ -17,3 +17,17 @@
 .favorite-job i {
     color: #fff !important;
 }
+
+.job-application-section .card {
+    height: unset !important;
+    border-radius: 0 !important;
+}
+
+.job-application-section .card .card-header a,
+.job-application-section .card .card-header a:active {
+    border: none !important;
+}
+
+.job-application-section .card .card-header a[aria-expanded="true"] {
+    color: #0a53be !important;
+}

@@ -195,7 +195,7 @@ $(document).ready(async function () {
                         data: JSON.stringify({jobId}),
                         contentType: 'application/json; charset=utf-8',
                     });
-                    showToast("Added to favorite successfully", SUCCESS_TOAST);
+                    showToast((favorite == 1 ? 'Remove from' : 'Add to') +  " favorite successfully", SUCCESS_TOAST);
                     const filterValues = getFilterValues();
                     await getJobs(filterValues);
                 } catch (err) {

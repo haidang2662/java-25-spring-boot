@@ -6,6 +6,16 @@ $(document).ready(async function () {
         window.href = '/404';
     }
     await loadJobDetails(jobId);
+
+    $(".apply-btn").click(function (event) {
+        const account = JSON.parse(localStorage.getItem("account"));
+        if (!account) {
+            location.href = "/login";
+            return;
+        }
+
+        location.href = window.location.pathname + "/application";
+    });
 });
 
 // Hàm load dữ liệu chi tiết của job từ API
@@ -28,12 +38,6 @@ async function loadJobDetails(jobId) {
 
 // Render thông tin chi tiết của job vào HTML
 function renderJobDetails(job) {
-    // Xóa các nút cũ trong .job-buttons
-    $(".job-buttons").empty();
-
-    let buttons = "";
-    buttons = buttons.replaceAll("job-id", job.id);
-    $(".job-buttons").append($(buttons));
 
     job.description = job.description.replaceAll("\r\n", "<br>").replaceAll("\n", "<br>");
     job.requirement = job.requirement.replaceAll("\r\n", "<br>").replaceAll("\n", "<br>");
@@ -49,7 +53,14 @@ function renderJobDetails(job) {
     $("#workingType").text(decodeJobWorkingType(job.workingType));
     $("#literacy").text(decodeJobLiteracy(job.literacy));
     $("#level").text(decodeJobLevel(job.level));
+    $("#category").text(job.category.name);
+    $("#workingCity").text(job.workingCity.name);
     $("#job-urgent").toggleClass(job.urgent ? 'd-block' : 'd-none');
+
+
+    $(".favorite-btn").toggleClass(job.favorite ? 'favorite-job' : '');
+    $(".favorite-btn").attr("job-id", job.id);
+    $(".favorite-btn").attr("favorite", job.favorite ? 1 : 0);
 
     // company info
     const company = job.company;
@@ -64,6 +75,31 @@ function renderJobDetails(job) {
     $(".company-widget .company-info .location span").text(company.headQuarterAddress);
     $(".company-widget .company-website a").attr("href", company.website);
     $(".company-widget .company-website a").text(company.website);
+
+    //  favorite
+    $(".favorite-btn").off("click").click(async function (event) {
+        const account = JSON.parse(localStorage.getItem("account"));
+        if (!account) {
+            location.href = "/login";
+            return;
+        }
+
+        const target = $(event.currentTarget);
+        const jobId = target.attr("job-id");
+        const favorite = target.attr("favorite"); // đã favorite chưa
+        try {
+            await $.ajax({
+                url: '/api/v1/favourite-jobs',
+                type: favorite == 1 ? 'DELETE' : 'POST',
+                data: JSON.stringify({jobId}),
+                contentType: 'application/json; charset=utf-8',
+            });
+            showToast((favorite == 1 ? 'Remove from' : 'Add to') +  " favorite successfully", SUCCESS_TOAST);
+            location.reload();
+        } catch (err) {
+            showToast(err.responseJSON.message, ERROR_TOAST);
+        }
+    });
 
 }
 

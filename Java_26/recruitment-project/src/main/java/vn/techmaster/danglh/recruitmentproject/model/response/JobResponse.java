@@ -47,6 +47,7 @@ public class JobResponse {
     LocalDate createdAt;
 
     boolean urgent;
+    boolean favorite;
 
     CompanyResponse company;
 

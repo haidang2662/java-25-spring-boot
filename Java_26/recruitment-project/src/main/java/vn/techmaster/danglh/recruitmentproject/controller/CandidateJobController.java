@@ -18,4 +18,9 @@ public class CandidateJobController {
         return "candidate/job/job-details";
     }
 
+    @GetMapping("/{id}/application")
+    public String applyJob() {
+        return "candidate/job/job-application";
+    }
+
 }

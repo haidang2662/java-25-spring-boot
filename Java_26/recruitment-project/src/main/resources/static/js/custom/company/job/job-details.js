@@ -90,6 +90,8 @@ function renderJobDetails(job) {
     $("#literacy").text(decodeJobLiteracy(job.literacy));
     $("#status").text(decodeJobStatus(job.status));
     $("#level").text(decodeJobLevel(job.level));
+    $("#category").text(job.category.name);
+    $("#workingCity").text(job.workingCity.name);
     $("#job-urgent").toggleClass(job.urgent ? 'd-block' : 'd-none');
 
     //  EXPIRED

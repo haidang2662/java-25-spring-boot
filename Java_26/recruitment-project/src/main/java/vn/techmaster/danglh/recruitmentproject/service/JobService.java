@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
 import org.springframework.objenesis.ObjenesisException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +25,7 @@ import vn.techmaster.danglh.recruitmentproject.model.response.JobSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.repository.*;
 import vn.techmaster.danglh.recruitmentproject.repository.custom.JobCustomRepository;
 import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
+import vn.techmaster.danglh.recruitmentproject.security.SecurityUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,6 +45,7 @@ public class JobService {
     JobCategoryRepository jobCategoryRepository;
     CandidateRepository candidateRepository;
     LocationRepository locationRepository;
+    FavoriteJobRepository favoriteJobRepository;
 
     public JobResponse postJob(JobRequest request) throws ObjectNotFoundException {
         Job job = objectMapper.convertValue(request, Job.class);
@@ -80,7 +81,21 @@ public class JobService {
         Company company = companyRepository.findById(job.getCompany().getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Không tìm thấy company có id : " + job.getCompany().getId()));
 
-        JobResponse response =  objectMapper.convertValue(job, JobResponse.class);
+        JobResponse response = objectMapper.convertValue(job, JobResponse.class);
+
+        if (SecurityUtils.isAuthenticated()) {
+//        if (authentication != null && authentication.isAuthenticated()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            Optional<Candidate> candidateOptional = candidateRepository.findByAccount(userDetails.getAccount());
+            if (candidateOptional.isPresent()) {
+                Optional<FavouriteJob> favouriteJobOptional = favoriteJobRepository.findByCandidateAndJob(candidateOptional.get(), job);
+                if (favouriteJobOptional.isPresent()) {
+                    response.setFavorite(true);
+                }
+            }
+        }
+
         CompanyResponse companyResponse = objectMapper.convertValue(company, CompanyResponse.class);
         companyResponse.setEmail(company.getAccount().getEmail());
         response.setCompany(companyResponse);

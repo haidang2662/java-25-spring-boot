@@ -72,7 +72,11 @@ public final class SecurityUtils {
         return Optional.ofNullable(securityContext.getAuthentication()).map(authentication -> {
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.addAll(authentication.getAuthorities());
-            return authorities.stream().noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.CANDIDATE.toString()));
+            return authorities.stream().allMatch(grantedAuthority ->
+                    grantedAuthority.getAuthority().equals(Role.CANDIDATE.toString())
+                            || grantedAuthority.getAuthority().equals(Role.COMPANY.toString())
+                            || grantedAuthority.getAuthority().equals(Role.ADMIN.toString())
+            );
         }).orElse(false);
     }
 
