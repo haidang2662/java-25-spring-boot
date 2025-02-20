@@ -261,7 +261,7 @@ $(document).ready(async function () {
 
         }
         $(".img-company-avatar").attr("src", companyInfo.avatarUrl ? "/api/v1/files/avatar/" + companyInfo.avatarUrl : DEFAULT_AVATAR_URL);
-        $(".img-company-cover-avatar").attr("src", companyInfo.coverImageUrl ? "/api/v1/files/avatar/" + companyInfo.coverImageUrl : DEFAULT_COVER_URL);
+        $(".img-company-cover-avatar").attr("src", companyInfo.coverImageUrl ? "/api/v1/files/cover/" + companyInfo.coverImageUrl : DEFAULT_COVER_URL);
 
         //..... do data vao form
     }
@@ -354,7 +354,9 @@ $(document).ready(async function () {
             data: formData,
             success: function (response) {
                 showToast("Save successfully", SUCCESS_TOAST);
-                // localStorage.setItem("account", JSON.stringify(response));
+            },
+            error: function (err) {
+                showToast(err.responseJSON.message, ERROR_TOAST)
             }
         });
 

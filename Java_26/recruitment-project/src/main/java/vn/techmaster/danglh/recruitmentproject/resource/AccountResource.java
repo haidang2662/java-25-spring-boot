@@ -85,10 +85,10 @@ public class AccountResource {
             @RequestPart("accountRequest") String updateAccountRequest,
             @RequestPart(value = "avatar", required = false) MultipartFile avatar,
             @RequestPart(value = "cover", required = false) MultipartFile cover
-    ) throws ObjectNotFoundException, IOException {
+    ) throws ObjectNotFoundException, IOException, InvalidFileExtensionException {
         try {
             UpdateAccountRequest request = objectMapper.readValue(updateAccountRequest, UpdateAccountRequest.class);
-            return accountService.updateAccount(id, avatar,cover , request);
+            return accountService.updateAccount(id, avatar, cover, request);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Dữ liệu JSON không hợp lệ", e);
         }

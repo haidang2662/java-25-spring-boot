@@ -20,7 +20,8 @@ public class GlobalExceptionHandler {
             ExpiredPasswordForgottenUrlException.class,
             MessagingException.class,
             UnprocessableEntityException.class,
-            IllegalArgumentException.class
+            IllegalArgumentException.class,
+            InvalidFileExtensionException.class
     })
     public ResponseEntity<ErrorResponse> handleValidationExceptions(Exception ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -31,6 +32,7 @@ public class GlobalExceptionHandler {
                 ex instanceof ExistedAccountException
                         || ex instanceof PasswordNotMatchedException
                         || ex instanceof IllegalArgumentException
+                        || ex instanceof InvalidFileExtensionException
         ) {
             errorResponse.setCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);

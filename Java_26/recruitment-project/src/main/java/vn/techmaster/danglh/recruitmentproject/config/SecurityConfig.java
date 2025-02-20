@@ -119,6 +119,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/jobs/{jobId}/status").hasAnyAuthority(Role.COMPANY.toString())
                         // Job end
 
+                        // favorite job - START
+                        .requestMatchers(HttpMethod.POST, "/api/v1/favourite-jobs").hasAnyAuthority(Role.CANDIDATE.toString())
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/favourite-jobs").hasAnyAuthority(Role.CANDIDATE.toString())
+                        // favorite job - END
 
                         .requestMatchers("/api/**").authenticated() // all other apis need authentication
                         .anyRequest().permitAll() // all thymeleaf, html page don't have to authenticate

@@ -10,6 +10,7 @@ const ADMIN_ROLE = "ADMIN";
 const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
 const MAX_AVATAR_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_CV_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 const DEFAULT_AVATAR_URL = "/api/v1/files/avatar/default-avatar.jpg";
 const DEFAULT_COVER_URL = "/api/v1/files/cover/default-cover.jpg";

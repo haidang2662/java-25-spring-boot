@@ -35,10 +35,6 @@ import vn.techmaster.danglh.recruitmentproject.repository.custom.AccountCustomRe
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,20 +47,14 @@ import java.util.Optional;
 public class AccountService {
 
     final AccountRepository accountRepository;
-
     final PasswordEncoder passwordEncoder;
-
     final EmailService emailService;
-
     final ObjectMapper objectMapper;
-
     final AccountCustomRepository accountCustomRepository;
-
     final CandidateRepository candidateRepository;
-
     final CompanyRepository companyRepository;
-
     final RefreshTokenRepository refreshTokenRepository;
+    final FileService fileService;
 
     @Value("${application.account.activation.expiredDurationInMilliseconds}")
     long activationMailExpiredDurationInMilliseconds;
@@ -218,8 +208,8 @@ public class AccountService {
                 .build();
     }
 
-    public AccountResponse updateAccount(Long id, MultipartFile avatar, MultipartFile cover , UpdateAccountRequest request)
-            throws ObjectNotFoundException, IOException {
+    public AccountResponse updateAccount(Long id, MultipartFile avatar, MultipartFile cover, UpdateAccountRequest request)
+            throws ObjectNotFoundException, IOException, InvalidFileExtensionException {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Account is not found"));
 
@@ -229,7 +219,7 @@ public class AccountService {
             response.setCandidateModel(model);
             response.setName(model.getName());
         } else if (account.getRole() == Role.COMPANY) {
-            CompanyModel model = updateCompany(account , avatar , cover , request);
+            CompanyModel model = updateCompany(account, avatar, cover, request);
 
             response.setCompanyModel(model);
             response.setName(model.getName());
@@ -238,9 +228,14 @@ public class AccountService {
         return response;
     }
 
-    private CompanyModel updateCompany(Account account, MultipartFile avatar, MultipartFile cover , UpdateAccountRequest request)
-            throws ObjectNotFoundException, IOException {
-
+    private CompanyModel updateCompany(Account account, MultipartFile avatar, MultipartFile cover, UpdateAccountRequest request)
+            throws ObjectNotFoundException, IOException, InvalidFileExtensionException {
+        if (!fileService.validateMultipartFile(avatar, Constant.ALLOWED_FILE_EXTENSION.IMAGE_FILE_EXTENSIONS)) {
+            throw new InvalidFileExtensionException("Avatar extension not allowed");
+        }
+        if (!fileService.validateMultipartFile(cover, Constant.ALLOWED_FILE_EXTENSION.IMAGE_FILE_EXTENSIONS)) {
+            throw new InvalidFileExtensionException("Cover extension not allowed");
+        }
         Company company = companyRepository.findByAccount(account)
                 .orElseThrow(() -> new ObjectNotFoundException("Company not found"));
 
@@ -256,22 +251,26 @@ public class AccountService {
         company.setRating(request.getRating());
 
         if (avatar != null && !avatar.isEmpty()) {
-            String avatarFileName = saveAvatar(avatar , AVATAR_PATH);
+            String avatarFileName = fileService.saveFile(avatar, AVATAR_PATH);
             company.setAvatarUrl(avatarFileName);
         }
 
         if (cover != null && !cover.isEmpty()) {
-            String coverFileName = saveAvatar(cover , COVER_PATH);
+            String coverFileName = fileService.saveFile(cover, COVER_PATH);
             company.setCoverImageUrl(coverFileName);
         }
 
         companyRepository.save(company);
 
-        return objectMapper.convertValue(company , CompanyModel.class);
+        return objectMapper.convertValue(company, CompanyModel.class);
     }
 
     private CandidateModel updateCandidate(Account account, MultipartFile avatar, UpdateAccountRequest request)
-            throws ObjectNotFoundException, IOException {
+            throws ObjectNotFoundException, IOException, InvalidFileExtensionException {
+        if (!fileService.validateMultipartFile(avatar, Constant.ALLOWED_FILE_EXTENSION.IMAGE_FILE_EXTENSIONS)) {
+            throw new InvalidFileExtensionException("Avatar extension not allowed");
+        }
+
         Candidate candidate = candidateRepository.findByAccount(account)
                 .orElseThrow(() -> new ObjectNotFoundException("Candidate not found"));
 
@@ -291,7 +290,7 @@ public class AccountService {
         candidate.setExpectedWorkingType(request.getExpectedWorkingType());
 
         if (avatar != null && !avatar.isEmpty()) {
-            String fileName = saveAvatar(avatar , AVATAR_PATH);
+            String fileName = fileService.saveFile(avatar, AVATAR_PATH);
             candidate.setAvatarUrl(fileName);
         }
 
@@ -300,20 +299,4 @@ public class AccountService {
         return objectMapper.convertValue(candidate, CandidateModel.class);
     }
 
-    private String saveAvatar(MultipartFile avatar , String folderPath) throws IOException {
-
-        if (avatar == null || avatar.isEmpty()) {
-            return null; // Không xử lý nếu file không tồn tại
-        }
-
-        File dir = new File(AVATAR_PATH);
-        // Kiểm tra nếu thư mục không tồn tại thì tạo mới
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        String fileName = System.currentTimeMillis() + "_" + avatar.getOriginalFilename().replaceAll(" ", "_");;
-        Path filePath = Paths.get(AVATAR_PATH + File.separator + fileName);
-        Files.copy(avatar.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        return fileName;
-    }
 }
