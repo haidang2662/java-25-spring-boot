@@ -3,6 +3,8 @@ package vn.techmaster.danglh.recruitmentproject.service;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +14,8 @@ import vn.techmaster.danglh.recruitmentproject.entity.Candidate;
 import vn.techmaster.danglh.recruitmentproject.entity.CandidateCv;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidFileExtensionException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
+import vn.techmaster.danglh.recruitmentproject.model.request.BaseSearchRequest;
+import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.CvResponse;
 import vn.techmaster.danglh.recruitmentproject.repository.AccountRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.CandidateCvRepository;
@@ -20,6 +24,7 @@ import vn.techmaster.danglh.recruitmentproject.security.SecurityUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -60,4 +65,41 @@ public class CvService {
                 .build();
     }
 
+    public CommonSearchResponse<?> searchCv(BaseSearchRequest request) throws ObjectNotFoundException {
+        Long accountId = SecurityUtils.getCurrentUserLoginId()
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new ObjectNotFoundException("Account is not found"));
+        Candidate candidate = candidateRepository.findByAccount(account)
+                .orElseThrow(() -> new ObjectNotFoundException("Candidate not found"));
+        Page<CandidateCv> candidateCvPage = candidateCvRepository.findByCandidate(
+                candidate,
+                PageRequest.of(request.getPageIndex(), request.getPageSize())
+        );
+
+        List<CandidateCv> entities = candidateCvPage.getContent();
+        List<CvResponse> data = entities.stream().map(cv -> {
+            String url = cv.getCvUrl();
+            return CvResponse.builder()
+                    .id(cv.getId())
+                    .url(url)
+                    .main(cv.isMain())
+                    .createdAt(cv.getCreatedAt())
+                    .name(
+                            url
+                                    .replace(".pdf", "")
+                                    .replace(".doc", "")
+                                    .replace(".docx", "")
+                    )
+                    .build();
+        }).toList();
+
+        return CommonSearchResponse.<CvResponse>builder()
+                .totalRecord(candidateCvPage.getTotalElements())
+                .totalPage(candidateCvPage.getTotalPages())
+                .data(data)
+                .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                .build();
+
+    }
 }

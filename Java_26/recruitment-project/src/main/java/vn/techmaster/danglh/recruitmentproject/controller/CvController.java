@@ -13,4 +13,9 @@ public class CvController {
         return "candidate/cv/cv-uploading";
     }
 
+    @GetMapping("")
+    public String listCv() {
+        return "candidate/cv/cv-list";
+    }
+
 }

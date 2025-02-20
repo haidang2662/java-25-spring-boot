@@ -4,13 +4,13 @@ package vn.techmaster.danglh.recruitmentproject.resource;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidFileExtensionException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
+import vn.techmaster.danglh.recruitmentproject.model.request.BaseSearchRequest;
+import vn.techmaster.danglh.recruitmentproject.model.request.JobSearchRequest;
+import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
 import vn.techmaster.danglh.recruitmentproject.model.response.CvResponse;
 import vn.techmaster.danglh.recruitmentproject.service.CvService;
 
@@ -28,6 +28,11 @@ public class CvResource {
     public CvResponse uploadCv(@RequestPart(value = "cvFile") MultipartFile cvFile)
             throws ObjectNotFoundException, IOException, InvalidFileExtensionException {
         return cvService.uploadCv(cvFile);
+    }
+
+    @GetMapping
+    public CommonSearchResponse<?> getListCv(BaseSearchRequest request) throws ObjectNotFoundException {
+        return cvService.searchCv(request);
     }
 
 }
