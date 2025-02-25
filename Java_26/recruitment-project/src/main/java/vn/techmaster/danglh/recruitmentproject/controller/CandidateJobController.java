@@ -23,4 +23,7 @@ public class CandidateJobController {
         return "candidate/job/job-application";
     }
 
+    @GetMapping("/favourite")
+    public String listJobFavourite(){return "candidate/job/favourite-jobs";}
+
 }

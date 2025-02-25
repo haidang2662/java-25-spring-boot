@@ -124,6 +124,10 @@ public class JobCustomRepository extends BaseRepository {
                 String selectField = ", case when fj.id is not null then true else false end favorite\n";
                 query = query.replace("{{favorite_job_select_fields}}", selectField)
                         .replace("{{join_favorite}}", joinCondition);
+                if (request.getFavorite() != null) {
+                    parameters.put("p_favorite", request.getFavorite());
+                    searchCondition += request.getFavorite() ? "and fj.id is not null\n" : "";
+                }
             } else {
                 query = query.replace("{{favorite_job_select_fields}}", "")
                         .replace("{{join_favorite}}", "");

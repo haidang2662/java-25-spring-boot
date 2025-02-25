@@ -29,4 +29,6 @@ public class JobSearchRequest extends BaseSearchRequest {
     LocalDate expiredDateTo;
     JobStatus status;
 
+    Boolean favorite;
+
 }

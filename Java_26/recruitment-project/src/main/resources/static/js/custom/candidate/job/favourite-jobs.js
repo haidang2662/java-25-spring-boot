@@ -6,89 +6,13 @@ $(document).ready(async function () {
     let pageIndex = 0;
     let pageSize = 20;
 
-    const candidateJobSearchObj = loadSearchCondition();
-    await getJobs(candidateJobSearchObj);
-
-    await $.ajax({
-        url: '/api/v1/locations',
-        method: 'GET',
-        success: function (response) {
-            const locationSelect = $('#location');
-            locationSelect.empty();
-            response.forEach(function (location) {
-                // Thêm từng địa điểm vào thẻ <select> dưới dạng thẻ <option>
-                locationSelect.append(`<option value="${location.id}">${location.name}</option>`);
-            });
-
-            if ($.fn.chosen) { //xem plugin Chosen đã được tích hợp trong dự án chưa.
-                locationSelect.trigger("chosen:updated"); // Thông báo cho thẻ select đã thay đổi , plugin sẽ tự động làm mới giao diện
-            }
-        },
-        error: function (err) {
-            showToast(err.responseJSON.message, ERROR_TOAST);
-        }
-    });
-
-    await $.ajax({
-        url: '/api/v1/job-categories',
-        method: 'GET',
-        success: function (response) {
-            const jobCategorySelect = $('#job-categories');
-            jobCategorySelect.empty();
-            jobCategorySelect.append(`<option value="-1">All</option>`);
-            response.forEach(function (category) {
-                jobCategorySelect.append(`<option value="${category.id}">${category.name}</option>`);
-            });
-
-            if ($.fn.chosen) {
-                jobCategorySelect.trigger("chosen:updated");
-            }
-        },
-        error: function (error) {
-            showToast(error.responseJSON.message, ERROR_TOAST);
-        }
-    });
-
-    function loadSearchCondition() {
-        const candidateJobSearchObjStr = localStorage.getItem("candidateJobSearchObj");
-        const candidateJobSearchObj = candidateJobSearchObjStr ? JSON.parse(candidateJobSearchObjStr) : {};
-        $(".filters-outer input[name='name']").val(candidateJobSearchObj?.name);
-        $(".filters-outer #location").val(candidateJobSearchObj?.locationIds).trigger("chosen:updated");
-        $(".filters-outer #job-categories").val(candidateJobSearchObj?.categoryId).trigger("chosen:updated");
-        if (candidateJobSearchObj.workingTypes
-            && candidateJobSearchObj.workingTypes?.length > 0
-            && candidateJobSearchObj.workingTypes?.includes("ONLINE")) {
-            $("#workingType-ONLINE").prop('checked', true);
-        }
-        if (candidateJobSearchObj.workingTypes
-            && candidateJobSearchObj.workingTypes?.length > 0
-            && candidateJobSearchObj.workingTypes?.includes("OFFLINE")) {
-            $("#workingType-OFFLINE").prop('checked', true);
-        }
-
-        if (candidateJobSearchObj.workingTimeTypes
-            && candidateJobSearchObj.workingTimeTypes?.length > 0
-            && candidateJobSearchObj.workingTimeTypes?.includes("FULL_TIME")) {
-            $("#workingTimeType-FULL_TIME").prop('checked', true);
-        }
-        if (candidateJobSearchObj.workingTimeTypes
-            && candidateJobSearchObj.workingTimeTypes?.length > 0
-            && candidateJobSearchObj.workingTimeTypes?.includes("PART_TIME")) {
-            $("#workingTimeType-PART_TIME").prop('checked', true);
-        }
-        if (candidateJobSearchObj.yearOfExperience
-            && candidateJobSearchObj.yearOfExperience?.length > 0) {
-            $("*[name='yearOfExperience'][value='" + candidateJobSearchObj.yearOfExperience + "']").attr('checked', true);
-        }
-        return candidateJobSearchObj;
-    }
+    await getJobs({});
 
     // call ajax search job va render du lieu (Co phan trang)
     // sẽ call đúng vào API search job của company luôn (thêm điều kiện để phân biệt company và candidate)
     async function getJobs(request) {
         // Disable nút search và hiển thị spinner
         $("input").prop("disabled", true);
-        $("select").prop("disabled", true);
         $(".page-item .page-link").addClass('disabled');
 
         // Hiển thị spinner ở khối div bên phải
@@ -104,6 +28,7 @@ $(document).ready(async function () {
             data: {
                 pageIndex: pageIndex,
                 pageSize: pageSize,
+                favorite: true,
                 ...request
             },
             contentType: "application/json; charset=utf-8",
@@ -117,7 +42,6 @@ $(document).ready(async function () {
 
         // Ẩn spinner và kích hoạt lại nút search
         $("input").prop("disabled", false);
-        $("select").prop("disabled", false);
         $(".filters-outer #location").trigger("chosen:updated");
         $(".filters-outer #job-categories").trigger("chosen:updated");
         $(".page-item .page-link").removeClass('disabled');
@@ -196,8 +120,7 @@ $(document).ready(async function () {
                         contentType: 'application/json; charset=utf-8',
                     });
                     showToast((favorite == 1 ? 'Remove from' : 'Add to') +  " favorite successfully", SUCCESS_TOAST);
-                    const filterValues = getFilterValues();
-                    await getJobs(filterValues);
+                    await getJobs({});
                 } catch (err) {
                     showToast(err.responseJSON.message, ERROR_TOAST);
                 }
@@ -253,78 +176,6 @@ $(document).ready(async function () {
             pageIndex = pageIndex + 1;
             await getJobs({});
         });
-    }
-
-    // bắt sự kiện khi ngươi dùng thay đổi bất kỳ thành phần nào ở cột filter => đi search
-    $("input[name='name']").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $("select[name='locationIds']").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $("select[name='categoryId']").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $("#workingType-ONLINE").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $("#workingType-OFFLINE").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $("#workingTimeType-FULL_TIME").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $("#workingTimeType-PART_TIME").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $("input[name='yearOfExperience']").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $(".salary-min").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-    $(".salary-max").change(async function () {
-        const filterValues = getFilterValues();
-        await getJobs(filterValues);
-    });
-
-    function getFilterValues() {
-        const workingTypes = [];
-        if ($("#workingType-ONLINE").is(":checked")) {
-            workingTypes.push('ONLINE');
-        }
-        if ($("#workingType-OFFLINE").is(":checked")) {
-            workingTypes.push('OFFLINE');
-        }
-
-        const workingTimeTypes = [];
-        if ($("#workingTimeType-FULL_TIME").is(":checked")) {
-            workingTimeTypes.push('FULL_TIME');
-        }
-        if ($("#workingTimeType-PART_TIME").is(":checked")) {
-            workingTimeTypes.push('PART_TIME');
-        }
-        const filterValue = {
-            name: $("input[name='name']").val(),
-            locationIds: $("select[name='locationIds']").chosen().val(),
-            categoryId: $("select[name='categoryId']").find(":selected").val(),
-            workingTypes,
-            workingTimeTypes,
-            yearOfExperience: $("input[name='yearOfExperience']:checked", "#search-job-form").val(),
-            salaryFrom: $(".salary-range input.min").val(),
-            salaryTo: $(".salary-range input.max").val()
-        }
-        localStorage.setItem("candidateJobSearchObj", JSON.stringify(filterValue));
-        return filterValue;
     }
 
 });
