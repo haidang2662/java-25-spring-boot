@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.danglh.recruitmentproject.constant.Constant;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
@@ -88,8 +89,8 @@ public class CvService {
                     .name(
                             url
                                     .replace(".pdf", "")
-                                    .replace(".doc", "")
                                     .replace(".docx", "")
+                                    .replace(".doc", "")
                     )
                     .build();
         }).toList();
@@ -102,4 +103,32 @@ public class CvService {
                 .build();
 
     }
+
+    public CandidateCv getCvFileById(Long cvId) throws ObjectNotFoundException {
+        return candidateCvRepository.findById(cvId)
+                .orElseThrow(() -> new ObjectNotFoundException("CV not found"));
+    }
+
+    public void deleteCv(Long cvId) throws ObjectNotFoundException {
+        CandidateCv candidateCv = getCvFileById(cvId);
+        fileService.deleteFile(CV_PATH + File.separator + candidateCv.getCvUrl());
+        candidateCvRepository.deleteById(cvId);
+    }
+
+    @Transactional
+    public CvResponse setMainCv(Long cvId) throws ObjectNotFoundException {
+        CandidateCv candidateCv = getCvFileById(cvId);
+
+        candidateCvRepository.resetMainCv(candidateCv.getCandidate().getId());
+
+        candidateCv.setMain(true);
+        candidateCvRepository.save(candidateCv);
+
+        return CvResponse.builder()
+                .id(candidateCv.getId())
+                .url(candidateCv.getCvUrl())
+                .main(candidateCv.isMain())
+                .build();
+    }
 }
+

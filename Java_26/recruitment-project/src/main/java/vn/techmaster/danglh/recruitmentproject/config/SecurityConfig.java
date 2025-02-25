@@ -129,6 +129,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/cv").hasAnyAuthority(Role.CANDIDATE.toString())
                         // cv - END
 
+                        // cv - download
+                        .requestMatchers(HttpMethod.GET, "/api/v1/cv/download/{cvId}").authenticated()
+
+
                         .requestMatchers("/api/**").authenticated() // all other apis need authentication
                         .anyRequest().permitAll() // all thymeleaf, html page don't have to authenticate
                 )

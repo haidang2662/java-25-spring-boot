@@ -27,7 +27,7 @@ public class FileService {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename().replaceAll(" ", "_");
+        String fileName = System.currentTimeMillis() + "_" + vn.techmaster.danglh.recruitmentproject.util.StringUtils.convertToLatin(file.getOriginalFilename()).replaceAll(" ", "_");
         Path filePath = Paths.get(folderPath + File.separator + fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         return fileName;
@@ -57,5 +57,15 @@ public class FileService {
         return extensions.contains(names[names.length - 1].toLowerCase());
     }
 
+    public boolean deleteFile(String filePath) {
+        if (StringUtils.isBlank(filePath)) {
+            return false;
+        }
+        File file = new File(filePath);
+        if (!file.exists() || !file.isFile()) {
+            return false;
+        }
+        return file.delete();
+    }
 
 }

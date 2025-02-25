@@ -73,28 +73,26 @@ $(document).ready(async function () {
 
         for (let i = 0; i < cvList.length; i++) {
             const cv = cvList[i];
-            const avatar = cv?.companyAvatarUrl ? `/api/v1/files/avatar/${cv.companyAvatarUrl}` : DEFAULT_AVATAR_URL;
-            const urgentHtml = cv?.urgent ? '<li class="required">Urgent</li>' : '';
             let jobBlock = `<tr>
                                 <td class="text-center">${cv.stt}</td>
                                 <td>
                                     <h6>${cv.name}</h6>
                                 </td>
                                 <td>${cv.createdAt}</td>
-                                <td class="status">${cv.main ? 'MAIN' : 'X'}</td>
+                                <td class="status">${cv.main ? '<span class="badge text-bg-success">MAIN</span>' : ''}</td>
                                 <td>
                                     <div class="option-box">
                                         <ul class="option-list">
                                             <li>
-                                                <button data-text="Download"><span
-                                                        class="la la-file-download"></span></button>
+                                                <button class="download-btn" data-cv-id="${cv.id}" data-text="Download">
+                                                <span class="la la-file-download"></span></button>
                                             </li>
                                             <li>
-                                                <button data-text="Set as main CV"><span
+                                                <button class="set-main-btn ${!cv.main ? '' : " d-none"}" data-cv-id="${cv.id}" data-text="Set as main CV"><span
                                                         class="la la-star"></span></button>
                                             </li>
                                             <li>
-                                                <button data-text="Delete"><span
+                                                <button class="delete-button" data-cv-id="${cv.id}" data-text="Delete"><span
                                                         class="la la-trash"></span></button>
                                             </li>
                                         </ul>
@@ -104,32 +102,98 @@ $(document).ready(async function () {
 
             tableContent.append(jobBlock);
 
-            //  favorite
-            $(".favorite-btn").off("click").click(async function (event) {
-                const account = JSON.parse(localStorage.getItem("account"));
-                if (!account) {
-                    location.href = "/login";
+            // set main CV
+            $(".set-main-btn").off("click").click(async function (event) {
+                if (!confirm("Are you sure to set this CV as MAIN CV?")) {
                     return;
                 }
 
                 const target = $(event.currentTarget);
-                const jobId = target.attr("job-id");
-                const favorite = target.attr("favorite"); // đã favorite chưa
+                const cvId = target.attr("data-cv-id");
                 try {
                     await $.ajax({
-                        url: '/api/v1/favourite-jobs',
-                        type: favorite == 1 ? 'DELETE' : 'POST',
-                        data: JSON.stringify({jobId}),
+                        url: '/api/v1/cv/' + cvId + '/main',
+                        type: 'PUT',
                         contentType: 'application/json; charset=utf-8',
                     });
-                    showToast((favorite == 1 ? 'Remove from' : 'Add to') + " favorite successfully", SUCCESS_TOAST);
-                    const filterValues = getFilterValues();
-                    await getJobs(filterValues);
+                    showToast("Set main CV successfully", SUCCESS_TOAST);
+                    await getCVs();
                 } catch (err) {
                     showToast(err.responseJSON.message, ERROR_TOAST);
                 }
             });
 
+            //  xóa
+            $(".delete-button").off("click").click(async function (event) {
+                if (!confirm("Sure to delete?")) {
+                    return;
+                }
+
+                const target = $(event.currentTarget);
+                const cvId = target.attr("data-cv-id");
+                try {
+                    await $.ajax({
+                        url: '/api/v1/cv/' + cvId,
+                        type: 'DELETE',
+                        contentType: 'application/json; charset=utf-8',
+                    });
+                    showToast("Delete CV successfully", SUCCESS_TOAST);
+                    await getCVs();
+                } catch (err) {
+                    showToast(err.responseJSON.message, ERROR_TOAST);
+                }
+            });
+
+            // Xử lý sự kiện tải CV khi nhấn nút Download
+            $(".download-btn").off("click").click(async function (event) {
+                const cvId = $(event.currentTarget).data("cv-id");
+                if (!cvId) {
+                    showToast("CV ID not found", ERROR_TOAST);
+                    return;
+                }
+                $.ajax({
+                    // url: '/api/v1/files/cv/',
+                    url: 'api/v1/cv/' + cvId + "/download",
+                    type: 'GET',
+                    xhrFields: {
+                        responseType: 'blob' // to avoid binary data being mangled on charset conversion
+                    },
+                    success: function (blob, status, xhr) {
+                        let filename = "";
+                        const disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            const matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        const URL = window.URL || window.webkitURL;
+                        const downloadUrl = URL.createObjectURL(blob);
+
+                        if (filename) {
+                            // use HTML5 a[download] attribute to specify filename
+                            const a = document.createElement("a");
+                            // safari doesn't support this yet
+                            if (typeof a.download === 'undefined') {
+                                window.location.href = downloadUrl;
+                            } else {
+                                a.href = downloadUrl;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                window.URL.revokeObjectURL(url);
+                            }
+                        } else {
+                            window.location.href = downloadUrl;
+                        }
+                    },
+                    error: function (err) {
+                        showToast("Download failed: " + error.message, ERROR_TOAST);
+                    }
+                });
+            });
         }
 
         paginationHtml.append("<li class=\"page-item go-to-first-page\"><a class=\"page-link\" href=\"#\"><i class=\"fa-solid fa-angles-left\"></i></a></li>");
