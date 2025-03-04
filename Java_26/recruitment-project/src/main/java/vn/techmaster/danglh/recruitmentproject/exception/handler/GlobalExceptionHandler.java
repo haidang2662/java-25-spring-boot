@@ -21,7 +21,8 @@ public class GlobalExceptionHandler {
             MessagingException.class,
             UnprocessableEntityException.class,
             IllegalArgumentException.class,
-            InvalidFileExtensionException.class
+            InvalidFileExtensionException.class,
+            ExistedJobApplicationException.class
     })
     public ResponseEntity<ErrorResponse> handleValidationExceptions(Exception ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -47,6 +48,7 @@ public class GlobalExceptionHandler {
                         || ex instanceof ExpiredPasswordForgottenUrlException
                         || ex instanceof MessagingException
                         || ex instanceof UnprocessableEntityException
+                        || ex instanceof ExistedJobApplicationException
         ) {
             errorResponse.setCode(String.valueOf(HttpStatus.UNPROCESSABLE_ENTITY.value()));
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);

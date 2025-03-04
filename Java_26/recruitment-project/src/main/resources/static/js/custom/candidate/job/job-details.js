@@ -53,8 +53,8 @@ function renderJobDetails(job) {
     $("#workingType").text(decodeJobWorkingType(job.workingType));
     $("#literacy").text(decodeJobLiteracy(job.literacy));
     $("#level").text(decodeJobLevel(job.level));
-    $("#category").text(job.category.name);
-    $("#workingCity").text(job.workingCity.name);
+    $("#category").text(job.category?.name);
+    $("#workingCity").text(job.workingCity?.name);
     $("#job-urgent").toggleClass(job.urgent ? 'd-block' : 'd-none');
 
 
@@ -66,7 +66,7 @@ function renderJobDetails(job) {
     const company = job.company;
     const alias = company.alias ? " (" + company.alias + ")" : "";
     $(".company-widget .company-logo img").attr("src", company.avatarUrl ? "/api/v1/files/avatar/" + company.avatarUrl : DEFAULT_AVATAR_URL);
-    $(".company-widget .company-name").text(company.name + alias);
+    $(".company-widget .company-name").text(company?.name + alias);
     $(".company-widget .profile-link").attr("href", "/companies/" + company.id);
     $(".company-widget .company-info .company-size span").text(company.employeeQuantity);
     $(".company-widget .company-info .company-created-at span").text(new Date(company.createdAt).getFullYear());

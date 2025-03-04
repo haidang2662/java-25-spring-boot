@@ -6,11 +6,11 @@ $(document).ready(async function () {
     let pageIndex = 0;
     let pageSize = 20;
 
-    await getJobs({});
+    await getJobs();
 
     // call ajax search job va render du lieu (Co phan trang)
     // sẽ call đúng vào API search job của company luôn (thêm điều kiện để phân biệt company và candidate)
-    async function getJobs(request) {
+    async function getJobs() {
         // Disable nút search và hiển thị spinner
         $("input").prop("disabled", true);
         $(".page-item .page-link").addClass('disabled');
@@ -29,7 +29,7 @@ $(document).ready(async function () {
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 favorite: true,
-                ...request
+                name: $("#name").val()
             },
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -72,7 +72,6 @@ $(document).ready(async function () {
         for (let i = 0; i < jobs.length; i++) {
             jobs[i]['stt'] = pageIndex * pageSize + i + 1;
         }
-
 
         for (let i = 0; i < jobs.length; i++) {
             const job = jobs[i];
@@ -120,7 +119,7 @@ $(document).ready(async function () {
                         contentType: 'application/json; charset=utf-8',
                     });
                     showToast((favorite == 1 ? 'Remove from' : 'Add to') +  " favorite successfully", SUCCESS_TOAST);
-                    await getJobs({});
+                    await getJobs();
                 } catch (err) {
                     showToast(err.responseJSON.message, ERROR_TOAST);
                 }
@@ -148,17 +147,17 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = parseInt(newPageIndex);
-            await getJobs({});
+            await getJobs();
         });
 
         $(".go-to-first-page").click(async function () {
             pageIndex = 0;
-            await getJobs({});
+            await getJobs();
         });
 
         $(".go-to-last-page").click(async function () {
             pageIndex = totalPage - 1;
-            await getJobs({});
+            await getJobs();
         });
 
         $(".previous-page").click(async function () {
@@ -166,7 +165,7 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex - 1;
-            await getJobs({});
+            await getJobs();
         });
 
         $(".next-page").click(async function () {
@@ -174,11 +173,16 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex + 1;
-            await getJobs({});
+            await getJobs();
         });
     }
 
+    $(".favorite-job-search-btn").click(async function () {
+        await getJobs();
+    });
+
 });
+
 
 function decodeJobWorkingTimeType(workingTimeType) {
     switch (workingTimeType) {

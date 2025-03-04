@@ -25,9 +25,21 @@
 
             <!-- Content Column -->
             <div class="content-column col">
-                <div class="ls-outer">
-                    <div class="row mx-5 px-3" id="candidate-jobs">
+                <div class="ls-outer pt-0">
+                    <h3 class="text-center mb-4">Favourite Job</h3>
 
+                    <div class="row mx-5 px-5 mb-5 pb-3">
+                        <div class="col mx-5 px-5">
+                            <form class="mx-5 px-5 text-center">
+                                <div class="mb-3 mt-3">
+                                    <input type="text" class="form-control" id="name" placeholder="Enter job name" name="name">
+                                </div>
+                                <button type="button" class="btn btn-primary favorite-job-search-btn px-4">Search</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row mx-5 px-3" id="candidate-jobs">
                     </div>
 
                     <div class="row w-100 align-items-center" id="job-paging">

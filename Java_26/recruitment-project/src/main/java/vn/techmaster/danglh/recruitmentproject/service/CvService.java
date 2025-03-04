@@ -37,7 +37,7 @@ public class CvService {
     FileService fileService;
     CandidateCvRepository candidateCvRepository;
 
-    static final String CV_PATH = System.getProperty("user.dir") + File.separator + Constant.FOLDER_NAME.FILE_FOLDER_NAME + File.separator + Constant.FOLDER_NAME.CV_FOLDER_NAME;
+    public static final String CV_PATH = System.getProperty("user.dir") + File.separator + Constant.FOLDER_NAME.FILE_FOLDER_NAME + File.separator + Constant.FOLDER_NAME.CV_FOLDER_NAME;
 
     public CvResponse uploadCv(MultipartFile cvFile) throws ObjectNotFoundException, IOException, InvalidFileExtensionException {
         if (!fileService.validateMultipartFile(cvFile, Constant.ALLOWED_FILE_EXTENSION.CV_FILE_EXTENSIONS)) {

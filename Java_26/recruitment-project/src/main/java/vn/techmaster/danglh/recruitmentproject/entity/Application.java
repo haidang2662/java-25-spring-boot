@@ -23,7 +23,7 @@ public class Application extends BaseEntity {
 
     @JoinColumn(name = "candidate_cv_id")
     @ManyToOne(targetEntity = CandidateCv.class)
-    CandidateCv cvId;
+    CandidateCv cv;
 
     @JoinColumn(name = "candidate_id")
     @ManyToOne(targetEntity = Candidate.class)

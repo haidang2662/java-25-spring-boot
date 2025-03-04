@@ -23,6 +23,11 @@ public class CandidateJobController {
         return "candidate/job/job-application";
     }
 
+    @GetMapping("/{id}/application/success")
+    public String applyJobSuccess() {
+        return "candidate/job/job-application-successfully";
+    }
+
     @GetMapping("/favourite")
     public String listJobFavourite(){return "candidate/job/favourite-jobs";}
 
