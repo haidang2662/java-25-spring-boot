@@ -18,10 +18,7 @@ import vn.techmaster.danglh.recruitmentproject.exception.UnprocessableEntityExce
 import vn.techmaster.danglh.recruitmentproject.model.request.JobRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobSearchRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobStatusChangeRequest;
-import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.CompanyResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.JobResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.JobSearchResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.*;
 import vn.techmaster.danglh.recruitmentproject.repository.*;
 import vn.techmaster.danglh.recruitmentproject.repository.custom.JobCustomRepository;
 import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
@@ -36,6 +33,7 @@ import java.util.Optional;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
+
 public class JobService {
 
     ObjectMapper objectMapper;
@@ -46,6 +44,8 @@ public class JobService {
     CandidateRepository candidateRepository;
     LocationRepository locationRepository;
     FavoriteJobRepository favoriteJobRepository;
+    ApplicationRepository applicationRepository;
+
 
     public JobResponse postJob(JobRequest request) throws ObjectNotFoundException {
         Job job = objectMapper.convertValue(request, Job.class);
@@ -93,6 +93,17 @@ public class JobService {
                 if (favouriteJobOptional.isPresent()) {
                     response.setFavorite(true);
                 }
+
+                Optional<Application> applicationOptional = applicationRepository.findFirstByCandidateAndJob(candidateOptional.get(), job);
+                if (applicationOptional.isPresent()) {
+                    Application application = applicationOptional.get();
+                    ApplicationResponse applicationResponse = ApplicationResponse.builder()
+                            .candidate(objectMapper.convertValue(application.getCandidate(), CandidateResponse.class))
+                            .cv(objectMapper.convertValue(application.getCv(), CvResponse.class))
+                            .status(application.getStatus())
+                            .build();
+                    response.setApplication(applicationResponse);
+                }
             }
         }
 
@@ -125,7 +136,8 @@ public class JobService {
         return objectMapper.convertValue(job, JobResponse.class);
     }
 
-    public CommonSearchResponse<?> searchJob(JobSearchRequest request) {
+    public CommonSearchResponse<?>
+    searchJob(JobSearchRequest request) {
         Role role = null;
         Long creatorId = null;
         Long candidateId = null;
@@ -157,6 +169,7 @@ public class JobService {
                 candidateId = candidateOptional.get().getId();
             }
         } catch (Exception ignored) {
+            return null;
         }
         List<SearchJobDto> result = jobCustomRepository.searchJob(request, creatorId, candidateId, role);
 
@@ -225,4 +238,72 @@ public class JobService {
         jobRepository.save(job);
     }
 
+    public CommonSearchResponse<?> searchApplicationJob(JobSearchRequest request) {
+        Role role = null;
+        Long creatorId = null;
+        Long candidateId = null;
+        try {
+            CustomUserDetails authentication = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            role = authentication.getAccount().getRole();
+            if (role == Role.COMPANY) {
+                Optional<Company> companyOptional = companyRepository.findByAccount(authentication.getAccount());
+                if (companyOptional.isEmpty()) {
+                    return CommonSearchResponse.<JobSearchResponse>builder()
+                            .totalRecord(0L)
+                            .totalPage(1)
+                            .data(Collections.emptyList())
+                            .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                            .build();
+                }
+                creatorId = companyOptional.get().getId();
+            }
+            if (role == Role.CANDIDATE) {
+                Optional<Candidate> candidateOptional = candidateRepository.findByAccount(authentication.getAccount());
+                if (candidateOptional.isEmpty()) {
+                    return CommonSearchResponse.<JobSearchResponse>builder()
+                            .totalRecord(0L)
+                            .totalPage(1)
+                            .data(Collections.emptyList())
+                            .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                            .build();
+                }
+                candidateId = candidateOptional.get().getId();
+            }
+        } catch (Exception ignored) {
+            return null;
+        }
+        List<SearchJobDto> result = jobCustomRepository.searchApplicationJob(request, creatorId, candidateId, role);
+
+        Long totalRecord = 0L;
+        List<JobSearchResponse> jobResponses = new ArrayList<>();
+        if (!result.isEmpty()) {
+            totalRecord = result.get(0).getTotalRecord();
+            jobResponses = result
+                    .stream()
+                    .map(s -> {
+                        JobSearchResponse response = objectMapper.convertValue(s, JobSearchResponse.class);
+
+                        CompanyResponse companyResponse = new CompanyResponse();
+                        companyResponse.setName(s.getCompanyName());
+                        companyResponse.setAlias(s.getAlias());
+                        companyResponse.setEmail(s.getCompanyEmail());
+                        companyResponse.setHeadQuarterAddress(s.getHeadQuarterAddress());
+                        companyResponse.setWebsite(s.getWebsite());
+                        companyResponse.setCreatedAt(s.getCompanyCreatedAt());
+
+                        response.setCompany(companyResponse);
+                        return response;
+                    })
+                    .toList();
+        }
+
+        int totalPage = (int) Math.ceil((double) totalRecord / request.getPageSize());
+
+        return CommonSearchResponse.<JobSearchResponse>builder()
+                .totalRecord(totalRecord)
+                .totalPage(totalPage)
+                .data(jobResponses)
+                .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                .build();
+    }
 }

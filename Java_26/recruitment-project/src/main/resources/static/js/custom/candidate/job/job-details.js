@@ -76,6 +76,14 @@ function renderJobDetails(job) {
     $(".company-widget .company-website a").attr("href", company.website);
     $(".company-widget .company-website a").text(company.website);
 
+    const application = job?.application;
+    if (application) {
+        $(".apply-btn").toggleClass("d-none");
+        if (application?.status === 'APPLIED') {
+            $(".cancel-application-btn").toggleClass("d-none");
+        }
+    }
+
     //  favorite
     $(".favorite-btn").off("click").click(async function (event) {
         const account = JSON.parse(localStorage.getItem("account"));
@@ -94,7 +102,7 @@ function renderJobDetails(job) {
                 data: JSON.stringify({jobId}),
                 contentType: 'application/json; charset=utf-8',
             });
-            showToast((favorite == 1 ? 'Remove from' : 'Add to') +  " favorite successfully", SUCCESS_TOAST);
+            showToast((favorite == 1 ? 'Remove from' : 'Add to') + " favorite successfully", SUCCESS_TOAST);
             location.reload();
         } catch (err) {
             showToast(err.responseJSON.message, ERROR_TOAST);

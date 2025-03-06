@@ -135,7 +135,7 @@ $(document).ready(async function () {
 
         try {
             await $.ajax({
-                url: "/api/v1/application",
+                url: "/api/v1/applications",
                 type: "POST",
                 data: formData,
                 contentType: false, // Đảm bảo contentType là false

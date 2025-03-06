@@ -20,15 +20,18 @@ public class CandidateJobController {
 
     @GetMapping("/{id}/application")
     public String applyJob() {
-        return "candidate/job/job-application";
+        return "candidate/job/application-job";
     }
 
     @GetMapping("/{id}/application/success")
     public String applyJobSuccess() {
-        return "candidate/job/job-application-successfully";
+        return "candidate/job/application-job-successfully";
     }
 
     @GetMapping("/favourite")
     public String listJobFavourite(){return "candidate/job/favourite-jobs";}
+
+    @GetMapping("/application")
+    public String listJobApplication(){return "candidate/job/list-application-job";}
 
 }

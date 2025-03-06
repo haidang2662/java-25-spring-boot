@@ -14,6 +14,8 @@ import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchRespon
 import vn.techmaster.danglh.recruitmentproject.model.response.JobResponse;
 import vn.techmaster.danglh.recruitmentproject.service.JobService;
 
+import java.io.IOException;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/jobs")
@@ -44,7 +46,7 @@ public class JobResource {
     }
 
     @GetMapping
-    public CommonSearchResponse<?> searchJobs(JobSearchRequest request) {
+    public CommonSearchResponse<?> searchJobs(JobSearchRequest request)  {
         return jobService.searchJob(request);
     }
 
@@ -52,6 +54,11 @@ public class JobResource {
     public void changeJobStatus(@PathVariable Long jobId, @RequestBody @Valid JobStatusChangeRequest request)
             throws ObjectNotFoundException {
         jobService.changeJobStatus(jobId, request);
+    }
+
+    @GetMapping("/application")
+    public CommonSearchResponse<?> searchApplicationJobs(JobSearchRequest request) {
+        return jobService.searchApplicationJob(request);
     }
 
 }

@@ -51,4 +51,6 @@ public class JobResponse {
 
     CompanyResponse company;
 
+    ApplicationResponse application;
+
 }

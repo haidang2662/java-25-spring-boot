@@ -30,5 +30,6 @@ public class JobSearchRequest extends BaseSearchRequest {
     JobStatus status;
 
     Boolean favorite;
+    Boolean application;
 
 }
