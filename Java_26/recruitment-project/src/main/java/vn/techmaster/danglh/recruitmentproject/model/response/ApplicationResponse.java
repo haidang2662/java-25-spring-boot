@@ -1,15 +1,19 @@
 package vn.techmaster.danglh.recruitmentproject.model.response;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import vn.techmaster.danglh.recruitmentproject.constant.ApplicationStatus;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApplicationResponse {
+
+    Long id;
 
     JobResponse job;
 
@@ -22,5 +26,7 @@ public class ApplicationResponse {
     ApplicationStatus status;
 
     String recruiterComment;
+
+    LocalDate appliedDate;
 
 }

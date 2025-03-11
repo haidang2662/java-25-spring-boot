@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.objenesis.ObjenesisException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.danglh.recruitmentproject.constant.ApplicationStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Constant;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
-import vn.techmaster.danglh.recruitmentproject.dto.SearchJobDto;
+import vn.techmaster.danglh.recruitmentproject.dto.SearchApplicationDto;
 import vn.techmaster.danglh.recruitmentproject.entity.*;
 import vn.techmaster.danglh.recruitmentproject.exception.ExistedJobApplicationException;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidFileExtensionException;
@@ -22,6 +23,7 @@ import vn.techmaster.danglh.recruitmentproject.model.request.ApplicationSearchRe
 import vn.techmaster.danglh.recruitmentproject.model.request.JobApplicationRequest;
 import vn.techmaster.danglh.recruitmentproject.model.response.*;
 import vn.techmaster.danglh.recruitmentproject.repository.*;
+import vn.techmaster.danglh.recruitmentproject.repository.custom.ApplicationCustomRepository;
 import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetails;
 import vn.techmaster.danglh.recruitmentproject.security.SecurityUtils;
 
@@ -45,6 +47,8 @@ public class ApplicationService {
     AccountRepository accountRepository;
     ObjectMapper objectMapper;
     CandidateCvRepository candidateCvRepository;
+    CompanyRepository companyRepository;
+    ApplicationCustomRepository applicationCustomRepository;
 
     @Transactional
     public ApplicationResponse applyJob(JobApplicationRequest request, MultipartFile uploadedCv)
@@ -105,72 +109,65 @@ public class ApplicationService {
                 .build();
     }
 
-//    public CommonSearchResponse<?> searchApplications(ApplicationSearchRequest request) {
-//        Role role = null;
-//        Long creatorId = null;
-//        Long candidateId = null;
-//        try {
-//            CustomUserDetails authentication = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            role = authentication.getAccount().getRole();
-//            if (role == Role.COMPANY) {
-//                Optional<Company> companyOptional = companyRepository.findByAccount(authentication.getAccount());
-//                if (companyOptional.isEmpty()) {
-//                    return CommonSearchResponse.<JobSearchResponse>builder()
-//                            .totalRecord(0L)
-//                            .totalPage(1)
-//                            .data(Collections.emptyList())
-//                            .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
-//                            .build();
-//                }
-//                creatorId = companyOptional.get().getId();
-//            }
-//            if (role == Role.CANDIDATE) {
-//                Optional<Candidate> candidateOptional = candidateRepository.findByAccount(authentication.getAccount());
-//                if (candidateOptional.isEmpty()) {
-//                    return CommonSearchResponse.<JobSearchResponse>builder()
-//                            .totalRecord(0L)
-//                            .totalPage(1)
-//                            .data(Collections.emptyList())
-//                            .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
-//                            .build();
-//                }
-//                candidateId = candidateOptional.get().getId();
-//            }
-//        } catch (Exception ignored) {
-//            return null;
-//        }
-//        List<SearchJobDto> result = jobCustomRepository.searchJob(request, creatorId, candidateId, role);
-//
-//        Long totalRecord = 0L;
-//        List<JobSearchResponse> jobResponses = new ArrayList<>();
-//        if (!result.isEmpty()) {
-//            totalRecord = result.get(0).getTotalRecord();
-//            jobResponses = result
-//                    .stream()
-//                    .map(s -> {
-//                        JobSearchResponse response = objectMapper.convertValue(s, JobSearchResponse.class);
-//
-//                        CompanyResponse companyResponse = new CompanyResponse();
-//                        companyResponse.setName(s.getCompanyName());
-//                        companyResponse.setAlias(s.getAlias());
-//                        companyResponse.setEmail(s.getCompanyEmail());
-//                        companyResponse.setHeadQuarterAddress(s.getHeadQuarterAddress());
-//                        companyResponse.setWebsite(s.getWebsite());
-//                        companyResponse.setCreatedAt(s.getCompanyCreatedAt());
-//
-//                        response.setCompany(companyResponse);
-//                        return response;
-//                    })
-//                    .toList();
-//        }
-//
-//        int totalPage = (int) Math.ceil((double) totalRecord / request.getPageSize());
-//
-//        return CommonSearchResponse.<JobSearchResponse>builder()
-//                .totalRecord(totalRecord)
-//                .totalPage(totalPage)
-//                .data(jobResponses)
-//                .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
-//                .build();
-//    }
+    public CommonSearchResponse<?> searchApplications(ApplicationSearchRequest request) {
+        Long companyId = null;
+        try {
+            CustomUserDetails authentication = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Role role = authentication.getAccount().getRole();
+            if (role == Role.COMPANY) {
+                Optional<Company> companyOptional = companyRepository.findByAccount(authentication.getAccount());
+                if (companyOptional.isEmpty()) {
+                    return CommonSearchResponse.<ApplicationResponse>builder()
+                            .totalRecord(0L)
+                            .totalPage(1)
+                            .data(Collections.emptyList())
+                            .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                            .build();
+                }
+                companyId = companyOptional.get().getId();
+            }
+        } catch (Exception ignored) {
+            return CommonSearchResponse.<ApplicationResponse>builder()
+                    .totalRecord(0L)
+                    .totalPage(1)
+                    .data(Collections.emptyList())
+                    .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                    .build();
+        }
+        List<SearchApplicationDto> result = applicationCustomRepository.searchApplicationForCompany(request, companyId);
+
+        Long totalRecord = 0L;
+        List<ApplicationResponse> applicationResponses = new ArrayList<>();
+        if (!result.isEmpty()) {
+            totalRecord = result.get(0).getTotalRecord();
+            applicationResponses = result
+                    .stream()
+                    .map(s ->
+                            ApplicationResponse.builder()
+                                    .id(s.getId())
+                                    .status(s.getStatus())
+                                    .job(JobResponse.builder().name(s.getJobName()).build())
+                                    .candidate(CandidateResponse.builder().name(s.getCandidateName()).build())
+                                    .cv(CvResponse.builder().name(s.getCvName()).url(s.getCvUrl()).id(s.getCvId()).build())
+                                    .appliedDate(s.getAppliedDate())
+                                    .build()
+                    )
+                    .toList();
+        }
+
+        int totalPage = (int) Math.ceil((double) totalRecord / request.getPageSize());
+
+        return CommonSearchResponse.<ApplicationResponse>builder()
+                .totalRecord(totalRecord)
+                .totalPage(totalPage)
+                .data(applicationResponses)
+                .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                .build();
+    }
+
+    public ApplicationResponse applicationDetails(Long applicationId) throws ObjectNotFoundException {
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new ObjectNotFoundException("Không tìm thấy application có id : " + applicationId));
+        return null;
+    }
 }

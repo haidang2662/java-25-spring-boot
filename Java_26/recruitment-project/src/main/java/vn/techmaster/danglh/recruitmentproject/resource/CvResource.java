@@ -35,8 +35,6 @@ public class CvResource {
 
     CvService cvService;
 
-    private static final Set<String> ALLOWED_EXTENSIONS = Set.of("pdf", "doc", "docx");
-
     @PostMapping
     public CvResponse uploadCv(@RequestPart(value = "cvFile") MultipartFile cvFile)
             throws ObjectNotFoundException, IOException, InvalidFileExtensionException {

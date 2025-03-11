@@ -117,6 +117,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/jobs").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/jobs").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/jobs/{jobId}/status").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.GET , "/api/v1/jobs/application").hasAnyAuthority(Role.CANDIDATE.toString()) // search job application cho candidate
                         // Job end
 
                         // favorite job - START
@@ -127,11 +128,16 @@ public class SecurityConfig {
                         // cv - START
                         .requestMatchers(HttpMethod.POST, "/api/v1/cv").hasAnyAuthority(Role.CANDIDATE.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/cv").hasAnyAuthority(Role.CANDIDATE.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/cv/download/{cvId}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/cv/{cvId}").hasAnyAuthority(Role.CANDIDATE.toString())
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/cv/{cvId}/main").hasAnyAuthority(Role.CANDIDATE.toString())
                         // cv - END
 
-                        // cv - download
-                        .requestMatchers(HttpMethod.GET, "/api/v1/cv/download/{cvId}").authenticated()
-
+                        // application - START
+                        .requestMatchers(HttpMethod.POST, "/api/v1/applications").hasAnyAuthority(Role.CANDIDATE.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/applications").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/applications/{applicationId}").hasAnyAuthority(Role.COMPANY.toString())
+                        // application - END
 
                         .requestMatchers("/api/**").authenticated() // all other apis need authentication
                         .anyRequest().permitAll() // all thymeleaf, html page don't have to authenticate

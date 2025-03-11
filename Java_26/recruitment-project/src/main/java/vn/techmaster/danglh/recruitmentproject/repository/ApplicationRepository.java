@@ -9,7 +9,7 @@ import vn.techmaster.danglh.recruitmentproject.entity.Job;
 import java.util.Optional;
 
 @Repository
-public interface ApplicationRepository extends JpaRepository<Application , Long> {
+public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
     Optional<Application> findFirstByCandidateAndJob(Candidate candidate, Job job);
 

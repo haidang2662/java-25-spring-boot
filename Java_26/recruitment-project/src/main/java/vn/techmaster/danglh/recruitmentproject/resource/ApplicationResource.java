@@ -38,8 +38,12 @@ public class ApplicationResource {
 
     @GetMapping
     public CommonSearchResponse<?> searchApplications(ApplicationSearchRequest request)  {
-//        return applicationService.searchApplications(request);
-        return null;
+        return applicationService.searchApplications(request);
+    }
+
+    @GetMapping("/{applicationId}")
+    public ApplicationResponse applicationDetails(@PathVariable Long applicationId) throws ObjectNotFoundException {
+        return applicationService.applicationDetails(applicationId);
     }
 
 }

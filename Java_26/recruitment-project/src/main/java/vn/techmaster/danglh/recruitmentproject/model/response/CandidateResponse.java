@@ -1,11 +1,13 @@
 package vn.techmaster.danglh.recruitmentproject.model.response;
 
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import vn.techmaster.danglh.recruitmentproject.constant.Gender;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CandidateResponse {
 

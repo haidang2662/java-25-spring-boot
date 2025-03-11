@@ -136,8 +136,7 @@ public class JobService {
         return objectMapper.convertValue(job, JobResponse.class);
     }
 
-    public CommonSearchResponse<?>
-    searchJob(JobSearchRequest request) {
+    public CommonSearchResponse<?> searchJob(JobSearchRequest request) {
         Role role = null;
         Long creatorId = null;
         Long candidateId = null;
@@ -169,7 +168,12 @@ public class JobService {
                 candidateId = candidateOptional.get().getId();
             }
         } catch (Exception ignored) {
-            return null;
+            return CommonSearchResponse.<JobSearchResponse>builder()
+                    .totalRecord(0L)
+                    .totalPage(1)
+                    .data(Collections.emptyList())
+                    .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                    .build();
         }
         List<SearchJobDto> result = jobCustomRepository.searchJob(request, creatorId, candidateId, role);
 

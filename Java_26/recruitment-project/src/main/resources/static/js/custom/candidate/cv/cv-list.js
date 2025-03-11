@@ -152,8 +152,7 @@ $(document).ready(async function () {
                     return;
                 }
                 $.ajax({
-                    // url: '/api/v1/files/cv/',
-                    url: 'api/v1/cv/' + cvId + "/download",
+                    url: '/api/v1/cv/' + cvId + "/download",
                     type: 'GET',
                     xhrFields: {
                         responseType: 'blob' // to avoid binary data being mangled on charset conversion
