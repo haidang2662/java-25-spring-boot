@@ -21,7 +21,7 @@ $(document).ready(async function () {
                 futureDate: true,
             },
             "interviewAddress": {
-                required: true,
+                // required: true,
                 maxlength: 200,
             },
         },
@@ -31,7 +31,7 @@ $(document).ready(async function () {
                 futureDate: "Interview At must be in the future",
             },
             "interviewAddress": {
-                required: "Interview Address is required.",
+                // required: "Interview Address is required.",
                 maxlength: "Interview Address must not exceed 200 characters.",
             },
         }
@@ -43,13 +43,6 @@ $(document).ready(async function () {
         if (!isValidForm) {
             return;
         }
-
-        // nếu user chọn phỏng vấn online thì không quan tâm address,
-        // nếu offline thi check xem address điền chưa, nếu chưa thì không cho lưu
-
-
-        $("#save-interview-btn").prop("disabled", true);
-        $("#interview-saving-spinner").toggleClass("d-none");
 
         // Thu thập dữ liệu từ form
         const formData = $("#post-interview-form").serializeArray();
@@ -64,6 +57,21 @@ $(document).ready(async function () {
             interviewDataObj[item.name] = item.value?.trim();
         });
 
+        // nếu user chọn phỏng vấn online thì không quan tâm address,
+        // nếu offline thi check xem address điền chưa, nếu chưa thì không cho lưu
+        if (
+            interviewDataObj.interviewType === 'OFFLINE'
+            && (!interviewDataObj.interviewAddress || interviewDataObj.interviewAddress?.trim()?.length === 0)
+        ) {
+            $("#interviewAddress-error-custom").toggleClass("d-none");
+            $("#interviewAddress-error-custom").toggleClass("error");
+            // $("#interviewAddress-error-custom").css("display", "block !important");
+            return;
+        }
+
+        $("#save-interview-btn").prop("disabled", true);
+        $("#interview-saving-spinner").toggleClass("d-none");
+
         await $.ajax({
             url: "/api/v1/interviews",
             type: "POST",
@@ -75,6 +83,7 @@ $(document).ready(async function () {
             success: function () {
                 showToast("Interview posted successfully", SUCCESS_TOAST);
                 window.location.href = "/companies/applications"; // Chuyển về danh sách công việc
+                localStorage.removeItem("applicationId");
             },
             error: function () {
                 showToast("Failed to post interview", ERROR_TOAST);
