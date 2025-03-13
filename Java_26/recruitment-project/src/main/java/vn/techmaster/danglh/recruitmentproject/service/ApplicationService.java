@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.objenesis.ObjenesisException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.danglh.recruitmentproject.constant.ApplicationStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Constant;
+import vn.techmaster.danglh.recruitmentproject.constant.JobStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.dto.SearchApplicationDto;
 import vn.techmaster.danglh.recruitmentproject.entity.*;
 import vn.techmaster.danglh.recruitmentproject.exception.ExistedJobApplicationException;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidFileExtensionException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
+import vn.techmaster.danglh.recruitmentproject.model.request.ApplicationRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.ApplicationSearchRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobApplicationRequest;
 import vn.techmaster.danglh.recruitmentproject.model.response.*;
@@ -169,5 +170,52 @@ public class ApplicationService {
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new ObjectNotFoundException("Không tìm thấy application có id : " + applicationId));
         return null;
+    }
+
+    public ApplicationResponse changeStatus(Long applicationId, ApplicationRequest request) throws ObjectNotFoundException {
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new ObjectNotFoundException("Không tìm thấy application có id : " + applicationId));
+
+        // Logic chuyển trạng thái
+        switch (application.getStatus()) {
+            case APPLIED:
+                if (!ApplicationStatus.APPLICATION_ACCEPTED.equals(request.getStatus())
+                        && !ApplicationStatus.APPLICATION_REJECTED.equals(request.getStatus())) {
+                    throw new IllegalArgumentException("Invalid status");
+                }
+                break;
+            case CANCELLED:
+                throw new IllegalArgumentException("Cannot change status of CANCELLED");
+            case APPLICATION_ACCEPTED:
+                if (!ApplicationStatus.APPLICATION_REJECTED.equals(request.getStatus())) {
+                    throw new IllegalArgumentException("Invalid status");
+                }
+                break;
+            case APPLICATION_REJECTED:
+                if (!ApplicationStatus.APPLICATION_ACCEPTED.equals(request.getStatus())) {
+                    throw new IllegalArgumentException("Invalid status");
+                }
+                break;
+            case WAIT_FOR_INTERVIEW:
+                if (!ApplicationStatus.CANDIDATE_ACCEPTED.equals(request.getStatus())
+                && !ApplicationStatus.CANDIDATE_REJECTED.equals(request.getStatus())) {
+                    throw new IllegalArgumentException("Invalid status");
+                }
+                break;
+            case CANDIDATE_ACCEPTED:
+                if (!ApplicationStatus.CANDIDATE_REJECTED.equals(request.getStatus())) {
+                    throw new IllegalArgumentException("Invalid status");
+                }
+                break;
+            case CANDIDATE_REJECTED:
+                if (!ApplicationStatus.CANDIDATE_ACCEPTED.equals(request.getStatus())) {
+                    throw new IllegalArgumentException("Invalid status");
+                }
+                break;
+        }
+
+        application.setStatus(request.getStatus());
+        applicationRepository.save(application);
+        return objectMapper.convertValue(application, ApplicationResponse.class);
     }
 }

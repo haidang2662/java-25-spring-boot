@@ -137,6 +137,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/applications").hasAnyAuthority(Role.CANDIDATE.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/applications").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/applications/{applicationId}").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/applications/{applicationId}/status").hasAnyAuthority(Role.COMPANY.toString())
                         // application - END
 
                         .requestMatchers("/api/**").authenticated() // all other apis need authentication

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import vn.techmaster.danglh.recruitmentproject.entity.Account;
 import vn.techmaster.danglh.recruitmentproject.constant.AccountStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import vn.techmaster.danglh.recruitmentproject.entity.Candidate;
 
 import java.util.Optional;
 

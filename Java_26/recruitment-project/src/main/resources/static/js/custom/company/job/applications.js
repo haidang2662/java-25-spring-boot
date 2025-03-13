@@ -7,57 +7,6 @@ $(document).ready(async function () {
     let pageSize = 10;
     await getApplications({});
 
-    // Xử lý sự kiện tải CV khi nhấn nút Download
-    $(".download-btn").off("click").click(async function (event) {
-        const target = $(event.currentTarget);
-        const cvId = target.attr("data-cv-id");
-        if (!cvId) {
-            showToast("CV ID not found", ERROR_TOAST);
-            return;
-        }
-        $.ajax({
-            url: '/api/v1/cv/' + cvId + "/download",
-            type: 'GET',
-            xhrFields: {
-                responseType: 'blob' // to avoid binary data being mangled on charset conversion
-            },
-            success: function (blob, status, xhr) {
-                let filename = "";
-                const disposition = xhr.getResponseHeader('Content-Disposition');
-                if (disposition && disposition.indexOf('attachment') !== -1) {
-                    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                    const matches = filenameRegex.exec(disposition);
-                    if (matches != null && matches[1]) {
-                        filename = matches[1].replace(/['"]/g, '');
-                    }
-                }
-                const URL = window.URL || window.webkitURL;
-                const downloadUrl = URL.createObjectURL(blob);
-
-                if (filename) {
-                    // use HTML5 a[download] attribute to specify filename
-                    const a = document.createElement("a");
-                    // safari doesn't support this yet
-                    if (typeof a.download === 'undefined') {
-                        window.location.href = downloadUrl;
-                    } else {
-                        a.href = downloadUrl;
-                        a.download = filename;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        window.URL.revokeObjectURL(url);
-                    }
-                } else {
-                    window.location.href = downloadUrl;
-                }
-            },
-            error: function (err) {
-                showToast("Download failed: " + error.message, ERROR_TOAST);
-            }
-        });
-    });
-
     async function getApplications(request) {
         // Disable nút search và hiển thị spinner
         $("#search-job-btn").prop("disabled", true);
@@ -136,23 +85,108 @@ $(document).ready(async function () {
 
             tableContent.append(tr);
 
-            //  EXPIRED
-            // $(".btn-expire").off("click").click(async function (event) {
-            //     const toggleInput = $(event.currentTarget);
-            //     const jobId = toggleInput.attr("data-id");
-            //     try {
-            //         await $.ajax({
-            //             url: '/api/v1/jobs/' + jobId + '/status',
-            //             type: 'PATCH',
-            //             data: JSON.stringify({ status: JOB_STATUS.EXPIRED }),
-            //             contentType: 'application/json; charset=utf-8',
-            //         });
-            //         showToast("Job marked as expired successfully", SUCCESS_TOAST);
-            //         await getJobData({});
-            //     } catch (err) {
-            //         showToast(err.responseJSON.message, ERROR_TOAST);
-            //     }
-            // });
+            // Xử lý sự kiện tải CV khi nhấn nút Download
+            $(".download-btn").off("click").click(async function (event) {
+                const target = $(event.currentTarget);
+                const cvId = target.attr("data-cv-id");
+                if (!cvId) {
+                    showToast("CV ID not found", ERROR_TOAST);
+                    return;
+                }
+                $.ajax({
+                    url: '/api/v1/cv/' + cvId + "/download",
+                    type: 'GET',
+                    xhrFields: {
+                        responseType: 'blob' // to avoid binary data being mangled on charset conversion
+                    },
+                    success: function (blob, status, xhr) {
+                        let filename = "";
+                        const disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            const matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        const URL = window.URL || window.webkitURL;
+                        const downloadUrl = URL.createObjectURL(blob);
+
+                        if (filename) {
+                            // use HTML5 a[download] attribute to specify filename
+                            const a = document.createElement("a");
+                            // safari doesn't support this yet
+                            if (typeof a.download === 'undefined') {
+                                window.location.href = downloadUrl;
+                            } else {
+                                a.href = downloadUrl;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                window.URL.revokeObjectURL(url);
+                            }
+                        } else {
+                            window.location.href = downloadUrl;
+                        }
+                    },
+                    error: function (err) {
+                        showToast("Download failed: " + error.message, ERROR_TOAST);
+                    }
+                });
+            });
+
+            $(".btn-reject").off("click").click(async function (event) {
+                const target = $(event.currentTarget);
+                const applicationId = target.attr("data-id");
+                if (!applicationId) {
+                    showToast("ApplicationId ID not found", ERROR_TOAST);
+                    return;
+                }
+                await changeApplicationStatus(applicationId, "APPLICATION_REJECTED", "Are you sure to reject this cv?");
+            });
+
+            $(".btn-accept").off("click").click(async function (event) {
+                const target = $(event.currentTarget);
+                const applicationId = target.attr("data-id");
+                if (!applicationId) {
+                    showToast("ApplicationId ID not found", ERROR_TOAST);
+                    return;
+                }
+                await changeApplicationStatus(applicationId, "APPLICATION_ACCEPTED", "Are you sure to accept this cv?");
+            });
+
+            $(".btn-interview-reject").off("click").click(async function (event) {
+                const target = $(event.currentTarget);
+                const applicationId = target.attr("data-id");
+                if (!applicationId) {
+                    showToast("ApplicationId ID not found", ERROR_TOAST);
+                    return;
+                }
+                await changeApplicationStatus(applicationId, "CANDIDATE_REJECTED", "Are you sure to reject this candidate after interview?");
+            });
+
+            $(".btn-interview-accept").off("click").click(async function (event) {
+                const target = $(event.currentTarget);
+                const applicationId = target.attr("data-id");
+                if (!applicationId) {
+                    showToast("ApplicationId ID not found", ERROR_TOAST);
+                    return;
+                }
+                await changeApplicationStatus(applicationId, "CANDIDATE_ACCEPTED", "Are you sure to accept this candidate after interview?");
+            });
+
+            $(".btn-interview-schedule").off("click").click(async function (event) {
+                const target = $(event.currentTarget);
+                const applicationId = target.attr("data-id");
+                if (!applicationId) {
+                    showToast("ApplicationId ID not found", ERROR_TOAST);
+                    return;
+                }
+                localStorage.setItem("applicationId", applicationId);
+                location.href = "/companies/interviews";
+            });
+
         }
 
         paginationHtml.append("<li class=\"page-item go-to-first-page\"><a class=\"page-link\" href=\"#\"><i class=\"fa-solid fa-angles-left\"></i></a></li>");
@@ -215,27 +249,27 @@ $(document).ready(async function () {
     </span>`;
 
         const REJECT_CV_BUTTON =
-            "<span role='button' class='text-danger btn-delete me-2 btn-delete' data-bs-toggle='tooltip' title='Reject CV' data-id='" + application.id + "'>" +
+            "<span role='button' class='text-danger btn-delete me-2 btn-reject' data-bs-toggle='tooltip' title='Reject CV' data-id='" + application.id + "'>" +
             "    <i class='fa-solid fa-x'></i>" +
             "</span>";
         const ACCEPT_CV_BUTTON =
-            "<span role='button' class='text-success me-2 btn-publish' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Accept CV'>" +
+            "<span role='button' class='text-success me-2 btn-accept' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Accept CV'>" +
             "    <i class='fa-solid fa-check'></i> " +
             "</span>";
         const REJECT_AFTER_APPOINTMENT_BUTTON =
-            "<span role='button' class='text-warning me-2 btn-unpublish text-danger' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Reject after interview'>" +
+            "<span role='button' class='text-warning me-2 btn-interview-reject text-danger' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Reject after interview'>" +
             "    <i class='fa-solid fa-square-xmark'></i> " +
             "</span>";
         const APPOINTMENT_BUTTON =
-            "<span role='button' class='text-secondary me-2 btn-expire' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Make an interview'>" +
+            "<span role='button' class='text-secondary text-warning me-2 btn-interview-schedule' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Make an interview'>" +
             "    <i class='fa-solid fa-clock'></i> " +
             "</span>";
         const ACCEPT_CANDIDATE_BUTTON =
-            "<span role='button' class='text-secondary me-2 btn-expire text-success' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Accept candidate after interview'>" +
+            "<span role='button' class='text-secondary me-2 btn-interview-accept text-success' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Accept candidate after interview'>" +
             "    <i class='fa-solid fa-square-check'></i> " +
             "</span>";
         const INFORMATION_APPLICATION_BUTTON =
-            "<span role='button' class='text-secondary me-2 btn-expire' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Information application'>" +
+            "<span role='button' class='text-secondary me-2 btn-detail' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Information application'>" +
             "    <i class=\"fa-solid fa-eye\"></i> " +
             "<a href='/api/v1/applications" + application.id + "'></a>" +
             "</span>";
@@ -244,9 +278,6 @@ $(document).ready(async function () {
         switch (application.status) {
             case "APPLIED":
                 buttons += REJECT_CV_BUTTON + ACCEPT_CV_BUTTON;
-                break;
-            case "CANCELLED":
-                buttons += ACCEPT_CV_BUTTON;
                 break;
             case "APPLICATION_ACCEPTED":
                 buttons += APPOINTMENT_BUTTON + REJECT_CV_BUTTON;
@@ -290,6 +321,25 @@ $(document).ready(async function () {
         await getApplications({});
     });
 
+    async function changeApplicationStatus(applicationId, targetStatus, confirmationMessage) {
+        if (!confirm(confirmationMessage)) {
+            return;
+        }
+        await $.ajax({
+            url: "/api/v1/applications/" + applicationId + "/status",
+            type: "PATCH",
+            data: JSON.stringify({
+                status: targetStatus
+            }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                showToast("Successfully", SUCCESS_TOAST);
+                getApplications({});
+            },
+            error: function () {
+                showToast("Failed", ERROR_TOAST);
+            }
+        });
+    }
 
-})
-;
+});

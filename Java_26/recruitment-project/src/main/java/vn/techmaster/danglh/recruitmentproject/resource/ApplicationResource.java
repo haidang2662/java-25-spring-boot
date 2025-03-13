@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.danglh.recruitmentproject.exception.ExistedJobApplicationException;
 import vn.techmaster.danglh.recruitmentproject.exception.InvalidFileExtensionException;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
+import vn.techmaster.danglh.recruitmentproject.model.request.ApplicationRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.ApplicationSearchRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobApplicationRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.JobSearchRequest;
@@ -44,6 +45,11 @@ public class ApplicationResource {
     @GetMapping("/{applicationId}")
     public ApplicationResponse applicationDetails(@PathVariable Long applicationId) throws ObjectNotFoundException {
         return applicationService.applicationDetails(applicationId);
+    }
+
+    @PatchMapping ("/{applicationId}/status")
+    public ApplicationResponse changeStatus(@PathVariable Long applicationId , @RequestBody ApplicationRequest request) throws ObjectNotFoundException {
+        return applicationService.changeStatus(applicationId , request);
     }
 
 }

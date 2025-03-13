@@ -87,7 +87,7 @@ $(document).ready(async function () {
                 min: "Recruiting Quantity must be greater than or equal to 1",
             },
             "expiredDate": {
-                maxlength: "The expiration date must not exceed 50 characters.",
+                required: "Expired date is required.",
                 futureDate: "The expiration date must be in the future",
             },
             "skills": {
