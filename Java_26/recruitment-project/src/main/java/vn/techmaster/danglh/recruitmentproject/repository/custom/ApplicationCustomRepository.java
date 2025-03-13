@@ -37,16 +37,16 @@ public class ApplicationCustomRepository extends BaseRepository {
 
         String searchCondition = "";
         if (StringUtils.isNotBlank(request.getJobName())) {
-            query += " and lower(j.name) like :job_name";
+            searchCondition += " and lower(j.name) like :job_name";
             parameters.put("job_name", "%" + request.getJobName().toLowerCase() + "%");
         }
         if (StringUtils.isNotBlank(request.getCandidateName())) {
-            query += " and lower(c.name) like :candidate_name";
+            searchCondition += " and lower(c.name) like :candidate_name";
             parameters.put("candidate_name", "%" + request.getCandidateName().toLowerCase() + "%");
         }
         if (request.getStatus() != null) {
-            query += " and a.status = :status";
-            parameters.put("status", request.getStatus());
+            searchCondition += " and a.status = :status";
+            parameters.put("status", request.getStatus().name());
         }
 
         query = query.replace("{{search_condition}}", searchCondition);
