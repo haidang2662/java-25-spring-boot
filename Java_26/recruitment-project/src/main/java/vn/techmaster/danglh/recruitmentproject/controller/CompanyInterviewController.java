@@ -6,11 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/companies/interviews")
-public class InterviewController {
+public class CompanyInterviewController {
 
-    @GetMapping
+    @GetMapping("/creation")
     public String creatInterview() {
         return "company/interview/interview-creation";
+    }
+
+    @GetMapping
+    public String getInterviews() {
+        return "company/interview/interviews";
     }
 
 }

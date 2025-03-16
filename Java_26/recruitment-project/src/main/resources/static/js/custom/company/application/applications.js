@@ -184,7 +184,7 @@ $(document).ready(async function () {
                     return;
                 }
                 localStorage.setItem("applicationId", applicationId);
-                location.href = "/companies/interviews";
+                location.href = "/companies/interviews/creation";
             });
 
             $(".btn-detail").off("click").click(async function (event) {
