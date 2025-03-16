@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import vn.techmaster.danglh.recruitmentproject.constant.ApplicationStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -15,7 +16,7 @@ public class SearchApplicationDto {
 
     String jobName;
     String candidateName;
-    LocalDate appliedDate;
+    LocalDateTime appliedDate;
     ApplicationStatus status;
 
     String cvName;

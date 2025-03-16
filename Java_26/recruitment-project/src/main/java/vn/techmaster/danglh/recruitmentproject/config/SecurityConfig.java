@@ -140,6 +140,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/applications/{applicationId}/status").hasAnyAuthority(Role.COMPANY.toString())
                         // application - END
 
+                        // interview - START
+                        .requestMatchers(HttpMethod.POST, "/api/v1/interviews").hasAnyAuthority(Role.COMPANY.toString())
+                        // interview - END
+
                         .requestMatchers("/api/**").authenticated() // all other apis need authentication
                         .anyRequest().permitAll() // all thymeleaf, html page don't have to authenticate
                 )

@@ -5,6 +5,8 @@ $(document).ready(async function () {
     if (!jobId) {
         window.href = '/404';
     }
+
+
     await loadJobDetails(jobId);
 });
 

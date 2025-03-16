@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import vn.techmaster.danglh.recruitmentproject.constant.ApplicationStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -27,6 +28,8 @@ public class ApplicationResponse {
 
     String recruiterComment;
 
-    LocalDate appliedDate;
+    LocalDateTime appliedDate;
+
+    InterviewResponse interview;
 
 }

@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.danglh.recruitmentproject.constant.ApplicationStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Constant;
-import vn.techmaster.danglh.recruitmentproject.constant.JobStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.Role;
 import vn.techmaster.danglh.recruitmentproject.dto.SearchApplicationDto;
 import vn.techmaster.danglh.recruitmentproject.entity.*;
@@ -50,6 +49,7 @@ public class ApplicationService {
     CandidateCvRepository candidateCvRepository;
     CompanyRepository companyRepository;
     ApplicationCustomRepository applicationCustomRepository;
+    InterviewRepository interviewRepository;
 
     @Transactional
     public ApplicationResponse applyJob(JobApplicationRequest request, MultipartFile uploadedCv)
@@ -169,7 +169,63 @@ public class ApplicationService {
     public ApplicationResponse applicationDetails(Long applicationId) throws ObjectNotFoundException {
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new ObjectNotFoundException("Không tìm thấy application có id : " + applicationId));
-        return null;
+
+        // candidate
+        Candidate candidate = application.getCandidate();
+
+        // tên , mức lương mong muôn, expectedWorkingTimeType, expectedWorkingType , position
+        Job job = application.getJob();
+
+        // interview
+        Interview interview = interviewRepository.findByApplication(application);
+        // cv
+        CandidateCv candidateCv = application.getCv();
+        // lấy id phục vụ download
+        ApplicationResponse response = ApplicationResponse.builder()
+                .id(applicationId)
+                // tên, sdt, ngày sinh, giới tính, năm kinh nghiệm, trình độ học vấn (literacy), graduatedAt,
+                .candidate(CandidateResponse.builder()
+                        .id(candidate.getId())
+                        .name(candidate.getName())
+                        .phone(candidate.getPhone())
+                        .dob(candidate.getDob())
+                        .gender(candidate.getGender())
+                        .yearOfExperience(candidate.getYearOfExperience())
+                        .literacy(candidate.getLiteracy())
+                        .graduatedAt(candidate.getGraduatedAt())
+                        .build())
+                .job(JobResponse.builder()
+                        // tên , mức lương mong muôn, expectedWorkingTimeType, expectedWorkingType , position
+                        .id(job.getId())
+                        .name(job.getName())
+                        .salaryFrom(job.getSalaryFrom())
+                        .salaryTo(job.getSalaryTo())
+                        .workingType(job.getWorkingType())
+                        .workingTimeType(job.getWorkingTimeType())
+                        .position(job.getPosition())
+                        .build())
+                .cv(CvResponse.builder()
+                        // lấy ra interview thông qua application (invitationEmailSentAt, interviewAt, status, interviewType, interviewAddress, note)
+                        .id(candidateCv.getId())
+                        .build())
+                .status(application.getStatus())
+                .appliedDate(application.getCreatedAt())
+                .applicationDescription(application.getApplicationDescription())
+                .build();
+
+        if (interview != null) {
+            InterviewResponse interviewResponse = InterviewResponse.builder()
+                    .invitationEmailSentAt(interview.getInvitationEmailSentAt())
+                    .interviewAt(interview.getInterviewAt())
+                    .status(interview.getStatus())
+                    .interviewType(interview.getInterviewType())
+                    .interviewAddress(interview.getInterviewAddress())
+                    .note(interview.getNote())
+                    .build();
+            response.setInterview(interviewResponse);
+        }
+
+        return response;
     }
 
     public ApplicationResponse changeStatus(Long applicationId, ApplicationRequest request) throws ObjectNotFoundException {
@@ -198,7 +254,7 @@ public class ApplicationService {
                 break;
             case WAIT_FOR_INTERVIEW:
                 if (!ApplicationStatus.CANDIDATE_ACCEPTED.equals(request.getStatus())
-                && !ApplicationStatus.CANDIDATE_REJECTED.equals(request.getStatus())) {
+                        && !ApplicationStatus.CANDIDATE_REJECTED.equals(request.getStatus())) {
                     throw new IllegalArgumentException("Invalid status");
                 }
                 break;

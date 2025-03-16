@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CompanyApplicationController {
 
     @GetMapping
-    public String createJob() {
+    public String getApplications() {
         return "/company/application/applications";
+    }
+
+    @GetMapping("/{id}")
+    public String getApplicationDetails() {
+        return "/company/application/application-details";
     }
 
 }

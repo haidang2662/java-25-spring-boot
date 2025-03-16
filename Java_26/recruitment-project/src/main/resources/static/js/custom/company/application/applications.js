@@ -187,6 +187,16 @@ $(document).ready(async function () {
                 location.href = "/companies/interviews";
             });
 
+            $(".btn-detail").off("click").click(async function (event) {
+                const target = $(event.currentTarget);
+                const applicationId = target.attr("data-id");
+                if (!applicationId) {
+                    showToast("ApplicationId ID not found", ERROR_TOAST);
+                    return;
+                }
+                location.href = "/companies/applications/" + applicationId;
+            });
+
         }
 
         paginationHtml.append("<li class=\"page-item go-to-first-page\"><a class=\"page-link\" href=\"#\"><i class=\"fa-solid fa-angles-left\"></i></a></li>");
@@ -269,7 +279,7 @@ $(document).ready(async function () {
             "    <i class='fa-solid fa-square-check'></i> " +
             "</span>";
         const INFORMATION_APPLICATION_BUTTON =
-            "<span role='button' class='text-secondary me-2 btn-detail' data-id='" + application.id + "' data-bs-toggle='tooltip' title='Information application'>" +
+            "<span role='button' class='text-secondary me-2 btn-detail' data-cv-id=\"${cvId}\" data-id='" + application.id + "' data-bs-toggle='tooltip' title='Information application'>" +
             "    <i class=\"fa-solid fa-eye\"></i> " +
             "<a href='/api/v1/applications" + application.id + "'></a>" +
             "</span>";
