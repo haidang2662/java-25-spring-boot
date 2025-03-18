@@ -5,19 +5,19 @@ $(document).ready(async function () {
     let paging;
     let pageIndex = 0;
     let pageSize = 10;
-    await getInterviewsData({});
+    await getCandidatesData({});
 
-    async function getInterviewsData(request) {
+    async function getCandidatesData(request) {
         // Disable nút search và hiển thị spinner
         $("#search-interview-btn").prop("disabled", true);
         $("#spinner-search").removeClass('d-none');
         $(".page-item .page-link").addClass('disabled');
 
         // Hiển thị spinner ở bảng
-        $("#interview-table tbody").html('<tr><td colspan="9" class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>');
+        $("#candidate-table tbody").html('<tr><td colspan="9" class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>');
 
         await $.ajax({
-            url: "/api/v1/interviews",
+            url: "/api/v1/candidates",
             type: "GET",
             data: {
                 pageIndex: pageIndex,
@@ -26,7 +26,7 @@ $(document).ready(async function () {
             },
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                renderInterviewTable(data);
+                renderCandidateTable(data);
 
             },
             error: function () {
@@ -40,9 +40,9 @@ $(document).ready(async function () {
         $(".page-item .page-link").removeClass('disabled');
     }
 
-    function renderInterviewTable(data) {
-        const paginationHtml = $("#interview-paging .pagination");
-        const tableContent = $("#interview-table tbody");
+    function renderCandidateTable(data) {
+        const paginationHtml = $("#candidate-paging .pagination");
+        const tableContent = $("#candidate-table tbody");
         const totalRecordHtml = $(".total-record");
 
         tableContent.empty();
@@ -52,40 +52,33 @@ $(document).ready(async function () {
             return;
         }
 
-        const interviews = data.data;
+        const candidates = data.data;
         totalPage = data.totalPage;
         totalRecord = data.totalRecord;
         paging = data.pageInfo;
         pageIndex = paging.pageNumber;
 
-        if (!interviews || interviews.length === 0) {
+        if (!candidates || candidates.length === 0) {
             return;
         }
 
-        for (let i = 0; i < interviews.length; i++) {
-            interviews[i]['stt'] = pageIndex * pageSize + i + 1;
+        for (let i = 0; i < candidates.length; i++) {
+            candidates[i]['stt'] = pageIndex * pageSize + i + 1;
         }
 
 
-        for (let i = 0; i < interviews.length; i++) {
-            const interview = interviews[i];
+        for (let i = 0; i < candidates.length; i++) {
+            const candidate = candidates[i];
             let tr = "<tr>" +
-                "<td>" + interview.stt + "</td>" +
-                "<td>" + interview.candidateName + "</td>" +
-                "<td>" + interview.jobTitle + "</td>" +
-                "<td>" + interview.interviewEmailSentAt + "</td>" +
-                "<td>" + interview.interviewAt + "</td>" +
-                "<td>" + decodeInterviewType(interview.type) + "</td>" +
-                "<td>" + decodeInterviewStatus(interview.status) + "</td>" +
-                "<td>" +
-                "<div class='action-icons d-flex align-items-center'>" + // Thêm container Flexbox
-                getInterviewActionButtons(interview) +
-                "</div>" +
-                "</td>" +
+                "<td>" + candidate.stt + "</td>" +
+                "<td><a href='/companies/candidates/" + candidate.id + "'>" + candidate.name + "</a></td>" +
+                "<td>" + candidate.phone + "</td>" +
+                "<td>" + candidate.gender + "</td>" +
+                "<td>" + candidate.literacy + "</td>" +
+                "<td>" + candidate?.totalAppliedJob || 0 + "</td>" +
                 "</tr>";
 
             tableContent.append(tr);
-
 
 
             $(".btn-information-interview").off("click").click(async function (event) {
@@ -161,17 +154,17 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = parseInt(newPageIndex);
-            await getInterviewsData({});
+            await getCandidatesData({});
         });
 
         $(".go-to-first-page").click(async function () {
             pageIndex = 0;
-            await getInterviewsData({});
+            await getCandidatesData({});
         });
 
         $(".go-to-last-page").click(async function () {
             pageIndex = totalPage - 1;
-            await getInterviewsData({});
+            await getCandidatesData({});
         });
 
         $(".previous-page").click(async function () {
@@ -179,7 +172,7 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex - 1;
-            await getInterviewsData({});
+            await getCandidatesData({});
         });
 
         $(".next-page").click(async function () {
@@ -187,7 +180,7 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex + 1;
-            await getInterviewsData({});
+            await getCandidatesData({});
         });
     }
 
@@ -244,7 +237,7 @@ $(document).ready(async function () {
             searchInterview[formData[i].name] = formData[i].value;
         }
 
-        await getInterviewsData(searchInterview);
+        await getCandidatesData(searchInterview);
 
     });
 
@@ -253,7 +246,7 @@ $(document).ready(async function () {
         $("#search-interview-form").trigger("reset");
 
         // Lấy lại dữ liệu
-        await getInterviewsData({});
+        await getCandidatesData({});
     });
 
     function decodeInterviewStatus(status) {
@@ -293,14 +286,13 @@ $(document).ready(async function () {
             contentType: "application/json; charset=utf-8",
             success: function () {
                 showToast("Successfully", SUCCESS_TOAST);
-                getInterviewsData({});
+                getCandidatesData({});
             },
             error: function () {
                 showToast("Failed", ERROR_TOAST);
             }
         });
     }
-
 
 
 });

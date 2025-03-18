@@ -122,4 +122,48 @@ public class InterviewService {
                 .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
                 .build();
     }
+
+    public InterviewResponse interviewDetails(Long interviewId) throws ObjectNotFoundException {
+        Interview interview = interviewRepository.findById(interviewId)
+                .orElseThrow(() -> new ObjectNotFoundException("Khong tim thay interview co id la : " + interviewId));
+        return objectMapper.convertValue(interview, InterviewResponse.class);
+    }
+
+    public InterviewResponse changeStatus(Long interviewId, InterviewRequest request) throws ObjectNotFoundException {
+        Interview interview = interviewRepository.findById(interviewId)
+                .orElseThrow(() -> new ObjectNotFoundException("Khong tim thay interview co id : " + interviewId));
+
+        if (request.getStatus() == null) {
+            throw new IllegalArgumentException("Status could not be null");
+        }
+
+        // Logic chuyển trạng thái
+        switch (interview.getStatus()) {
+            case PASSED:
+                if (!InterviewStatus.FAILED.equals(request.getStatus())) {
+                    throw new IllegalArgumentException("Invalid status");
+                }
+                break;
+            case FAILED:
+                if (!InterviewStatus.PASSED.equals(request.getStatus())) {
+                    throw new IllegalArgumentException("Invalid status");
+                }
+                break;
+            case CANDIDATE_ABSENCE:
+                throw new IllegalArgumentException("Cannot change status of CANDIDATE_ABSENCE");
+            case CANCELLED:
+                throw new IllegalArgumentException("Cannot change status of CANCELLED");
+        }
+        interview.setStatus(request.getStatus());
+        interviewRepository.save(interview);
+        return objectMapper.convertValue(interview, InterviewResponse.class);
+    }
+
+    public InterviewResponse changeNote(Long interviewId, InterviewRequest request) throws ObjectNotFoundException {
+        Interview interview = interviewRepository.findById(interviewId)
+                .orElseThrow(() -> new ObjectNotFoundException("Khong tim thay interview co id la : " + interviewId));
+        interview.setNote(request.getNote());
+        interviewRepository.save(interview);
+        return objectMapper.convertValue(interview, InterviewResponse.class);
+    }
 }

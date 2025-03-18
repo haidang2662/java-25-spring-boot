@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+import vn.techmaster.danglh.recruitmentproject.constant.InterviewStatus;
 import vn.techmaster.danglh.recruitmentproject.constant.InterviewType;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,10 @@ public class InterviewRequest {
 //    @NotBlank(message = "Địa chỉ phỏng vấn không được bỏ trống")
     @Size(max = 200, message = "Địa chỉ phỏng vấn không được quá 200 ký tụ")
     String interviewAddress;
+
+    InterviewStatus status;
+
+    String note;
 
 }
 

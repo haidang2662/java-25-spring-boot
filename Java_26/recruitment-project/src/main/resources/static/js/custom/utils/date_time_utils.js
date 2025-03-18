@@ -22,3 +22,15 @@ function getTimeDifferenceInDays(fromDate, toDate) {
         }
     }
 }
+
+function dateTimeFormat(dateTime) {
+    return ("0" + dateTime.getDate()).slice(-2)
+        + " - "
+        + ("0" + (dateTime.getMonth() + 1)).slice(-2)
+        + " - " +
+        dateTime.getFullYear()
+        + "    "
+        + ("0" + dateTime.getHours()).slice(-2)
+        + ":"
+        + ("0" + dateTime.getMinutes()).slice(-2);
+}

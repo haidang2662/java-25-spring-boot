@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="~{fragments/common/head :: my-head(pageTitle='Application detail')}"/>
+<head th:replace="~{fragments/common/head :: my-head(pageTitle='Interview details')}"/>
 
 <body>
 
@@ -35,11 +35,67 @@
                             <div class="job-block-seven style-two">
                                 <div class="inner-box col">
                                     <div class="job-title d-flex align-items-center">
-                                        <h4 class="me-2 mb-0">Application details</h4>
-                                        <span class="badge rounded-pill bg-success" id="application-status"></span>
+                                        <h4 class="me-2 mb-0">Interview details</h4>
                                     </div>
-                                    <div class="application-buttons d-flex">
+                                    <div class="interview-buttons d-flex">
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interview -->
+                        <div class="ls-widget" id="interview-block">
+                            <div class="tabs-box">
+                                <div class="job-overview-two pt-4">
+                                    <div class="row">
+                                        <div class="col pb-3 d-flex align-items-center gap-2">
+                                            <h2>Interview information</h2>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <i class="icon icon-expiry"></i>
+                                            <h5>Invitation email sent at</h5>
+                                            <span id="invitationEmailSentAt"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon icon-expiry"></i>
+                                            <h5>Interview at</h5>
+                                            <span id="interviewAt"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon icon-calendar"></i>
+                                            <h5>Status</h5>
+                                            <span id="interviewStatus"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon icon-user-2"></i>
+                                            <h5>Interview type</h5>
+                                            <span id="interviewType"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon icon-location"></i>
+                                            <h5>Interview Address</h5>
+                                            <span id="interviewAddress"></span>
+                                        </li>
+                                    </ul>
+
+                                    <!-- Textarea for Note -->
+                                    <div class="form-group col-lg-12 col-md-12 mb-4">
+                                        <li>
+                                            <i class="icon flaticon-briefcase mx-2"></i>
+                                            <span><h5 class="mb-0">Note</h5></span>
+                                        </li>
+                                        <textarea id="note" name="note" class="form-control mt-3" rows="4" placeholder="Enter note..."></textarea>
+                                    </div>
+
+                                    <div class="form-group col-lg-12 col-md-12 d-flex mb-4">
+                                        <button type="button" class="theme-btn btn-style-one" id="save-interview-btn">
+                                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="interview-saving-spinner"></span>
+                                            Save
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -88,52 +144,6 @@
                                             <i class="icon icon-location"></i>
                                             <h5>Graduated at</h5>
                                             <span id="graduatedAt"></span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Interview -->
-                        <div class="ls-widget" id="interview-block">
-                            <div class="tabs-box">
-                                <div class="job-overview-two pt-4">
-                                    <div class="row">
-                                        <div class="col pb-3 d-flex align-items-center gap-2">
-                                            <h2>Interview information</h2>
-                                            <a href="" id="interviewLink"><i class="fa-solid fa-eye mt-2"></i></a>
-                                        </div>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <i class="icon icon-expiry"></i>
-                                            <h5>Invitation email sent at</h5>
-                                            <span id="invitationEmailSentAt"></span>
-                                        </li>
-                                        <li>
-                                            <i class="icon icon-expiry"></i>
-                                            <h5>Interview at</h5>
-                                            <span id="interviewAt"></span>
-                                        </li>
-                                        <li>
-                                            <i class="icon icon-calendar"></i>
-                                            <h5>Status</h5>
-                                            <span id="interviewStatus"></span>
-                                        </li>
-                                        <li>
-                                            <i class="icon icon-user-2"></i>
-                                            <h5>Interview type</h5>
-                                            <span id="interviewType"></span>
-                                        </li>
-                                        <li>
-                                            <i class="icon icon-location"></i>
-                                            <h5>Interview Address</h5>
-                                            <span id="interviewAddress"></span>
-                                        </li>
-                                        <li>
-                                            <i class="icon flaticon-briefcase"></i>
-                                            <h5>Note</h5>
-                                            <span id="note"></span>
                                         </li>
                                     </ul>
                                 </div>
@@ -196,7 +206,7 @@
 </div><!-- End Page Wrapper -->
 
 <thblock th:replace="~{fragments/common/embedded-js :: embedded-js}"/>
-<script src="/js/custom/company/application/application-details.js"></script>
+<script src="/js/custom/company/interview/interview-details.js"></script>
 </body>
 
 </html>

@@ -35,6 +35,11 @@ const SIDEBAR_APPLICATION_PATHS = [
         path: "/companies/interviews",
         sidebarClass: "interview-dashboard-menu",
         role: COMPANY_ROLE
+    },
+    {
+        path: "/companies/candidates",
+        sidebarClass: "candidate-dashboard-menu",
+        role: COMPANY_ROLE
     }
 ];
 

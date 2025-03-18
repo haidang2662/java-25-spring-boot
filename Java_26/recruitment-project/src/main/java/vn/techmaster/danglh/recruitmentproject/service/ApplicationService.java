@@ -215,6 +215,7 @@ public class ApplicationService {
 
         if (interview != null) {
             InterviewResponse interviewResponse = InterviewResponse.builder()
+                    .id(interview.getId())
                     .invitationEmailSentAt(interview.getInvitationEmailSentAt())
                     .interviewAt(interview.getInterviewAt())
                     .status(interview.getStatus())

@@ -74,7 +74,7 @@ $(document).ready(async function () {
                 "<td>" + application?.job?.name + "</td>" +
                 "<td>" + application?.candidate?.name + "</td>" +
                 "<td>" + application?.appliedDate + "</td>" +
-                "<td>" + application?.status + "</td>" +
+                "<td>" + decodeApplicationStatus(application?.status) + "</td>" +
                 "<td>" +
                 "<div class='action-icons d-flex align-items-center'>" + // Thêm container Flexbox
 
@@ -342,7 +342,7 @@ $(document).ready(async function () {
                 status: targetStatus
             }),
             contentType: "application/json; charset=utf-8",
-            success: function (data) {
+            success: function () {
                 showToast("Successfully", SUCCESS_TOAST);
                 getApplications({});
             },
@@ -350,6 +350,25 @@ $(document).ready(async function () {
                 showToast("Failed", ERROR_TOAST);
             }
         });
+    }
+
+    function decodeApplicationStatus(status) {
+        switch (status) {
+            case "APPLIED":
+                return "Applied";
+            case "CANCELLED":
+                return "Cancelled";
+            case "APPLICATION_ACCEPTED":
+                return "Application accepted";
+            case "APPLICATION_REJECTED":
+                return "Application rejected";
+            case "WAIT_FOR_INTERVIEW":
+                return "Wait for interview";
+            case "CANDIDATE_ACCEPTED":
+                return "Candidate accepted";
+            case "CANDIDATE_REJECTED":
+                return "Candidate rejected";
+        }
     }
 
 });

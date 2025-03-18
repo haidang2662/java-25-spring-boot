@@ -142,6 +142,9 @@ public class SecurityConfig {
 
                         // interview - START
                         .requestMatchers(HttpMethod.POST, "/api/v1/interviews").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/interviews").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/interviews/{interviewId}").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/interviews/{interviewId}/**").hasAnyAuthority(Role.COMPANY.toString())
                         // interview - END
 
                         .requestMatchers("/api/**").authenticated() // all other apis need authentication

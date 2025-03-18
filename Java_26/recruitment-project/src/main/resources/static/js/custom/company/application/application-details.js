@@ -237,12 +237,14 @@ function renderInterview(application) {
         $("#interview-block").hide();
         return;
     }
+    console.log(application)
+    console.log(interview)
 
     $("#invitationEmailSentAt").text(interview?.invitationEmailSentAt);
-    $("#interviewLink").attr("href", "/companies/interviews/" + interview.id);
+    $("#interviewLink").attr("href", "/companies/interviews/" + interview?.id);
     $("#interviewAt").text(interview?.interviewAt);
-    $("#interviewStatus").text(interview?.status);
-    $("#interviewType").text(interview?.interviewType);
+    $("#interviewStatus").text(decodeInterviewStatus(interview?.status));
+    $("#interviewType").text(decodeJobWorkingType(interview?.interviewType));
     $("#interviewAddress").text(interview?.interviewAddress);
     $("#note").text(interview?.note);
 
@@ -310,6 +312,21 @@ function decodeApplicationStatus(status) {
             return "Candidate accepted";
         case "CANDIDATE_REJECTED":
             return "Candidate rejected";
+    }
+}
+
+function decodeInterviewStatus(status) {
+    switch (status) {
+        case "CREATED":
+            return "Created";
+        case "PASSED":
+            return "Passed";
+        case "FAILED":
+            return "Failed";
+        case "CANDIDATE_ABSENCE":
+            return "Candidate absence";
+        case "CANCELLED":
+            return "Cancelled";
     }
 }
 
