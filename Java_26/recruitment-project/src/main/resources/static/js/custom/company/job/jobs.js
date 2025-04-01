@@ -1,5 +1,7 @@
 $(document).ready(async function () {
 
+    checkRoleAccountForCompany(JSON.parse(localStorage.getItem("account")));
+
     let totalPage;
     let totalRecord;
     let paging;
@@ -101,7 +103,7 @@ $(document).ready(async function () {
                 "<td>" + "<a href='/companies/jobs/" + job.id + "'>" + job.name + "</a></td>" +
                 "<td>" + job.position + "</td>" +
                 "<td>" + job.recruitingQuantity + "</td>" +
-                "<td>" + job.level + "</td>" +
+                "<td>" + decodeJobLevel(job.level) + "</td>" +
                 "<td>" + (job.yearOfExperienceTo ? job.yearOfExperienceFrom + " - " + job.yearOfExperienceTo : job.yearOfExperienceFrom) + "</td>" +
                 "<td>" + job.expiredDate + "</td>" +
                 "<td>" + job.status + "</td>" +
@@ -284,7 +286,19 @@ $(document).ready(async function () {
         // Lấy lại dữ liệu
         await getJobData({});
     });
+});
 
-
-})
-;
+function decodeJobLevel(level) {
+    switch (level) {
+        case "INTERN":
+            return "Intern";
+        case "JUNIOR":
+            return "Junior";
+        case "FRESHER":
+            return "Fresher";
+        case "SENIOR":
+            return "Senior";
+        case "MASTER":
+            return "Master";
+    }
+}

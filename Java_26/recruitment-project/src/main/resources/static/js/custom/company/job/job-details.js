@@ -1,4 +1,7 @@
 $(document).ready(async function () {
+
+    checkRoleAccountForCompany(JSON.parse(localStorage.getItem("account")));
+
     const pathParts = window.location.pathname.split('/'); // Tách URL thành các phần
     const jobId = pathParts[pathParts.length - 1]; // Lấy phần tử cuối cùng
 

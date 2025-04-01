@@ -147,8 +147,8 @@ public class ApplicationService {
                             ApplicationResponse.builder()
                                     .id(s.getId())
                                     .status(s.getStatus())
-                                    .job(JobResponse.builder().name(s.getJobName()).build())
-                                    .candidate(CandidateResponse.builder().name(s.getCandidateName()).build())
+                                    .job(JobResponse.builder().id(s.getJobId()).name(s.getJobName()).build())
+                                    .candidate(CandidateResponse.builder().name(s.getCandidateName()).id(s.getCandidateId()).build())
                                     .cv(CvResponse.builder().name(s.getCvName()).url(s.getCvUrl()).id(s.getCvId()).build())
                                     .appliedDate(s.getAppliedDate())
                                     .build()
@@ -237,7 +237,8 @@ public class ApplicationService {
         switch (application.getStatus()) {
             case APPLIED:
                 if (!ApplicationStatus.APPLICATION_ACCEPTED.equals(request.getStatus())
-                        && !ApplicationStatus.APPLICATION_REJECTED.equals(request.getStatus())) {
+                        && !ApplicationStatus.APPLICATION_REJECTED.equals(request.getStatus())
+                        && !ApplicationStatus.CANCELLED.equals(request.getStatus())) {
                     throw new IllegalArgumentException("Invalid status");
                 }
                 break;

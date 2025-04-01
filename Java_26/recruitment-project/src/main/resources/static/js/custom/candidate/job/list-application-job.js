@@ -1,5 +1,10 @@
 $(document).ready(async function () {
 
+    const account = JSON.parse(localStorage.getItem("account"));
+    if (!account) {
+        location.href = "/login";
+    }
+
     let totalPage;
     let totalRecord;
     let paging;

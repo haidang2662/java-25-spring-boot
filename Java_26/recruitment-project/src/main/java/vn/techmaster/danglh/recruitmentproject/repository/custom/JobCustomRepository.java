@@ -49,46 +49,22 @@ public class JobCustomRepository extends BaseRepository {
             parameters.put("p_name", "%" + request.getName().toLowerCase() + "%");
             searchCondition += "and lower(j.name) like :p_name\n";
         }
+        if (!CollectionUtils.isEmpty(request.getLocationIds())) {
+            parameters.put("p_working_cities", request.getLocationIds());
+            searchCondition += "and j.working_city in (:p_working_cities)\n";
+        }
         if (request.getPosition() != null && !request.getPosition().isBlank()) {
             parameters.put("p_position", "%" + request.getPosition().toLowerCase() + "%");
             searchCondition += "and lower(j.position) like :p_position\n";
         }
-        if (request.getLevel() != null) {
-            parameters.put("p_level", request.getLevel().name());
-            searchCondition += "and j.level = :p_level\n";
-        }
-        if (request.getSkills() != null && !request.getSkills().isBlank()) {
-            parameters.put("p_skills", "%" + request.getSkills().toLowerCase() + "%");
-            searchCondition += "and lower(j.name) like :p_skills\n";
-        }
-        if (request.getExpiredDateFrom() != null) {
-            parameters.put("p_expired_date_from", request.getExpiredDateFrom());
-            searchCondition += "and j.expired_date >= :p_expired_date_from\n";
-        }
-        if (request.getExpiredDateTo() != null) {
-            parameters.put("p_expired_date_to", request.getExpiredDateTo());
-            searchCondition += "and j.expired_date <= :p_expired_date_to\n";
-        }
-        if (request.getStatus() != null) {
-            parameters.put("p_status", request.getStatus().name());
-            searchCondition += "and j.status = :p_status\n";
-        }
+//        if (request.getStatus() != null) {
+//            parameters.put("p_status", "PUBLISH");
+//            searchCondition += "and j.status = :p_status\n";
+//        }
 
         if (request.getCategoryId() != null && request.getCategoryId() != -1) {
             parameters.put("p_category_id", request.getCategoryId());
             searchCondition += "and j.category_id = :p_category_id\n";
-        }
-        if (request.getSalaryFrom() != null) {
-            parameters.put("p_salary_from", request.getSalaryFrom());
-            searchCondition += "and j.salary_from >= :p_salary_from\n";
-        }
-        if (request.getSalaryTo() != null) {
-            parameters.put("p_salary_to", request.getSalaryTo());
-            searchCondition += "and j.salary_to <= :p_salary_to\n";
-        }
-        if (request.getSalaryTo() != null) {
-            parameters.put("p_salary_to", request.getSalaryTo());
-            searchCondition += "and j.salary_to <= :p_salary_to\n";
         }
         if (!CollectionUtils.isEmpty(request.getWorkingTypes())) {
             parameters.put("p_working_types", request.getWorkingTypes());
@@ -101,10 +77,19 @@ public class JobCustomRepository extends BaseRepository {
         if (request.getYearOfExperience() != null && !request.getYearOfExperience().isBlank()) {
             searchCondition = buildYearOfExperienceSearchCondition(searchCondition, parameters, request.getYearOfExperience());
         }
-        if (!CollectionUtils.isEmpty(request.getLocationIds())) {
-            parameters.put("p_working_cities", request.getLocationIds());
-            searchCondition += "and j.working_city in (:p_working_cities)\n";
+        if (request.getSalaryFrom() != null) {
+            parameters.put("p_salary_from", request.getSalaryFrom());
+            parameters.put("p_salary_to", request.getSalaryTo());
+            searchCondition += "and (j.salary_from = :p_salary_from or j.salary_to = :p_salary_from or (j.salary_from < :p_salary_from and j.salary_to > :p_salary_from))" +
+                    "or (j.salary_from = :p_salary_to or j.salary_to = :p_salary_to or (j.salary_from < :p_salary_to and j.salary_to > :p_salary_to))" +
+                    "or (:p_salary_from < j.salary_from and :p_salary_to > j.salary_to)\n";
         }
+        // ý tưởng để giải quyết vấn đề salary from và salary to là dùng or thay and để nối điều kiện giữa 2 bên
+//        if (request.getSalaryTo() != null) {
+//            parameters.put("p_salary_to", request.getSalaryTo());
+//            searchCondition += "and (j.salary_from = :p_salary_to or j.salary_to = :p_salary_to or (j.salary_from < :p_salary_to and j.salary_to > :p_salary_to))\n";
+//        }
+
 
         // nếu role của user hiện tại đang tìm job là company => chỉ show các job của company đấy thôi
         if (role != null && role.equals(Role.COMPANY)) {
@@ -137,8 +122,6 @@ public class JobCustomRepository extends BaseRepository {
         query = query.replace("{{search_condition}}", searchCondition);
         parameters.put("p_page_size", request.getPageSize());
         parameters.put("p_offset", request.getPageSize() * request.getPageIndex());
-
-
         return getNamedParameterJdbcTemplate().query(query, parameters, new BeanPropertyRowMapper<>(SearchJobDto.class));
     }
 
@@ -159,7 +142,7 @@ public class JobCustomRepository extends BaseRepository {
             case "4":
             case "5":
                 parameters.put("p_year_of_experience", Integer.valueOf(yearOfExperience));
-                searchCondition += "and j.year_of_experience_from = :p_year_of_experience and j.year_of_experience_to is null\n";
+                searchCondition += "and (j.year_of_experience_from = :p_year_of_experience or j.year_of_experience_to = :p_year_of_experience or (j.year_of_experience_from < :p_year_of_experience and j.year_of_experience_to > :p_year_of_experience))\n";
                 break;
             case "greater_than_5":
                 searchCondition += "and j.year_of_experience_from >= 5\n";
@@ -307,7 +290,6 @@ public class JobCustomRepository extends BaseRepository {
         parameters.put("p_page_size", request.getPageSize());
         parameters.put("p_offset", request.getPageSize() * request.getPageIndex());
 
-        System.out.println("Generated Query: " + query);
         return getNamedParameterJdbcTemplate().query(query, parameters, new BeanPropertyRowMapper<>(SearchJobDto.class));
     }
 

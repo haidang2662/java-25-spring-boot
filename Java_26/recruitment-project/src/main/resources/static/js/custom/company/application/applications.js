@@ -1,5 +1,7 @@
 $(document).ready(async function () {
 
+    checkRoleAccountForCompany(JSON.parse(localStorage.getItem("account")));
+
     let totalPage;
     let totalRecord;
     let paging;
@@ -65,14 +67,14 @@ $(document).ready(async function () {
         for (let i = 0; i < applications.length; i++) {
             applications[i]['stt'] = pageIndex * pageSize + i + 1;
         }
-
+        // application?.job?.name
 
         for (let i = 0; i < applications.length; i++) {
             const application = applications[i];
             let tr = "<tr>" +
                 "<td>" + application.stt + "</td>" +
-                "<td>" + application?.job?.name + "</td>" +
-                "<td>" + application?.candidate?.name + "</td>" +
+                "<td><a href='/companies/jobs/" + application.job.id + "'>" + application.job.name + "</a></td>" +
+                "<td><a href='/companies/candidates/" + application.candidate.id + "'>" + application.candidate.name + "</a></td>" +
                 "<td>" + application?.appliedDate + "</td>" +
                 "<td>" + decodeApplicationStatus(application?.status) + "</td>" +
                 "<td>" +

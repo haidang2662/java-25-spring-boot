@@ -23,6 +23,10 @@ public class SearchInterviewDto {
     InterviewType type;
     InterviewStatus status;
 
+    Long candidateId;
+    Long jobId;
+
     Long totalRecord;
+
 
 }

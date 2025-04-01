@@ -1,9 +1,5 @@
 package vn.techmaster.danglh.recruitmentproject.config;
 
-import vn.techmaster.danglh.recruitmentproject.constant.Role;
-import vn.techmaster.danglh.recruitmentproject.security.AuthTokenFilter;
-import vn.techmaster.danglh.recruitmentproject.security.AuthenticationEntryPointJwt;
-import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetailsService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,6 +21,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import vn.techmaster.danglh.recruitmentproject.constant.Role;
+import vn.techmaster.danglh.recruitmentproject.security.AuthTokenFilter;
+import vn.techmaster.danglh.recruitmentproject.security.AuthenticationEntryPointJwt;
+import vn.techmaster.danglh.recruitmentproject.security.CustomUserDetailsService;
 
 import java.util.List;
 
@@ -111,13 +111,13 @@ public class SecurityConfig {
                         // account end
 
                         // Job start
-                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs/application").hasAnyAuthority(Role.CANDIDATE.toString()) // search job application cho candidate
                         .requestMatchers(HttpMethod.PUT, "/api/v1/jobs/{id}").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/jobs/{id}").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.POST, "/api/v1/jobs").hasAnyAuthority(Role.COMPANY.toString())
-                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/jobs/{jobId}/status").hasAnyAuthority(Role.COMPANY.toString())
-                        .requestMatchers(HttpMethod.GET , "/api/v1/jobs/application").hasAnyAuthority(Role.CANDIDATE.toString()) // search job application cho candidate
+                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs").permitAll()
                         // Job end
 
                         // favorite job - START
@@ -137,7 +137,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/applications").hasAnyAuthority(Role.CANDIDATE.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/applications").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/applications/{applicationId}").hasAnyAuthority(Role.COMPANY.toString())
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/applications/{applicationId}/status").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/applications/{applicationId}/status").hasAnyAuthority(Role.COMPANY.toString(), Role.CANDIDATE.toString())
                         // application - END
 
                         // interview - START
@@ -146,6 +146,16 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/interviews/{interviewId}").hasAnyAuthority(Role.COMPANY.toString())
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/interviews/{interviewId}/**").hasAnyAuthority(Role.COMPANY.toString())
                         // interview - END
+
+                        // candidate - START
+                        .requestMatchers(HttpMethod.GET, "/api/v1/candidates").hasAnyAuthority(Role.COMPANY.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/candidates/{id}").hasAnyAuthority(Role.COMPANY.toString())
+                        // candidate - END
+
+                        // company - START
+                        .requestMatchers(HttpMethod.GET, "/api/v1/companies").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/companies/{id}").permitAll()
+                        // company - END
 
                         .requestMatchers("/api/**").authenticated() // all other apis need authentication
                         .anyRequest().permitAll() // all thymeleaf, html page don't have to authenticate

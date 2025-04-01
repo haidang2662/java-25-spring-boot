@@ -11,4 +11,5 @@ public class ApplicationSearchRequest extends BaseSearchRequest {
     String jobName;
     String candidateName;
     ApplicationStatus status;
+    Long candidateId;
 }

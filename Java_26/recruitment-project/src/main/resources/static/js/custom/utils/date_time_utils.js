@@ -34,3 +34,14 @@ function dateTimeFormat(dateTime) {
         + ":"
         + ("0" + dateTime.getMinutes()).slice(-2);
 }
+
+function checkRoleAccountForCompany(account) {
+
+    if (!account) {
+        location.href = "/login";
+    }
+    if (account.role !== COMPANY_ROLE) {
+        location.href = "/403";
+    }
+
+}

@@ -20,10 +20,7 @@ import vn.techmaster.danglh.recruitmentproject.entity.Interview;
 import vn.techmaster.danglh.recruitmentproject.exception.ObjectNotFoundException;
 import vn.techmaster.danglh.recruitmentproject.model.request.InterviewRequest;
 import vn.techmaster.danglh.recruitmentproject.model.request.SearchInterviewRequest;
-import vn.techmaster.danglh.recruitmentproject.model.response.ApplicationResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.CommonSearchResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.InterviewResponse;
-import vn.techmaster.danglh.recruitmentproject.model.response.InterviewSearchResponse;
+import vn.techmaster.danglh.recruitmentproject.model.response.*;
 import vn.techmaster.danglh.recruitmentproject.repository.ApplicationRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.CompanyRepository;
 import vn.techmaster.danglh.recruitmentproject.repository.InterviewRepository;
@@ -109,7 +106,17 @@ public class InterviewService {
             totalRecord = result.get(0).getTotalRecord();
             interviewResponses = result
                     .stream()
-                    .map(s -> objectMapper.convertValue(s, InterviewSearchResponse.class))
+                    .map(s ->
+                            InterviewSearchResponse.builder()
+                                    .id(s.getId())
+                                    .candidate(CandidateResponse.builder().name(s.getCandidateName()).id(s.getCandidateId()).build())
+                                    .job(JobResponse.builder().name(s.getJobTitle()).id(s.getJobId()).build())
+                                    .interviewEmailSentAt(s.getInterviewEmailSentAt())
+                                    .interviewAt(s.getInterviewAt())
+                                    .type(s.getType())
+                                    .status(s.getStatus())
+                                    .build()
+                    )
                     .toList();
         }
 

@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CompanyCandidateController {
 
     @GetMapping
-    public String getInterviews() {
+    public String getCandidates() {
         return "company/candidate/candidates";
+    }
+
+    @GetMapping("/{id}")
+    public String getCandidateDetails() {
+        return "company/candidate/candidate-details";
     }
 
 }

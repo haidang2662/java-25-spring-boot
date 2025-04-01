@@ -1,5 +1,7 @@
 $(document).ready(async function () {
 
+    checkRoleAccountForCompany(JSON.parse(localStorage.getItem("account")));
+
     let totalPage;
     let totalRecord;
     let paging;
@@ -69,12 +71,13 @@ $(document).ready(async function () {
 
         for (let i = 0; i < interviews.length; i++) {
             const interview = interviews[i];
+            // interview.job.name
             let tr = "<tr>" +
                 "<td>" + interview.stt + "</td>" +
-                "<td>" + interview.candidateName + "</td>" +
-                "<td>" + interview.jobTitle + "</td>" +
-                "<td>" + interview.interviewEmailSentAt + "</td>" +
-                "<td>" + interview.interviewAt + "</td>" +
+                "<td><a href='/companies/candidates/" + interview.candidate.id + "'>" + interview.candidate.name + "</a></td>" +
+                "<td><a href='/companies/jobs/" + interview.job.id + "'>" + interview.job.name + "</a></td>" +
+                "<td>" + dateTimeFormat(new Date(interview.interviewEmailSentAt)) + "</td>" +
+                "<td>" + dateTimeFormat(new Date(interview.interviewAt)) + "</td>" +
                 "<td>" + decodeInterviewType(interview.type) + "</td>" +
                 "<td>" + decodeInterviewStatus(interview.status) + "</td>" +
                 "<td>" +

@@ -17,7 +17,7 @@ public class InterviewCustomRepository extends BaseRepository {
 
     public List<SearchInterviewDto> searchInterviewForCompany(SearchInterviewRequest request, Long companyId) {
         String query = "with raw_data as (\n" +
-                "       SELECT i.id, cd.name candidateName, j.name jobTitle, i.invitation_email_sent_at interviewEmailSentAt, i.interview_at interviewAt, i.interview_type type, i.status\n" +
+                "       SELECT i.id, cd.name candidateName, j.name jobTitle, i.invitation_email_sent_at interviewEmailSentAt, i.interview_at interviewAt, i.interview_type type, i.status, cd.id candidateId, j.id jobId\n" +
                 "       FROM interviews i\n" +
                 "       left join applications a on i.application_id = a.id\n" +
                 "       left join jobs j on j.id = a.job_id\n" +

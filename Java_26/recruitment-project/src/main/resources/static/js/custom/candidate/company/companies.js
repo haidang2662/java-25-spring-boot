@@ -1,23 +1,19 @@
 $(document).ready(async function () {
 
-    const account = JSON.parse(localStorage.getItem("account"));
-    if (!account) {
-        location.href = "/login";
-    }
-
     let totalPage;
     let totalRecord;
     let paging;
     let pageIndex = 0;
-    let pageSize = 20;
+    let pageSize = 10;
 
-    await getJobs();
+    await getCompanies();
 
     // call ajax search job va render du lieu (Co phan trang)
     // sẽ call đúng vào API search job của company luôn (thêm điều kiện để phân biệt company và candidate)
-    async function getJobs() {
+    async function getCompanies() {
         // Disable nút search và hiển thị spinner
         $("input").prop("disabled", true);
+        $("select").prop("disabled", true);
         $(".page-item .page-link").addClass('disabled');
 
         // Hiển thị spinner ở khối div bên phải
@@ -28,33 +24,33 @@ $(document).ready(async function () {
                         </div>`);
 
         await $.ajax({
-            url: "/api/v1/jobs",
+            url: "/api/v1/companies",
             type: "GET",
             data: {
                 pageIndex: pageIndex,
                 pageSize: pageSize,
-                favorite: true,
-                name: $("#name").val()
+                random: false
             },
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                renderJobs(data);
+                renderCompanies(data);
             },
             error: function () {
-                showToast("Get job failed", ERROR_TOAST);
+                showToast("Get company failed", ERROR_TOAST);
             }
         });
 
         // Ẩn spinner và kích hoạt lại nút search
         $("input").prop("disabled", false);
+        $("select").prop("disabled", false);
         $(".filters-outer #location").trigger("chosen:updated");
         $(".filters-outer #job-categories").trigger("chosen:updated");
         $(".page-item .page-link").removeClass('disabled');
     }
 
-    function renderJobs(data) {
-        const paginationHtml = $("#job-paging .pagination");
-        const tableContent = $("#candidate-jobs");
+    function renderCompanies(data) {
+        const paginationHtml = $("#company-paging .pagination");
+        const tableContent = $("#candidate-companies");
         const totalRecordHtml = $(".total-record");
 
         tableContent.empty();
@@ -64,71 +60,50 @@ $(document).ready(async function () {
             return;
         }
 
-        const jobs = data.data;
+        const account = JSON.parse(localStorage.getItem("account"));
+        console.log(account)
+        const companies = data.data;
+        console.log(companies)
         totalPage = data.totalPage;
         totalRecord = data.totalRecord;
         paging = data.pageInfo;
         pageIndex = paging.pageNumber;
 
-        if (!jobs || jobs.length === 0) {
+        if (!companies || companies.length === 0) {
             return;
         }
 
-        for (let i = 0; i < jobs.length; i++) {
-            jobs[i]['stt'] = pageIndex * pageSize + i + 1;
+        for (let i = 0; i < companies.length; i++) {
+            companies[i]['stt'] = pageIndex * pageSize + i + 1;
         }
 
-        for (let i = 0; i < jobs.length; i++) {
-            const job = jobs[i];
-            const avatar = job?.companyAvatarUrl ? `/api/v1/files/avatar/${job.companyAvatarUrl}` : DEFAULT_AVATAR_URL;
-            const urgentHtml = job?.urgent ? '<li class="required">Urgent</li>' : '';
-            let jobBlock = `<div class="job-block col-lg-6 col-md-12 col-sm-12">
+
+        for (let i = 0; i < companies.length; i++) {
+            const company = companies[i];
+            const avatar = company?.avatarUrl ? `/api/v1/files/avatar/${company.avatarUrl}` : DEFAULT_AVATAR_URL;
+            let companyBlock = `<div class="job-block col-lg-6 col-md-12 col-sm-12">
                             <div class="inner-box">
                                 <div class="content">
                                     <span class="company-logo"><img src='${avatar}' alt="" class="rounded rounded-circle" style="max-width:unset!important;width: 55px;height: 55px;"></span>
-                                    <h4><a href="/jobs/${job.id}">${job.name}</a></h4>
+                                    <h4><a href="/companies/${company.id}">${company.name}</a></h4>
                                     <ul class="job-info">
-                                        <li><span class="icon flaticon-briefcase"></span> ${job.position}</li>
-                                        <li><span class="icon flaticon-map-locator"></span> ${job.workingCity}</li>
-                                        <li><span class="icon flaticon-clock-3"></span> ${getTimeDifferenceInDays(new Date(job.createdAt), new Date())}</li>
-                                        <li><span class="icon flaticon-money"></span> ${job.salaryTo ? `${job.salaryFrom} - ${job.salaryTo}` : job.salaryFrom}</li>
+                                        <li><span class="icon flaticon-user"></span> ${company.employeeQuantity}</li>
+                                        <li><span class="icon flaticon-briefcase"></span> ${new Date(company.foundAt).getFullYear()}</li>
+                                        <li><span class="icon flaticon-phone"></span> ${company.phone}</li>
+                                        <li><span class="icon flaticon-email"></span> ${company.email}</li>
                                     </ul>
                                     <ul class="job-other-info">
-                                        <li class="time">${decodeJobWorkingTimeType(job?.workingTimeType || 'FULL_TIME')}</li>
-                                        <li class="privacy">${decodeJobWorkingType(job?.workingType || 'OFFLINE')}</li>
-                                        ${urgentHtml}
+                                        <li class="privacy"><span class="icon flaticon-map-locator"></span> ${company.headQuarterAddress}</li>
+                                        <li class="time">
+                                            <span class="icon flaticon-web-programming"></span>
+                                            <a href="${company.website}" target="_blank" rel="noopener noreferrer">${company.website}</a>
+                                        </li>
                                     </ul>
-                                    <button class="bookmark-btn favorite-btn ${job.favorite ? 'favorite-job' : ''}" job-id="${job.id}" favorite="${job.favorite ? 1 : 0}"><i class="fa-regular fa-heart" style="color: #696969"></i></button>
                                 </div>
                             </div>
                         </div>`;
 
-            tableContent.append(jobBlock);
-
-            //  favorite
-            $(".favorite-btn").off("click").click(async function (event) {
-                const account = JSON.parse(localStorage.getItem("account"));
-                if (!account) {
-                    location.href = "/login";
-                    return;
-                }
-
-                const target = $(event.currentTarget);
-                const jobId = target.attr("job-id");
-                const favorite = target.attr("favorite"); // đã favorite chưa
-                try {
-                    await $.ajax({
-                        url: '/api/v1/favourite-jobs',
-                        type: favorite == 1 ? 'DELETE' : 'POST',
-                        data: JSON.stringify({jobId}),
-                        contentType: 'application/json; charset=utf-8',
-                    });
-                    showToast((favorite == 1 ? 'Remove from' : 'Add to') +  " favorite successfully", SUCCESS_TOAST);
-                    await getJobs();
-                } catch (err) {
-                    showToast(err.responseJSON.message, ERROR_TOAST);
-                }
-            });
+            tableContent.append(companyBlock);
 
         }
 
@@ -145,24 +120,16 @@ $(document).ready(async function () {
 
         totalRecordHtml.append("<span><span class='fw-bold'>Total records</span>: " + totalRecord + "</span>")
 
-        // Xóa sự kiện cũ trước khi thêm sự kiện mới
-        $(".page-item").off("click").click(async function (event) {
-            const newPageIndex = $(event.currentTarget).attr("page");
-            if (!newPageIndex || isNaN(newPageIndex)) {
-                return;
-            }
-            pageIndex = parseInt(newPageIndex);
-            await getJobs();
-        });
-
         $(".go-to-first-page").click(async function () {
             pageIndex = 0;
-            await getJobs();
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getCompanies(filterValues);
         });
 
         $(".go-to-last-page").click(async function () {
             pageIndex = totalPage - 1;
-            await getJobs();
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getCompanies(filterValues);
         });
 
         $(".previous-page").click(async function () {
@@ -170,7 +137,8 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex - 1;
-            await getJobs();
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getCompanies(filterValues);
         });
 
         $(".next-page").click(async function () {
@@ -178,16 +146,12 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex + 1;
-            await getJobs();
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getCompanies(filterValues);
         });
     }
 
-    $(".favorite-job-search-btn").click(async function () {
-        await getJobs();
-    });
-
 });
-
 
 function decodeJobWorkingTimeType(workingTimeType) {
     switch (workingTimeType) {
@@ -210,3 +174,6 @@ function decodeJobWorkingType(workingType) {
             return "Offline";
     }
 }
+
+
+

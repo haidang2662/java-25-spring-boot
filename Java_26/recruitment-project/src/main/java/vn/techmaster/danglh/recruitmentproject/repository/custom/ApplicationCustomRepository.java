@@ -16,7 +16,7 @@ public class ApplicationCustomRepository extends BaseRepository {
 
     public List<SearchApplicationDto> searchApplicationForCompany(ApplicationSearchRequest request, Long companyId) {
         String query = "with raw_data as (\n" +
-                "    select a.id, j.name jobName, c.name candidateName, a.created_at appliedDate, a.status, cv.cv_url cvUrl, cv.id cvId \n" +
+                "    select a.id, j.name jobName, c.name candidateName, a.created_at appliedDate, a.status, cv.cv_url cvUrl, cv.id cvId, j.id jobId, c.id candidateId \n" +
                 "    from applications a\n" +
                 "    left join jobs j on a.job_id = j.id\n" +
                 "    left join candidates c on c.id = a.candidate_id\n" +
@@ -43,6 +43,10 @@ public class ApplicationCustomRepository extends BaseRepository {
         if (StringUtils.isNotBlank(request.getCandidateName())) {
             searchCondition += " and lower(c.name) like :candidate_name";
             parameters.put("candidate_name", "%" + request.getCandidateName().toLowerCase() + "%");
+        }
+        if (request.getCandidateId() != null) {
+            searchCondition += " and c.id = :candidate_id";
+            parameters.put("candidate_id", request.getCandidateId());
         }
         if (request.getStatus() != null) {
             searchCondition += " and a.status = :status";

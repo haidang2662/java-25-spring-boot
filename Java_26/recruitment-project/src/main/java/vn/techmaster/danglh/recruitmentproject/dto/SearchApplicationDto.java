@@ -25,4 +25,6 @@ public class SearchApplicationDto {
     Long totalRecord;
 
     Long cvId;
+    Long jobId;
+    Long candidateId;
 }

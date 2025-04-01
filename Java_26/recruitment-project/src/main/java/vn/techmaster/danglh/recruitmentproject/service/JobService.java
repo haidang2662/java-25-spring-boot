@@ -98,6 +98,7 @@ public class JobService {
                 if (applicationOptional.isPresent()) {
                     Application application = applicationOptional.get();
                     ApplicationResponse applicationResponse = ApplicationResponse.builder()
+                            .id(application.getId())
                             .candidate(objectMapper.convertValue(application.getCandidate(), CandidateResponse.class))
                             .cv(objectMapper.convertValue(application.getCv(), CvResponse.class))
                             .status(application.getStatus())
@@ -168,12 +169,14 @@ public class JobService {
                 candidateId = candidateOptional.get().getId();
             }
         } catch (Exception ignored) {
-            return CommonSearchResponse.<JobSearchResponse>builder()
-                    .totalRecord(0L)
-                    .totalPage(1)
-                    .data(Collections.emptyList())
-                    .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
-                    .build();
+            if (role != null) {
+                return CommonSearchResponse.<JobSearchResponse>builder()
+                        .totalRecord(0L)
+                        .totalPage(1)
+                        .data(Collections.emptyList())
+                        .pageInfo(new CommonSearchResponse.CommonPagingResponse(request.getPageSize(), request.getPageIndex()))
+                        .build();
+            }
         }
         List<SearchJobDto> result = jobCustomRepository.searchJob(request, creatorId, candidateId, role);
 

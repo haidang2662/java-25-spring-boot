@@ -1,5 +1,7 @@
 $(document).ready(async function () {
 
+    checkRoleAccountForCompany(JSON.parse(localStorage.getItem("account")));
+
     let totalPage;
     let totalRecord;
     let paging;
@@ -73,8 +75,8 @@ $(document).ready(async function () {
                 "<td>" + candidate.stt + "</td>" +
                 "<td><a href='/companies/candidates/" + candidate.id + "'>" + candidate.name + "</a></td>" +
                 "<td>" + candidate.phone + "</td>" +
-                "<td>" + candidate.gender + "</td>" +
-                "<td>" + candidate.literacy + "</td>" +
+                "<td>" + decodeGender(candidate.gender) + "</td>" +
+                "<td>" + decodeCandidateLiteracy(candidate.literacy) + "</td>" +
                 "<td>" + candidate?.totalAppliedJob || 0 + "</td>" +
                 "</tr>";
 
@@ -184,50 +186,6 @@ $(document).ready(async function () {
         });
     }
 
-    function getInterviewActionButtons(interview) {
-        const INFORMATION_INTERVIEW_BUTTON =
-            "<span role='button' class='text-secondary me-2 btn-information-interview' data-cv-id=\"${cvId}\" data-id='" + interview.id + "' data-bs-toggle='tooltip' title=' Interview information '>" +
-            "    <i class=\"fa-solid fa-eye\"></i> " +
-            "<a href='/api/v1/interviews" + interview.id + "'></a>" +
-            "</span>";
-        const ACCEPT_CANDIDATE_BUTTON =
-            "<span role='button' class='text-secondary me-2 btn-accept-candidate text-success' data-id='" + interview.id + "' data-bs-toggle='tooltip' title='Accept candidate after interview'>" +
-            "    <i class='fa-solid fa-square-check'></i> " +
-            "</span>";
-        const REJECT_CANDIDATE_BUTTON =
-            "<span role='button' class='text-warning me-2 btn-reject-candidate text-danger' data-id='" + interview.id + "' data-bs-toggle='tooltip' title='Reject candidate after interview'>" +
-            "    <i class='fa-solid fa-square-xmark'></i> " +
-            "</span>";
-        const CANDIDATE_ABSENCE_BUTTON =
-            "<span role='button' class='text-warning me-2 btn-candidate-absence text-danger' data-id='" + interview.id + "' data-bs-toggle='tooltip' title='Candidate absence'>" +
-            "    <i class=\"fa-solid fa-user-minus\"></i> " +
-            "</span>";
-        const CANCEL_INTERVIEW =
-            "<span role='button' class='text-danger btn-cancel-interview me-2 btn-reject' data-bs-toggle='tooltip' title='Cancel Interview' data-id='" + interview.id + "'>" +
-            "    <i class='fa-solid fa-x'></i>" +
-            "</span>";
-
-        let buttons = INFORMATION_INTERVIEW_BUTTON;
-        switch (interview.status) {
-            case "CREATED":
-                buttons += ACCEPT_CANDIDATE_BUTTON + REJECT_CANDIDATE_BUTTON + CANDIDATE_ABSENCE_BUTTON + CANCEL_INTERVIEW;
-                break;
-            case "PASSED":
-                buttons += REJECT_CANDIDATE_BUTTON;
-                break;
-            case "FAILED":
-                buttons += ACCEPT_CANDIDATE_BUTTON;
-                break;
-            case "CANDIDATE_ABSENCE":
-                buttons += "";
-                break;
-            case "CANCELLED":
-                buttons += "";
-                break;
-        }
-        return buttons;
-    }
-
     $("#search-interview-btn").click(async function () {
 
         // Lấy dữ liệu từ form
@@ -248,30 +206,6 @@ $(document).ready(async function () {
         // Lấy lại dữ liệu
         await getCandidatesData({});
     });
-
-    function decodeInterviewStatus(status) {
-        switch (status) {
-            case "CREATED":
-                return "Created";
-            case "PASSED":
-                return "Passed";
-            case "FAILED":
-                return "Failed";
-            case "CANDIDATE_ABSENCE":
-                return "Candidate absence";
-            case "CANCELLED":
-                return "Cancelled";
-        }
-    }
-
-    function decodeInterviewType(workingType) {
-        switch (workingType) {
-            case "OFFLINE":
-                return "Offline";
-            case "ONLINE":
-                return "Online";
-        }
-    }
 
     async function changeInterviewStatus(interviewId, targetStatus, confirmationMessage) {
         if (!confirm(confirmationMessage)) {
@@ -296,3 +230,31 @@ $(document).ready(async function () {
 
 
 });
+
+function decodeCandidateLiteracy(literacy) {
+    switch (literacy) {
+        case "PROFESSOR":
+            return "Professor";
+        case "DOCTOR":
+            return "Doctor";
+        case "MASTER":
+            return "Master";
+        case "UNIVERSITY":
+            return "University";
+        case "COLLEGE":
+            return "College";
+        case "HIGH_SCHOOL":
+            return "High School";
+    }
+}
+
+function decodeGender(gender) {
+    switch (gender) {
+        case "MALE":
+            return "Male";
+        case "FEMALE":
+            return "Female";
+        case "OTHER":
+            return "Other";
+    }
+}

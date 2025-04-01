@@ -1,21 +1,32 @@
 $(document).ready(async function () {
+
+    const account = JSON.parse(localStorage.getItem("account"));
+
+    // Ẩn các nút nếu chưa login hoặc là company
+    if (!account || account.role === COMPANY_ROLE) {
+        $(".apply-btn").addClass("d-none");
+        $(".favorite-btn").addClass("d-none");
+    }
+
     const pathParts = window.location.pathname.split('/'); // Tách URL thành các phần
     const jobId = pathParts[pathParts.length - 1]; // Lấy phần tử cuối cùng
 
     if (!jobId) {
         window.href = '/404';
     }
+
     await loadJobDetails(jobId);
 
-    $(".apply-btn").click(function (event) {
+    $(".apply-btn").click(function () {
         const account = JSON.parse(localStorage.getItem("account"));
         if (!account) {
             location.href = "/login";
             return;
         }
-
+        console.log(window.location.pathname);
         location.href = window.location.pathname + "/application";
     });
+
 });
 
 // Hàm load dữ liệu chi tiết của job từ API
@@ -83,6 +94,41 @@ function renderJobDetails(job) {
             $(".cancel-application-btn").toggleClass("d-none");
         }
     }
+
+    $(".cancel-application-btn").click(async function () {
+        const confirmResult = confirm("Do you want to cancel this application?");
+        if (!confirmResult) {
+            return;
+        }
+
+        const account = JSON.parse(localStorage.getItem("account"));
+        if (!account) {
+            location.href = "/login";
+            return;
+        }
+        const applicationId = job?.application.id;
+        try {
+            await $.ajax({
+                url: `/api/v1/applications/${applicationId}/status`,
+                type: "PATCH",
+                data: JSON.stringify({
+                    status: "CANCELLED"
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function () {
+                    $(".apply-btn").toggleClass("d-none");
+                    $(".cancel-application-btn").toggleClass("d-none");
+                    showToast("Cancel application successful", SUCCESS_TOAST);
+                },
+                error: function (err) {
+                    showToast("Cancel application  failed", ERROR_TOAST);
+                }
+            });
+        } catch (error) {
+            console.error("Error cancel application:", error);
+        }
+    });
+
 
     //  favorite
     $(".favorite-btn").off("click").click(async function (event) {

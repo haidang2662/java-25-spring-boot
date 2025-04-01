@@ -1,5 +1,7 @@
 $(document).ready(async function () {
 
+    checkRoleAccountForCompany(JSON.parse(localStorage.getItem("account")));
+
     $.validator.addMethod(
         "futureDate",
         function (value, element) {
@@ -10,6 +12,16 @@ $(document).ready(async function () {
         },
         "Date must be a date in the future"
     );
+
+    $.validator.addMethod("greaterThanSalaryFrom", function (value, element) {
+        const salaryFrom = parseFloat($("input[name='salaryFrom']").val());
+        const salaryTo = parseFloat(value);
+
+        if (!salaryFrom || !salaryTo) return true; // Nếu 1 trong 2 chưa nhập thì không kiểm tra
+
+        return salaryTo >= salaryFrom;
+    }, "Salary to must be greater than to salary from");
+
 
     $("#post-job-form").validate({
         onfocusout: false,
@@ -59,6 +71,7 @@ $(document).ready(async function () {
             "salaryTo": {
                 required: true,
                 min: 1,
+                greaterThanSalaryFrom: true ,
             },
             "description": {
                 required: true,
@@ -105,6 +118,7 @@ $(document).ready(async function () {
             "salaryFrom": {
                 maxlength: "Salary from must not exceed 50 characters.",
                 min: "Salary from must be greater than or equal to 1",
+                greaterThanSalaryFrom: "Salary to must be greater than to Salary from",
             },
             "salaryTo": {
                 maxlength: "Salary to must not exceed 50 characters.",

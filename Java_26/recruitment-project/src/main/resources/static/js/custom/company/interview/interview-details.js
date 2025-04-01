@@ -1,5 +1,7 @@
 $(document).ready(async function () {
 
+    checkRoleAccountForCompany(JSON.parse(localStorage.getItem("account")));
+
     const pathParts = window.location.pathname.split('/'); // Tách URL thành các phần
     interviewId = pathParts[pathParts.length - 1]; // Lấy phần tử cuối cùng
 
@@ -134,6 +136,7 @@ function renderCandidate(interview) {
     const candidate = interview.application.candidate;
 
     $("#name").text(candidate.name);
+    $("#candidateNameLink").attr("href", "/companies/candidates/" + candidate.id);
     $("#phone").text(candidate.phone);
     $("#dob").text(candidate.dob);
     $("#gender").text(decodeGender(candidate.gender));

@@ -80,6 +80,14 @@ $(document).ready(async function () {
             && candidateJobSearchObj.yearOfExperience?.length > 0) {
             $("*[name='yearOfExperience'][value='" + candidateJobSearchObj.yearOfExperience + "']").attr('checked', true);
         }
+        if (candidateJobSearchObj.salaryFrom !== undefined && candidateJobSearchObj.salaryFrom !== null) {
+            $("input[name='salaryFrom']").val(candidateJobSearchObj.salaryFrom);
+        }
+
+        if (candidateJobSearchObj.salaryTo !== undefined && candidateJobSearchObj.salaryTo !== null) {
+            $("input[name='salaryTo']").val(candidateJobSearchObj.salaryTo);
+        }
+        console.log(candidateJobSearchObj)
         return candidateJobSearchObj;
     }
 
@@ -195,7 +203,7 @@ $(document).ready(async function () {
                         data: JSON.stringify({jobId}),
                         contentType: 'application/json; charset=utf-8',
                     });
-                    showToast((favorite == 1 ? 'Remove from' : 'Add to') +  " favorite successfully", SUCCESS_TOAST);
+                    showToast((favorite == 1 ? 'Remove from' : 'Add to') + " favorite successfully", SUCCESS_TOAST);
                     const filterValues = getFilterValues();
                     await getJobs(filterValues);
                 } catch (err) {
@@ -225,17 +233,20 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = parseInt(newPageIndex);
-            await getJobs({});
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getJobs(filterValues);
         });
 
         $(".go-to-first-page").click(async function () {
             pageIndex = 0;
-            await getJobs({});
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getJobs(filterValues);
         });
 
         $(".go-to-last-page").click(async function () {
             pageIndex = totalPage - 1;
-            await getJobs({});
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getJobs(filterValues);
         });
 
         $(".previous-page").click(async function () {
@@ -243,7 +254,8 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex - 1;
-            await getJobs({});
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getJobs(filterValues);
         });
 
         $(".next-page").click(async function () {
@@ -251,7 +263,8 @@ $(document).ready(async function () {
                 return;
             }
             pageIndex = pageIndex + 1;
-            await getJobs({});
+            const filterValues = getFilterValues();  // Lấy lại các điều kiện tìm kiếm hiện tại
+            await getJobs(filterValues);
         });
     }
 
@@ -288,11 +301,19 @@ $(document).ready(async function () {
         const filterValues = getFilterValues();
         await getJobs(filterValues);
     });
-    $(".salary-min").change(async function () {
+    $("input[name='salaryFrom']").change(async function () {
         const filterValues = getFilterValues();
         await getJobs(filterValues);
     });
-    $(".salary-max").change(async function () {
+
+    $("input[name='salaryTo']").change(async function () {
+        const filterValues = getFilterValues();
+        await getJobs(filterValues);
+    });
+
+    $("input[name='salaryFrom'], input[name='salaryTo']").change(async function () {
+        if (!validateSalaryRange()) return;
+
         const filterValues = getFilterValues();
         await getJobs(filterValues);
     });
@@ -320,9 +341,10 @@ $(document).ready(async function () {
             workingTypes,
             workingTimeTypes,
             yearOfExperience: $("input[name='yearOfExperience']:checked", "#search-job-form").val(),
-            salaryFrom: $(".salary-range input.min").val(),
-            salaryTo: $(".salary-range input.max").val()
+            salaryFrom: $("input[name='salaryFrom']").val(),
+            salaryTo: $("input[name='salaryTo']").val()
         }
+
         localStorage.setItem("candidateJobSearchObj", JSON.stringify(filterValue));
         return filterValue;
     }
@@ -350,3 +372,46 @@ function decodeJobWorkingType(workingType) {
             return "Offline";
     }
 }
+
+function validateSalaryRange() {
+    const salaryFromStr = $("input[name='salaryFrom']").val();
+    const salaryToStr = $("input[name='salaryTo']").val();
+
+    const hasSalaryFrom = salaryFromStr !== "";
+    const hasSalaryTo = salaryToStr !== "";
+
+    const salaryFrom = hasSalaryFrom ? parseFloat(salaryFromStr) : null;
+    const salaryTo = hasSalaryTo ? parseFloat(salaryToStr) : null;
+
+    // Nếu Salary To có nhưng Salary From không có => báo lỗi
+    if (!hasSalaryFrom) {
+        showToast("Please fill 'Salary from'", ERROR_TOAST);
+        return false;
+    }
+
+    if (!hasSalaryTo) {
+        showToast("Please fill 'Salary to'", ERROR_TOAST);
+        return false;
+    }
+
+    // Salary From phải là số không âm (nếu có điền)
+    if (salaryFrom !== null && salaryFrom < 0) {
+        showToast("Salary from must be a non-negative number", ERROR_TOAST);
+        return false;
+    }
+
+    // Salary To phải là số không âm (nếu có điền)
+    if (salaryTo !== null && salaryTo < 0) {
+        showToast("Salary to must be a non-negative number", ERROR_TOAST);
+        return false;
+    }
+
+    // Nếu cả 2 đều có, kiểm tra điều kiện từ < đến
+    if (salaryFrom !== null && salaryTo !== null && salaryTo < salaryFrom) {
+        showToast("Salary to must be greater than or equal to salary from", ERROR_TOAST);
+        return false;
+    }
+
+    return true;
+}
+

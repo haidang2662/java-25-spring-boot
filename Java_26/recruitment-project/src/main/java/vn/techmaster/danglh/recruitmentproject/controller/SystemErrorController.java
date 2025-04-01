@@ -13,6 +13,11 @@ public class SystemErrorController {
         return "error/401";
     }
 
+    @GetMapping("/403")
+    public String forbiddenError() {
+        return "error/403";
+    }
+
     @GetMapping("/404")
     public String notFoundError() {
         return "error/404";
